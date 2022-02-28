@@ -11,7 +11,6 @@ body {
   /* background-image: url("images/banner.jpg");
   background-repeat: no-repeat;
   background-size: 500px; */
-  background-color: rgb(237, 233, 233);
   font-family: "Jua";
 }
 
@@ -45,12 +44,16 @@ body {
   /* object-fit: cover; */
 }
 
+#nav #current {
+  font-weight: 900;
+  color: black;
+}
+
 .box {
   width: 300px;
   margin: 50px 20px;
   border-radius: 5px;
   background-color: white;
-  float: left;
   box-shadow: 1px 2px 5px grey;
   display: inline-block;
 }
@@ -75,7 +78,7 @@ body {
   font-weight: 100;
 }
 
-#contents img {
+#contents .box img {
   float: left;
   margin: 10px;
   border-radius: 3px;
@@ -95,4 +98,43 @@ body {
 #contents .more {
   display: block;
   text-align: center;
+}
+
+/* 커뮤니티 페이지 CSS */
+.mypost {
+  max-width: 500px;
+  width: 95%;
+
+  margin: 20px auto 0px auto;
+
+  box-shadow: 0px 0px 3px 0px gray;
+  padding: 20px;
+}
+
+.mybtn {
+  margin: 20px auto 0px auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+  border-right-width: 200px;
+}
+
+.card {
+  max-width: 500px;
+  width: 95%;
+  margin: 20px auto 0px auto;
+  padding: 20px;
+
+  text-align: center;
+}
+
+#map img:first-child{
+  margin: 0px auto;
+  position: relative;
+}
+
+#map img:nth-child(2){
+  position: absolute;
+  left: 50%
 }

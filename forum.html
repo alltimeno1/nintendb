@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> Toy project - All about Nintendo Switch</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+  integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+  crossorigin="anonymous"></script>
+  <link rel="favicon" href="images/favicon.ico">
+  <link href="style.css" rel="stylesheet">
+  <link href="fonts/BMJUA_otf.otf" rel="stylesheet">
+</head>
+<body>
+  <div id="nav">
+    <a href="index.html"><img src="images/logo.png" height="100px"></a>
+    <ul>
+      <li><a href="#">게임</a></li>
+      <li><a href="#">랭킹</a></li>
+      <li><a href="forum.html" id="current">커뮤니티</a></li>
+      <li><a href="etc.html">고객지원</a></li>
+    </ul>
+  </div>
+
+<img id="banner" src="images/banner.jpeg" width=100%>
+
+  <div id="contents">
+    <div class="mypost">
+      <div class="form-floating mb-3">
+          <input id="nickname" type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+          <label for="floatingInput">닉네임</label>
+      </div>
+      <div class="form-floating">
+          <textarea id="msg" class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
+          <label for="floatingTextarea">내용</label>
+      </div>
+      <div class="mybtn">
+          <button type="button" class="btn btn-dark">댓글 남기기</button>
+      </div>
+    </div>
+    <div id='cards-box'>
+      <div class="card">
+          <div class="card-body">
+          <blockquote class="blockquote mb-0">
+              <p>새로운 신작 너무 기대돼요!</p>
+              <footer class="blockquote-footer">김OO</cite></footer>
+          </blockquote>
+          </div>
+      </div>
+      <div class="card">
+          <div class="card-body">
+          <blockquote class="blockquote mb-0">
+              <p>게임 할인 언제 해요?</p>
+              <footer class="blockquote-footer">최OO</cite></footer>
+          </blockquote>
+          </div>
+      </div>
+      <div class="card">
+          <div class="card-body">
+          <blockquote class="blockquote mb-0">
+              <p>집에 가서 빨리 하고 싶어요!</p>
+              <footer class="blockquote-footer">이OO</cite></footer>
+          </blockquote>
+          </div>
+      </div>
+  </div>
+  </div>
+  <script src="index.js"></script>
+</body>
+</html>
