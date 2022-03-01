@@ -14,8 +14,16 @@ body {
   font-family: "Jua";
 }
 
+#nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: white;
+}
+
 #nav img {
-  margin-left: 20px
+  margin-left: 20px;
 }
 
 #nav ul {
@@ -137,4 +145,24 @@ body {
 #map img:nth-child(2){
   position: absolute;
   left: 50%
+}
+
+@media (max-width:720px) {
+  #nav img {
+    margin-left: 0;
+  }
+
+  #nav a {
+  font-size:15px;
+
+  margin: 0 15px
+  }
+
+  #nav li {
+    margin-left: 0;
+  }
+
+  #nav ul {
+    padding-left: 0;
+  }
 }
