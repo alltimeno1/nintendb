@@ -72,7 +72,6 @@ body {
 #contents .item {
   display: block;
   height: 100px;
-  margin-bottom: 10px;
   border-bottom: 1px solid grey;
   text-decoration: none;
   color: black;
@@ -88,13 +87,12 @@ body {
   float: left;
   margin: 10px;
   border-radius: 3px;
+  width: 80px;
 }
 
 #contents h5 {
   font-weight: bold;
   font-size: 16px;
-  padding-top: 13px;
-  padding-bottom: 0;
 }
 
 #contents span {
@@ -104,6 +102,8 @@ body {
 #contents .more {
   display: block;
   text-align: center;
+  line-height: 40px;
+  font-weight: 1000;
 }
 
 /* 커뮤니티 페이지 CSS */
