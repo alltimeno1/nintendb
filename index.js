@@ -1,6 +1,6 @@
 import { writeMsg, btnReply } from './functions/reply.js'
 import { onScroll, scrollTop, btnTop } from './functions/scroll.js'
-import { readBestTitle, readNewTitle, readSaleTitle } from './functions/title.js'
+import { readTitles } from './functions/title.js'
 
 // 스크롤 이벤트
 window.addEventListener('scroll', onScroll);
@@ -12,6 +12,6 @@ if (btnReply) {
 }
 
 // 게임 데이터베이스 읽기
-readBestTitle();
-readNewTitle();
-readSaleTitle();
+readTitles("popular");
+readTitles("new");
+readTitles("sale");
