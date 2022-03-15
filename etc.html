@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title> Toy project - All about Nintendo Switch</title>
-  <link rel="favicon" href="images/favicon.ico">
+  <link rel="icon" href="images/favicon.ico" type="image/x-icon">
   <link href="style.css" rel="stylesheet">
   <link href="fonts/BMJUA_otf.otf" rel="stylesheet">
 </head>
@@ -13,14 +13,18 @@
   <div id="nav">
     <a href="index.html"><img src="images/logo.png" height="100px"></a>
     <ul>
-      <li><a href="#">게임</a></li>
+      <li><a href="index.html">홈</a></li>
+      <li><a href="title.html">게임</a></li>
       <li><a href="#">랭킹</a></li>
       <li><a href="forum.html">커뮤니티</a></li>
       <li><a href="etc.html" id="current">고객지원</a></li>
+      <li class="search_box">
+        <input type="text" maxlength="225" placeholder="검색">
+      </li>
     </ul>
   </div>
 
-<img id="banner" src="images/banner.jpeg" width=100%>
+<img id="banner" src="images/banner.jpg" width=100%>
 
   <div id="contents">
     <div id="map">
@@ -31,6 +35,6 @@
   <div id="to-top">
     🔝
   </div>
-  <script type= "module" src="index.js"></script>
+  <script type= "module" src="functions/index.js"></script>
 </body>
 </html>

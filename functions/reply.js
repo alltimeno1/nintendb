@@ -21,4 +21,4 @@ function writeMsg() {
 
 const btnReply = document.querySelector('.btn-dark');
 
-export { writeMsg, btnReply };
+btnReply.addEventListener('click', writeMsg);

@@ -3,22 +3,29 @@
 }
 
 @font-face {
-  font-family: "Jua";
-  src: url("fonts/BMHANNAAir_otf.ttf");
+  /* font-family: "Jua";
+  src: url("fonts/BMHANNAAir_otf.ttf"); */
+  font-family: "Noto Sans";
+  src: url("fonts/NotoSansKR-Regular.otf");
 }
+
+@import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css);
 
 body {
-  /* background-image: url("images/banner.jpg");
-  background-repeat: no-repeat;
-  background-size: 500px; */
-  font-family: "Jua";
+  font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+  margin: 0;
+  padding: 0;
+  background: #F1F2F3;
+  min-width:800px;
 }
 
+/* 네비게이션 바 */
 #nav {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
+  height: 100px;
   background-color: white;
   box-shadow: 0 1px 2px grey;
 }
@@ -36,6 +43,7 @@ body {
 
 #nav li {
   display: inline-block;
+  vertical-align: middle;
   margin-left: 20px;
 }
 
@@ -46,57 +54,103 @@ body {
   margin: 0 20px;
 }
 
-#banner {
-  max-height: 300px;
-  object-fit: none;
-}
-
 #nav #current {
-  font-weight: 900;
+  font-weight: 500;
   color: black;
 }
 
+/* 검색창 */
+.search_box {
+  margin-right: 20px;
+}
+
+.search_box input {
+  background-image: url("images/search_icon.png");
+  background-position: 5px center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-size: 20px;
+  height: 40px;
+  width:170px;
+	padding: 0 35px;
+	font-size: 15px;
+  font-weight: 400;	
+  border-radius: 5px;
+  outline: none;
+  border: 2px solid silver;
+}
+
+/* 배너 */
+#banner {
+  padding-top: 100px;
+  max-height: 400px;
+  object-fit: cover;
+  object-position: 50% 75%;
+}
+
+/* 컨텐츠 */
 .box {
   width: 300px;
   margin: 50px 20px;
-  border-radius: 5px;
+  padding: 5px;
+  border-radius: 4px;
   background-color: white;
-  box-shadow: 1px 2px 5px grey;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.11),0 6px 8px rgba(0,0,0,0.07);
   display: inline-block;
+  text-align: left;
 }
 
 #contents {
-  text-align: center;  
+  text-align: center;
 }
 
 #contents .item {
   display: block;
-  height: 100px;
-  border-bottom: 1px solid grey;
+  height: 70px;
+  border-bottom: 1px solid rgb(240, 240, 240);
   text-decoration: none;
   color: black;
 }
 
-#contents h3 {
-  padding: 10px 10px 5px 10px;
+#contents .box h3 {
+  padding: 5px 0 10px 0;
+  margin: 0;
   text-align: center;
-  font-weight: 100;
+  font-weight: 700;
+  color: #6c6a69;
 }
 
-#contents .box img {
+#contents .box .small {
   float: left;
-  margin: 10px;
+  margin: 5px 10px 5px 5px;
   border-radius: 3px;
-  width: 80px;
+  width: 60px;
 }
 
-#contents h5 {
-  font-weight: bold;
+#contents .box h5 {
+  margin: 0;
   font-size: 16px;
+  font-weight: 400;
+  padding-top: 12px;
+  padding-bottom: 6px;
 }
 
-#contents span {
+#contents .box span {
   font-size: 14px;
+  font-weight: 300;
+}
+
+#contents #popular span {
+  font-weight: 500;
+  line-height: 30px;
+}
+
+#contents #popular .meta {
+  height: 22px;
+  margin: 0 10px 0 0;
+  vertical-align: middle;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 
 #contents .more {
@@ -104,9 +158,43 @@ body {
   text-align: center;
   line-height: 40px;
   font-weight: 1000;
+  text-decoration: none;
+  color:black;
 }
 
-/* 커뮤니티 페이지 CSS */
+/* 게임 페이지 */
+#contents .box2 {
+  width: 290px;
+  margin: 50px 20px;
+  padding-top: 20px;
+  border-radius: 4px;
+  background-color: white;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.11),0 6px 8px rgba(0,0,0,0.07);
+  display: inline-block;
+  text-decoration: none;
+  color: rgb(33, 37, 41);
+  text-align: center;
+}
+
+#contents .box2 .big {
+  width: 250px;
+}
+
+#contents .box2 h4 {
+  font-size: 20px;
+  margin: 10px;
+}
+
+#contents .box2 p {
+  margin: 8px
+}
+
+#contents .box2 p img {
+  width: 22px;
+  padding: 0;
+}
+
+/* 커뮤니티 페이지 */
 .mypost {
   max-width: 500px;
   width: 95%;
@@ -115,6 +203,8 @@ body {
 
   box-shadow: 0px 0px 3px 0px gray;
   padding: 20px;
+
+  background-color: white;
 }
 
 .mybtn {
@@ -135,6 +225,7 @@ body {
   text-align: center;
 }
 
+/* 고객 지원 */
 #map img:first-child{
   margin: 0px auto;
   position: relative;
@@ -145,26 +236,7 @@ body {
   left: 50%
 }
 
-@media (max-width:720px) {
-  #nav img {
-    margin-left: 0;
-  }
-
-  #nav a {
-  font-size:15px;
-
-  margin: 0 15px
-  }
-
-  #nav li {
-    margin-left: 0;
-  }
-
-  #nav ul {
-    padding-left: 0;
-  }
-}
-
+/* TOP 버튼 */
 #to-top {
 	position: fixed;
 	right: 30px;
@@ -187,4 +259,25 @@ body {
 #to-top.show {
 	visibility: visible;
 	opacity: 1;
+}
+
+/* 미디어 쿼리 */
+@media (max-width:1008px) {
+  #nav img {
+    margin-left: 0;
+  }
+
+  #nav a {
+  font-size:15px;
+
+  margin: 0 15px
+  }
+
+  #nav li {
+    margin-left: 0;
+  }
+
+  #nav ul {
+    padding-left: 0;
+  }
 }
