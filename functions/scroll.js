@@ -18,4 +18,6 @@ const scrollTop = () => window.scrollTo(0,0);
 
 const btnTop = document.querySelector('#to-top');
 
-export { onScroll, scrollTop, btnTop };
+// 스크롤 이벤트
+window.addEventListener('scroll', onScroll);
+btnTop.addEventListener('click', scrollTop);
