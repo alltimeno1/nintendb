@@ -1,28 +1,28 @@
 // 데이터
 const titleData = [
   {
-    "title": "젤다의 전설 야생의 숨결",
+    "name": "젤다의 전설 야생의 숨결",
     "image": "images/zelda.jpeg",
     "date": "2022.03.01",
     "rating": 97,
     "discount": "₩50,000 -20%",
   },
   {
-    "title": "슈퍼 마리오 오딧세이",
+    "name": "슈퍼 마리오 오딧세이",
     "image": "images/mario.jpeg",
     "date": "2022.04.01",
     "rating": 97,
     'discount': "₩45,000 -30%",
   },
   {
-    "title": "마리오 카트8 디럭스",
+    "name": "마리오 카트8 디럭스",
     "image": "images/marioKart8Deluxe.jpeg",
     "date": "2022.05.01",
     "rating": 92,
     "discount": "₩40,000 -40%",
   },
   {
-    "title": "스플래툰2",
+    "name": "스플래툰2",
     "image": "images/splatoon2.jpeg",
     "date": "2022.06.01",
     "rating": 82,
@@ -34,23 +34,23 @@ const titleData = [
 function createNode() {
   const item = document.createElement("a");
   const img = document.createElement("img");
-  const name = document.createElement("h5");
+  const game = document.createElement("h5");
   const content = document.createElement("span");
   item.className = "item";
-  item.href = "#";
   img.className = "small";
 
-  return [item, img, name, content];
+  return [item, img, game, content];
 }
 
 // 인기 게임 리스트 생성
 function readTitles(classname) {
-  titleData.forEach(({ title, image, date, rating, discount }) => {
-    const [item, img, name, content] = createNode();
+  titleData.forEach(({ name, image, date, rating, discount }, idx) => {
+    const [item, img, game, content] = createNode();
     const box = document.querySelector(`#${classname} .more`);
     
+    item.href = `/title/${idx + 1}`;
     img.src = image;
-    name.textContent = title;
+    game.textContent = name;
 
     if (classname === "popular") {
       content.innerHTML = 
@@ -62,17 +62,17 @@ function readTitles(classname) {
     }
 
     item.appendChild(img);
-    item.appendChild(name);
+    item.appendChild(game);
     item.appendChild(content);
     
     box.before(item);
   })
 }
 
-function makeHtml(image, title, date, rating, discount) {
+function makeHtml(image, name, date, rating, discount) {
   const titleHtml = `
     <img class="big" src="${image}" width="100%">
-    <h4>${title}</h4>
+    <h4>${name}</h4>
     <p>${date}</p>
     <p>
       <img id="banner" src="images/metacritic.png" width=100%>
@@ -84,14 +84,13 @@ function makeHtml(image, title, date, rating, discount) {
 
 function readAllTitles() {
   const box = document.querySelector("#contents");
-  titleData.forEach(({ title, image, date, rating, discount }) => {
+  titleData.forEach(({ name, image, date, rating, discount }, idx) => {
     const item = document.createElement("a");
     item.className = "box2";
-    item.href = "#";
-    item.innerHTML = makeHtml(image, title, date, rating, discount);
+    item.href = `/title/${idx + 1}`;
+    item.innerHTML = makeHtml(image, name, date, rating, discount);
     box.appendChild(item);
   })
-  
 }
 
 export { readTitles, readAllTitles };

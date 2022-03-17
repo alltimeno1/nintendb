@@ -2,13 +2,6 @@
   box-sizing: border-box;
 }
 
-@font-face {
-  /* font-family: "Jua";
-  src: url("fonts/BMHANNAAir_otf.ttf"); */
-  font-family: "Noto Sans";
-  src: url("fonts/NotoSansKR-Regular.otf");
-}
-
 @import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css);
 
 body {
