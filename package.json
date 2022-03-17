@@ -1,4 +1,11 @@
 {
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "migrate": "sequelize db:migrate",
+    "seed": "sequelize db:seed:all"
+  },
   "dependencies": {
     "express": "^4.17.3",
     "mysql2": "^2.3.3",
