@@ -6,6 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title> Toy project - All about Nintendo Switch</title>
   <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+  <script src="https://code.jquery.com/jquery-3.6.0.js"
+  integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+  crossorigin="anonymous"></script>
   <link href="style.css" rel="stylesheet">
 </head>
 <body>
@@ -27,13 +30,15 @@
 
   <div id="contents">
     <div id="map">
-      <img src="images/mario_map.gif" height=100%>
-      <img src="images/mario.png" width=1%>
-    </div>
+      <img src="images/mario_map.gif" height=400px>
+      <img src="images/mario.png" width=25px>
+    </div> 
+    <audio controls src="src/mario_bgm.mp3" type="audio/mp3" ></audio>
   </div>
   <div id="to-top">
     🔝
   </div>
+  <script type= "module" src="functions/bgm.js"></script>
   <script type= "module" src="functions/scroll.js"></script>
 </body>
 </html>

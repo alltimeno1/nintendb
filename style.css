@@ -219,14 +219,26 @@ body {
 }
 
 /* 고객 지원 */
-#map img:first-child{
-  margin: 0px auto;
+#map {
+  width: 1100px;
+  height: 450px;
+  margin: 0 auto;
   position: relative;
+}
+
+#map img:first-child{
+  margin: 20px auto;
+  
 }
 
 #map img:nth-child(2){
   position: absolute;
-  left: 50%
+  left: 35%;
+  top: 27%;
+}
+
+audio {
+  width: 500px;
 }
 
 /* TOP 버튼 */
