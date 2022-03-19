@@ -52,6 +52,27 @@ body {
   color: black;
 }
 
+/* 미디어 쿼리 */
+@media (max-width:1008px) {
+  #nav img {
+    margin-left: 0;
+  }
+
+  #nav a {
+  font-size:15px;
+
+  margin: 0 15px
+  }
+
+  #nav li {
+    margin-left: 0;
+  }
+
+  #nav ul {
+    padding-left: 0;
+  }
+}
+
 /* 검색창 */
 .search_box {
   margin-right: 20px;
@@ -82,7 +103,11 @@ body {
 }
 
 /* 컨텐츠 */
-.box {
+#contents {
+  text-align: center;
+}
+
+#contents .box {
   width: 300px;
   margin: 50px 20px;
   padding: 5px;
@@ -93,8 +118,12 @@ body {
   text-align: left;
 }
 
-#contents {
+#contents h3 {
+  padding: 5px 0 10px 0;
+  margin: 0;
   text-align: center;
+  font-weight: 700;
+  color: #6c6a69;
 }
 
 #contents .item {
@@ -103,14 +132,6 @@ body {
   border-bottom: 1px solid rgb(240, 240, 240);
   text-decoration: none;
   color: black;
-}
-
-#contents .box h3 {
-  padding: 5px 0 10px 0;
-  margin: 0;
-  text-align: center;
-  font-weight: 700;
-  color: #6c6a69;
 }
 
 #contents .box .small {
@@ -133,12 +154,12 @@ body {
   font-weight: 300;
 }
 
-#contents #popular span {
+#contents #best span {
   font-weight: 500;
   line-height: 30px;
 }
 
-#contents #popular .meta {
+#contents #best .meta {
   height: 22px;
   margin: 0 10px 0 0;
   vertical-align: middle;
@@ -155,36 +176,187 @@ body {
   color:black;
 }
 
-/* 게임 페이지 */
-#contents .box2 {
-  width: 290px;
-  margin: 50px 20px;
-  padding-top: 20px;
-  border-radius: 4px;
-  background-color: white;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.11),0 6px 8px rgba(0,0,0,0.07);
-  display: inline-block;
+#contents .more:hover {
+  display: block;
+  text-align: center;
+  line-height: 40px;
+  font-weight: bolder;
   text-decoration: none;
-  color: rgb(33, 37, 41);
+  color:black;
+}
+
+/* 게임 페이지 */
+
+#container {
+  display:inline-block;
+  min-width: 900px;
+  width: 100%;
+  margin: 30px auto;
   text-align: center;
 }
 
-#contents .box2 .big {
-  width: 250px;
+#container2 {
+  display: inline-block;
+  margin: 0 auto;
 }
 
-#contents .box2 h4 {
-  font-size: 20px;
-  margin: 10px;
+/* 인기 검색어 */
+.popular {
+  text-align: left;
+  border-radius: 7px;
+  width: 231px;
+  background-color: white;
+  float: left;
+  padding: 17px 14px;
 }
 
-#contents .box2 p {
-  margin: 8px
+.popular h2 {
+  font-size: 14px;
+  color: #4a4a4a;
 }
 
-#contents .box2 p img {
-  width: 22px;
+.top10 {
+  counter-reset: counter;
+  padding-left: 0;
+  list-style: none;
+}
+
+.top10 .keyword:not(:last-child) {
+  margin-bottom: 12px;
+}
+
+.top10 .keyword:before {
+  content: counter(counter,decimal-leading-zero);
+  counter-increment: counter;
+  color: white;
+  border-radius: 50%;
+  font-size: 11px;
+  margin-right: 10px;
+  padding: 3px 5px;
+  position: relative;
+  bottom: 2px;
+
+  width: 18px;
+  height: 18px;
+  border-radius: 6px;
+  background-color: #2391e9;
+}
+
+.top10 .keyword:nth-of-type(1n+4):before {
+  background-color: #dbdbdb;
+}
+
+.top10 .keyword a {
+  font-size: 14px;
+  color: #4a4a4a;
+  text-decoration: none;
+}
+
+.top10 .keyword a:hover {
+  text-decoration: underline;
+}
+
+/* 게임 리스트 */
+.gamelists {
+  text-align: left;
+  list-style: none;
   padding: 0;
+  margin: auto;
+  float: left;
+}
+
+.gamelist {
+  width: 600px;
+  height: 240px;
+  border-radius: 7px;
+  background-color: white;
+  margin-bottom: 35px;
+  margin-left: 35px;
+  position: relative;
+  opacity: 1;
+}
+
+.gl-topic {
+  position: absolute;
+  top: 16px;
+  left: 26px;
+  text-align: center;
+
+  width: 79px;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 1.64;
+  color: white;
+
+  border-bottom: 1px solid white;
+}
+
+.gl-img {
+  float: left;
+  border-top-left-radius: 7px;
+  border-bottom-left-radius: 7px;
+}
+
+.gl-info {
+  float: left;
+  width: 340px;
+  padding: 10px 15px;
+}
+
+.gl-title {
+  display: inline-block;
+  vertical-align: middle;
+  width: 231px;
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+.gl-title a {
+  color: #4a4a4a;
+  font-size: 20px;
+  text-decoration: none;
+}
+
+.tags {
+  padding: 0;
+  margin: 0;
+}
+
+.tags .tag {
+  display: inline;
+  margin-right: 3px;
+  white-space: nowrap;
+}
+
+.tags .tag a {
+  color: #9b9b9b;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.64;
+}
+
+.stats {
+  vertical-align: middle;
+  border-top: solid 0.3px #9b9b9b;
+  padding-top: 11px;
+  margin-top: 11px;
+}
+
+.stats img {
+  vertical-align: middle;
+  margin-right: 9px;
+}
+
+.stats span {
+  vertical-align: middle;
+  margin-right: 20px;
+
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 2.21;
+  text-align: left;
+  color: #4a4a4a;
 }
 
 /* 커뮤니티 페이지 */
@@ -219,10 +391,16 @@ body {
 }
 
 /* 고객 지원 */
+#fun {
+  font-size: 40px;
+  color: #4a4a4a;
+  margin-top: 40px;
+}
+
 #map {
   width: 1100px;
   height: 450px;
-  margin: 0 auto;
+  margin: 40px auto 20px auto;
   position: relative;
 }
 
@@ -239,6 +417,54 @@ body {
 
 audio {
   width: 500px;
+  margin-bottom: 30px;
+}
+
+.contact {
+  height: 700px;
+  min-height: 600px;
+  background-color: #f9f9f9;
+  text-align: center;
+  padding-top: 100px;
+}
+
+.contact h3 {
+  font-size: 40px;
+  color: #4a4a4a;
+  margin: 0;
+  margin-bottom: 37px;
+}
+
+.contact p {
+  font-size: 16px;
+  color: #4a4a4a;
+  margin: 0;
+  margin-bottom: 61px;
+}
+
+.contact form {
+  display: inline-block;
+  vertical-align: middle;
+  width: 646px;
+}
+
+.contact input,
+.contact textarea {
+  display: block;
+  width: 100%;
+  border-radius: 4px;
+  border: solid 1px #ebebeb;
+  font-size: 16px;
+  padding: 10px 15px;
+}
+
+.contact input {
+  margin-bottom: 24px;
+}
+
+.contact textarea {
+  resize: none;
+  height: 222px;
 }
 
 /* TOP 버튼 */
@@ -264,25 +490,4 @@ audio {
 #to-top.show {
 	visibility: visible;
 	opacity: 1;
-}
-
-/* 미디어 쿼리 */
-@media (max-width:1008px) {
-  #nav img {
-    margin-left: 0;
-  }
-
-  #nav a {
-  font-size:15px;
-
-  margin: 0 15px
-  }
-
-  #nav li {
-    margin-left: 0;
-  }
-
-  #nav ul {
-    padding-left: 0;
-  }
 }

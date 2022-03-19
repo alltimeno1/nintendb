@@ -13,12 +13,12 @@ app.use(express.static(__dirname));
 app.get('/', (req, res) => res.send('URL should contain /home'));
 
 app.get('/home', async (req, res) => {
-  res.sendFile(__dirname + '/index.html');
+  res.sendFile(__dirname + '/html/index.html');
 });
 
 app.get('/:page', async (req, res) => {
   const { page } = req.params;
-  res.sendFile(__dirname + `/${page}.html`);
+  res.sendFile(__dirname + `/html/${page}.html`);
 });
 
 app.get('/title/:id', async (req, res) => {

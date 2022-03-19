@@ -52,9 +52,9 @@ function readTitles(classname) {
     img.src = image;
     game.textContent = name;
 
-    if (classname === "popular") {
+    if (classname === "best") {
       content.innerHTML = 
-      `<img class="meta" src="images/metacritic.png">${rating}`;
+      `<img class="meta" src="../images/metacritic.png">${rating}`;
     } else if (classname === "new") {
       content.textContent = date + " 출시 예정";
     } else if (classname === "sale") {
@@ -75,7 +75,7 @@ function makeHtml(image, name, date, rating, discount) {
     <h4>${name}</h4>
     <p>${date}</p>
     <p>
-      <img id="banner" src="images/metacritic.png" width=100%>
+      <img id="banner" src="../images/metacritic.png" width=100%>
       ${rating}
     </p>
     <p>🇰🇷 ${discount}</p>`

@@ -1,5 +1,3 @@
-
-
 // 댓글 작성
 function writeMsg() {
   const name = $('#nickname').val();

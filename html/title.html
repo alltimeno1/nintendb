@@ -5,12 +5,15 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title> Toy project - All about Nintendo Switch</title>
-  <link rel="icon" href="images/favicon.ico" type="image/x-icon">
-  <link href="style.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.6.0.js"
+  integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+  crossorigin="anonymous"></script>
+  <link rel="icon" href="../images/favicon.ico" type="image/x-icon">
+  <link href="../style.css" rel="stylesheet">
 </head>
 <body>
   <div id="nav">
-    <a href="/home"><img src="images/logo.png" height="100px"></a>
+    <a href="/home"><img src="../images/logo.png" height="100px"></a>
     <ul>
       <li><a href="/home">홈</a></li>
       <li><a href="/title" id="current">게임</a></li>
@@ -23,14 +26,89 @@
     </ul>
   </div>
 
-  <img id="banner" src="images/banner.jpg" width=100%>
+  <img id="banner" src="../images/banner.jpg" width=100%>
 
-  <div id="contents">
+  <div id="container">
+    <div id="container2">
+      <div class="popular">
+        <h2>인기 검색어</h2>
+
+        <ol class="top10">
+          <li class="keyword"><a href="#">젤다의 전설</a></li>
+          <li class="keyword"><a href="#">슈퍼 마리오</a></li>
+          <li class="keyword"><a href="#">닌텐도</a></li>
+          <li class="keyword"><a href="#">스위치</a></li>
+          <li class="keyword"><a href="#">조이콘</a></li>
+          <li class="keyword"><a href="#">마리오 카트</a></li>
+          <li class="keyword"><a href="#">프로콘</a></li>
+          <li class="keyword"><a href="#">세일</a></li>
+          <li class="keyword"><a href="#">스플래툰</a></li>
+          <li class="keyword"><a href="#">풍화설월</a></li>
+        </ol>
+      </div>
+
+      <ul class="gamelists">
+        <li class="gamelist">
+          <span class="gl-topic">수면</span>
+
+          <img class="gl-img" src="../images/zelda.jpeg" width="240" height="240">
+
+          <div class="gl-info">
+            <div class="header">
+              <h2 class="gl-title"><a href="#">젤다의 전설 야생의 숨결</a></h2>
+            </div>
+
+            <ul class="tags">
+              <li class="tag"><a href="#">#오늘의선곡</a></li>
+              <li class="tag"><a href="#">#꿀잠</a></li>
+              <li class="tag"><a href="#">#수면유도</a></li>
+              <li class="tag"><a href="#">#불면증</a></li>
+              <li class="tag"><a href="#">#낮잠</a></li>
+              <li class="tag"><a href="#">#힐링</a></li>
+              <li class="tag"><a href="#">#굳밤</a></li>
+            </ul>
+
+            <div class="stats">
+              <img src="../images/metacritic.png" width="20" height="20"><span class="like-count">108</span>
+
+              <img src="images/song_count.png" width="20" height="20"><span class="song-count">15곡</span>
+            </div>
+          </div>
+        </li>
+        <li class="gamelist">
+          <span class="gl-topic">수면</span>
+
+          <img class="gl-img" src="../images/mario.jpeg" width="240" height="240">
+
+          <div class="gl-info">
+            <div class="header">
+              <h2 class="gl-title"><a href="#">슈퍼 마리오 오디세이</a></h2>
+            </div>
+
+            <ul class="tags">
+              <li class="tag"><a href="#">#오늘의선곡</a></li>
+              <li class="tag"><a href="#">#꿀잠</a></li>
+              <li class="tag"><a href="#">#수면유도</a></li>
+              <li class="tag"><a href="#">#불면증</a></li>
+              <li class="tag"><a href="#">#낮잠</a></li>
+              <li class="tag"><a href="#">#힐링</a></li>
+              <li class="tag"><a href="#">#굳밤</a></li>
+            </ul>
+
+            <div class="stats">
+              <img src="../images/metacritic.png" width="20" height="20"><span class="like-count">108</span>
+
+              <img src="images/song_count.png" width="20" height="20"><span class="song-count">15곡</span>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
   </div>
   <div id="to-top">
     🔝
   </div>
-  <script type= "module" src="functions/scroll.js"></script>
-  <script type= "module" src="functions/title.js"></script>
+  <script type= "module" src="../functions/scroll.js"></script>
+  <script type= "module" src="../functions/title.js"></script>
 </body>
 </html>
