@@ -177,12 +177,7 @@ body {
 }
 
 #contents .more:hover {
-  display: block;
-  text-align: center;
-  line-height: 40px;
-  font-weight: bolder;
-  text-decoration: none;
-  color:black;
+  font-weight: bold;
 }
 
 /* 게임 페이지 */
@@ -315,6 +310,10 @@ body {
   color: #4a4a4a;
   font-size: 20px;
   text-decoration: none;
+}
+
+.gl-title a:hover {
+  font-weight: bold;
 }
 
 .tags {
