@@ -1,94 +1,83 @@
-// 데이터
-const titleData = [
-  {
-    "name": "젤다의 전설 야생의 숨결",
-    "image": "images/zelda.jpeg",
-    "date": "2022.03.01",
-    "rating": 97,
-    "discount": "₩50,000 -20%",
-  },
-  {
-    "name": "슈퍼 마리오 오딧세이",
-    "image": "images/mario.jpeg",
-    "date": "2022.04.01",
-    "rating": 97,
-    'discount': "₩45,000 -30%",
-  },
-  {
-    "name": "마리오 카트8 디럭스",
-    "image": "images/marioKart8Deluxe.jpeg",
-    "date": "2022.05.01",
-    "rating": 92,
-    "discount": "₩40,000 -40%",
-  },
-  {
-    "name": "스플래툰2",
-    "image": "images/splatoon2.jpeg",
-    "date": "2022.06.01",
-    "rating": 82,
-    "discount": "₩30,000 -50%",
-  },
-]
+// 데이터 불러오기
+import data from './data.js'
 
-// 노드 생성
-function createNode() {
-  const item = document.createElement("a");
-  const img = document.createElement("img");
-  const game = document.createElement("h5");
-  const content = document.createElement("span");
-  item.className = "item";
-  img.className = "small";
+const titleData = data
 
-  return [item, img, game, content];
+// 게임 박스 생성
+function makeBoxHtml(id, image, name, date, rating, price) {
+  let details = "";
+
+  if (id === "best") {
+    details = 
+      `<img class="meta" src="../images/metacritic.png">
+      ${rating}`;
+  } else if (id === "new") {
+    details = date + " 출시 예정";
+  } else if (id === "sale") {
+    details = "🇰🇷 ₩" + price;
+  }
+  
+  const titleHtml = `
+    <img class="cover" src=${image}>
+    <h5>${name}</h5>
+    <span>
+      ${details}
+    </span>`
+
+  return titleHtml
 }
 
-// 인기 게임 리스트 생성
-function readTitles(classname) {
-  titleData.forEach(({ name, image, date, rating, discount }, idx) => {
-    const [item, img, game, content] = createNode();
-    const box = document.querySelector(`#${classname} .more`);
-    
+function readTitles(id) {
+  const box = document.querySelector(`#${id} .more`);
+
+  titleData.forEach(({ name, image, date, rating, price }, idx) => {
+    const item = document.createElement("a");
+
+    item.className = "item";
     item.href = `/title/${idx + 1}`;
-    img.src = image;
-    game.textContent = name;
-
-    if (classname === "best") {
-      content.innerHTML = 
-      `<img class="meta" src="../images/metacritic.png">${rating}`;
-    } else if (classname === "new") {
-      content.textContent = date + " 출시 예정";
-    } else if (classname === "sale") {
-      content.textContent = "🇰🇷 " + discount;
-    }
-
-    item.appendChild(img);
-    item.appendChild(game);
-    item.appendChild(content);
-    
+    item.innerHTML = makeBoxHtml(id, image, name, date, rating, price);
     box.before(item);
   })
 }
 
-function makeHtml(image, name, date, rating, discount) {
+// 게임 리스트 생성
+function makeListHtml(image, name, date, rating, price, idx) {
   const titleHtml = `
-    <img class="big" src="${image}" width="100%">
-    <h4>${name}</h4>
-    <p>${date}</p>
-    <p>
-      <img id="banner" src="../images/metacritic.png" width=100%>
-      ${rating}
-    </p>
-    <p>🇰🇷 ${discount}</p>`
+    <span class="gl-topic">수면</span>
+    <img class="gl-img" src=${image} width="240" height="240">
+    <div class="gl-info">
+      <div class="header">
+        <h2 class="gl-title"><a href="/title/${idx + 1}">${name}</a></h2>
+        <p class="gl-date">${date} 출시</p>
+      </div>
+      <ul class="tags">
+        <li class="tag"><a href="#">#한국어</a></li>
+        <li class="tag"><a href="#">#영어</a></li>
+        <li class="tag"><a href="#">#수면유도</a></li>
+        <li class="tag"><a href="#">#불면증</a></li>
+        <li class="tag"><a href="#">#낮잠</a></li>
+        <li class="tag"><a href="#">#힐링</a></li>
+        <li class="tag"><a href="#">#굳밤</a></li>
+      </ul>
+      <div class="stats">
+        <img src="../images/metacritic.png" width="20" height="20">
+        <span class="rating">${rating}</span>
+        <img src="images/song_count.png" width="20" height="20">
+        <span class="price">🇰🇷 ₩${price}</span>
+      </div>
+    </div>`
+
   return titleHtml
 }
 
-function readAllTitles() {
-  const box = document.querySelector("#contents");
-  titleData.forEach(({ name, image, date, rating, discount }, idx) => {
-    const item = document.createElement("a");
-    item.className = "box2";
-    item.href = `/title/${idx + 1}`;
-    item.innerHTML = makeHtml(image, name, date, rating, discount);
+function readAllTitles(data=titleData) {
+  const box = document.querySelector(".gamelists");
+
+  data.forEach(({ name, image, date, rating, price }, idx) => {
+    const item = document.createElement("li");
+
+    item.className = "gamelist";
+    item.innerHTML = makeListHtml(image, name, date, rating, price, idx);
     box.appendChild(item);
   })
 }

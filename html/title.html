@@ -30,6 +30,30 @@
 
   <div id="container">
     <div id="container2">
+      <div class="filter">
+        <div class="checkbox lang">
+          <p class="checkbox_tit">대응 언어</p>
+          <ul class="clearfix">
+              <li>
+                <input type="checkbox" id="langKR" class="input_chk" name="lang[]" value="0" checked="">
+                <label for="langKR">
+                  <span class="input_box"></span>
+                  한국어
+                </label>
+              </li>
+              <li>
+                <input type="checkbox" id="langUS" class="input_chk" name="lang[]" value="1">
+                <label for="langUS">
+                  <span class="input_box"></span>
+                  영어
+                </label>
+              </li>
+          </ul>
+        </div>
+        <li class="search_box">
+          <input type="text" maxlength="225" placeholder="검색">
+        </li>
+      </div>
       <div class="popular">
         <h2>인기 검색어</h2>
 
@@ -48,60 +72,6 @@
       </div>
 
       <ul class="gamelists">
-        <li class="gamelist">
-          <span class="gl-topic">수면</span>
-
-          <img class="gl-img" src="../images/zelda.jpeg" width="240" height="240">
-
-          <div class="gl-info">
-            <div class="header">
-              <h2 class="gl-title"><a href="#">젤다의 전설 야생의 숨결</a></h2>
-            </div>
-
-            <ul class="tags">
-              <li class="tag"><a href="#">#오늘의선곡</a></li>
-              <li class="tag"><a href="#">#꿀잠</a></li>
-              <li class="tag"><a href="#">#수면유도</a></li>
-              <li class="tag"><a href="#">#불면증</a></li>
-              <li class="tag"><a href="#">#낮잠</a></li>
-              <li class="tag"><a href="#">#힐링</a></li>
-              <li class="tag"><a href="#">#굳밤</a></li>
-            </ul>
-
-            <div class="stats">
-              <img src="../images/metacritic.png" width="20" height="20"><span class="like-count">108</span>
-
-              <img src="images/song_count.png" width="20" height="20"><span class="song-count">15곡</span>
-            </div>
-          </div>
-        </li>
-        <li class="gamelist">
-          <span class="gl-topic">수면</span>
-
-          <img class="gl-img" src="../images/mario.jpeg" width="240" height="240">
-
-          <div class="gl-info">
-            <div class="header">
-              <h2 class="gl-title"><a href="#">슈퍼 마리오 오디세이</a></h2>
-            </div>
-
-            <ul class="tags">
-              <li class="tag"><a href="#">#오늘의선곡</a></li>
-              <li class="tag"><a href="#">#꿀잠</a></li>
-              <li class="tag"><a href="#">#수면유도</a></li>
-              <li class="tag"><a href="#">#불면증</a></li>
-              <li class="tag"><a href="#">#낮잠</a></li>
-              <li class="tag"><a href="#">#힐링</a></li>
-              <li class="tag"><a href="#">#굳밤</a></li>
-            </ul>
-
-            <div class="stats">
-              <img src="../images/metacritic.png" width="20" height="20"><span class="like-count">108</span>
-
-              <img src="images/song_count.png" width="20" height="20"><span class="song-count">15곡</span>
-            </div>
-          </div>
-        </li>
       </ul>
     </div>
   </div>
@@ -110,5 +80,6 @@
   </div>
   <script type= "module" src="../functions/scroll.js"></script>
   <script type= "module" src="../functions/title.js"></script>
+  <script type= "module" src="../functions/search_title.js"></script>
 </body>
 </html>

@@ -1,24 +1,19 @@
 const express = require('express');
-
 const app = express();
-
 const db = require('./models/index');
-
 const { Title } = db;
 
 app.use(express.json());
-
 app.use(express.static(__dirname));
 
 app.get('/', (req, res) => res.send('URL should contain /home'));
 
 app.get('/home', async (req, res) => {
   res.sendFile(__dirname + '/html/index.html');
-  console.log('a')
 });
 
 app.get('/:page', async (req, res) => {
-  const { page } = req.params;
+const { page } = req.params;
   res.sendFile(__dirname + `/html/${page}.html`);
 });
 
