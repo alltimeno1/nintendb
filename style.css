@@ -150,6 +150,10 @@ body {
   padding-bottom: 6px;
 }
 
+#contents .box h5:hover {
+  font-weight: bold;
+}
+
 #contents .box span {
   font-size: 14px;
   font-weight: 300;
@@ -209,21 +213,27 @@ body {
 
 .checkbox {
   float: left;
-  width: 300px;
+  width: 270px;
   border-bottom: 1px solid rgb(214, 214, 214);
-  margin: 20px;
+  margin: 20px 20px 0 20px;
+}
+
+.checkbox.genre {
+  width: 450px;
 }
 
 .checkbox_tit {
   float: left;
   margin: auto 10px;
   line-height: 37px;
+  font-weight: bold;
 }
 
 .checkbox ul {
   display: inline-block;
   line-height: 37px;
   margin: 0;
+  padding-left: 0;
 }
 
 .checkbox li {
@@ -232,9 +242,11 @@ body {
   list-style: none;
 }
 
-.filter .search_box {
-  line-height: 148px;
+.search_box {
+  line-height: 100px;
   text-align: right;
+  width: 190px;
+  float: right;
 }
 
 /* 인기 검색어 */
@@ -366,6 +378,7 @@ body {
 .tags {
   padding: 0;
   margin: 0;
+  height: 46px;
 }
 
 .tags .tag {

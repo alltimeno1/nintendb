@@ -12,6 +12,10 @@ app.get('/home', async (req, res) => {
   res.sendFile(__dirname + '/html/index.html');
 });
 
+app.get('/rank', async (req, res) => {
+  res.send('아직 준비 중입니다. 조금만 기다려 주세요 :(');
+});
+
 app.get('/:page', async (req, res) => {
 const { page } = req.params;
   res.sendFile(__dirname + `/html/${page}.html`);
@@ -23,7 +27,7 @@ app.get('/title/:id', async (req, res) => {
   if (title) {
     res.send(title);
   } else {
-    res.status(404).send({ message: 'There is no title with the id' });
+    res.status(404).send({ message: 'There is no title with the id or DB error :(' });
   }
 });
 

@@ -17,12 +17,9 @@
     <ul>
       <li><a href="/home">홈</a></li>
       <li><a href="/title" id="current">게임</a></li>
-      <li><a href="#">랭킹</a></li>
+      <li><a href="/rank">랭킹</a></li>
       <li><a href="/forum">커뮤니티</a></li>
       <li><a href="/etc">고객지원</a></li>
-      <li class="search_box">
-        <input type="text" maxlength="225" placeholder="검색">
-      </li>
     </ul>
   </div>
 
@@ -31,24 +28,80 @@
   <div id="container">
     <div id="container2">
       <div class="filter">
-        <div class="checkbox lang">
-          <p class="checkbox_tit">대응 언어</p>
-          <ul class="clearfix">
-              <li>
-                <input type="checkbox" id="langKR" class="input_chk" name="lang[]" value="0" checked="">
-                <label for="langKR">
-                  <span class="input_box"></span>
-                  한국어
-                </label>
-              </li>
-              <li>
-                <input type="checkbox" id="langUS" class="input_chk" name="lang[]" value="1">
-                <label for="langUS">
-                  <span class="input_box"></span>
-                  영어
-                </label>
-              </li>
-          </ul>
+        <div class="checkboxes">
+          <div class="checkbox lang">
+            <p class="checkbox_tit">대응 언어</p>
+            <ul class="clearfix">
+                <li>
+                  <input type="checkbox" id="langKR" class="input_chk" value="한국어">
+                  <label for="langKR">
+                    <span class="input_box"></span>
+                    한국어
+                  </label>
+                </li>
+                <li>
+                  <input type="checkbox" id="langUS" class="input_chk" value="영어">
+                  <label for="langUS">
+                    <span class="input_box"></span>
+                    영어
+                  </label>
+                </li>
+            </ul>
+          </div>
+          
+          <div class="checkbox play_type">
+            <p class="checkbox_tit">플레이 인원</p>
+            <ul class="clearfix">
+                <li>
+                  <input type="checkbox" id="single" class="input_chk" value="싱글 플레이">
+                  <label for="single">
+                    <span class="input_box"></span>
+                    싱글
+                  </label>
+                </li>
+                <li>
+                  <input type="checkbox" id="multi" class="input_chk" value="멀티 플레이">
+                  <label for="multi">
+                    <span class="input_box"></span>
+                    멀티
+                  </label>
+                </li>
+            </ul>
+          </div>
+
+          <div class="checkbox genre">
+            <p class="checkbox_tit">장르</p>
+            <ul class="clearfix">
+                <li>
+                  <input type="checkbox" id="rpg" class="input_chk" value="RPG">
+                  <label for="rpg">
+                    <span class="input_box"></span>
+                    RPG
+                  </label>
+                </li>
+                <li>
+                  <input type="checkbox" id="action" class="input_chk" value="액션 어드밴쳐">
+                  <label for="action">
+                    <span class="input_box"></span>
+                    액션 어드밴쳐
+                  </label>
+                </li>
+                <li>
+                  <input type="checkbox" id="racing" class="input_chk" value="레이싱">
+                  <label for="racing">
+                    <span class="input_box"></span>
+                    레이싱
+                  </label>
+                </li>
+                <li>
+                  <input type="checkbox" id="fps" class="input_chk" value="FPS">
+                  <label for="fps">
+                    <span class="input_box"></span>
+                    FPS
+                  </label>
+                </li>
+            </ul>
+          </div>
         </div>
         <li class="search_box">
           <input type="text" maxlength="225" placeholder="검색">

@@ -12,7 +12,7 @@ function makeBoxHtml(id, image, name, date, rating, price) {
       `<img class="meta" src="../images/metacritic.png">
       ${rating}`;
   } else if (id === "new") {
-    details = date + " 출시 예정";
+    details = date + " 출시";
   } else if (id === "sale") {
     details = "🇰🇷 ₩" + price;
   }
@@ -41,9 +41,8 @@ function readTitles(id) {
 }
 
 // 게임 리스트 생성
-function makeListHtml(image, name, date, rating, price, idx) {
+function makeListHtml(image, name, date, rating, price, idx, tag) {
   const titleHtml = `
-    <span class="gl-topic">수면</span>
     <img class="gl-img" src=${image} width="240" height="240">
     <div class="gl-info">
       <div class="header">
@@ -51,19 +50,17 @@ function makeListHtml(image, name, date, rating, price, idx) {
         <p class="gl-date">${date} 출시</p>
       </div>
       <ul class="tags">
-        <li class="tag"><a href="#">#한국어</a></li>
-        <li class="tag"><a href="#">#영어</a></li>
-        <li class="tag"><a href="#">#수면유도</a></li>
-        <li class="tag"><a href="#">#불면증</a></li>
-        <li class="tag"><a href="#">#낮잠</a></li>
-        <li class="tag"><a href="#">#힐링</a></li>
-        <li class="tag"><a href="#">#굳밤</a></li>
+        <li class="tag"><a href="#">#${tag[0]}</a></li>
+        <li class="tag"><a href="#">#${tag[1]}</a></li>
+        <li class="tag"><a href="#">#${tag[2]}</a></li>
+        <li class="tag"><a href="#">#${tag[3]}</a></li>
+        <li class="tag"><a href="#">#${tag[4]}</a></li>
+        <li class="tag"><a href="#">#${tag[5]}</a></li>
       </ul>
       <div class="stats">
         <img src="../images/metacritic.png" width="20" height="20">
         <span class="rating">${rating}</span>
-        <img src="images/song_count.png" width="20" height="20">
-        <span class="price">🇰🇷 ₩${price}</span>
+      <span class="price">🇰🇷 ₩${price}</span>
       </div>
     </div>`
 
@@ -73,11 +70,11 @@ function makeListHtml(image, name, date, rating, price, idx) {
 function readAllTitles(data=titleData) {
   const box = document.querySelector(".gamelists");
 
-  data.forEach(({ name, image, date, rating, price }, idx) => {
+  data.forEach(({ name, image, date, rating, price, tag }, idx) => {
     const item = document.createElement("li");
 
     item.className = "gamelist";
-    item.innerHTML = makeListHtml(image, name, date, rating, price, idx);
+    item.innerHTML = makeListHtml(image, name, date, rating, price, idx, tag);
     box.appendChild(item);
   })
 }
