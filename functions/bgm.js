@@ -1,15 +1,62 @@
 const character = document.querySelector('#mario');
+const bubble = document.querySelector('#bubble');
+const playBtn = document.querySelector('audio');
 
-let degree = 0; 
-loop();
+playBtn.addEventListener('play', animate);
 
-function loop(){
-  if (degree > 26) {
+let dist0 = 0;
+let dist = 0; 
+let dist2 = 0;
+let dist3 = 0;
+
+function animate() {
+  bubble.style.opacity = 1;
+  setTimeout(() => bubble.style.opacity = 0, 4000);
+  setTimeout(() => move(), 4500);
+  setTimeout(() => jump(), 5500);
+  setTimeout(() => climbDown(), 7000);
+  setTimeout(() => enterCastle(), 9500);
+}
+
+function move() {
+  if (dist0 > 16) {
     return;
   }
-  character.style.left = 35 + degree + '%';
-  // character.style.top = 27 + degree + '%';
-  degree += 0.5;
+  character.style.left = 35 + dist0 / 4 + '%';
+  dist0 += 0.5;
   
-  requestAnimationFrame(loop);
+  requestAnimationFrame(move);
+}
+
+function jump() {
+  if (dist > 22) {
+    return;
+  }
+  character.style.left = 38 + dist + '%';
+  character.style.top = 26 - dist / 3 + '%';
+  dist += 0.5;
+  
+  requestAnimationFrame(jump);
+}
+
+function climbDown() {
+  if (dist2 > 53) {
+    return;
+  }
+  character.style.top = 18 + dist2 + '%';
+  dist2 += 0.5;
+  
+  requestAnimationFrame(climbDown);
+}
+
+function enterCastle() {
+  if (dist3 > 32) {
+    character.style.opacity = 0;
+    return;
+  }
+  character.style.left = 61 + dist3 / 2 + '%';
+  character.style.top = 71 + dist3 / 4 + '%';
+  dist3 += 0.5;
+  
+  requestAnimationFrame(enterCastle);
 }

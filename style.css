@@ -450,11 +450,12 @@ body {
 }
 
 /* 고객 지원 */
-#fun {
+#contents #fun {
   font-size: 40px;
   color: #4a4a4a;
   margin-top: 40px;
   padding: 0px;
+  text-align: center;
 }
 
 #map {
@@ -464,15 +465,23 @@ body {
   position: relative;
 }
 
-#map img:first-child{
+#map img:first-child {
   margin: 20px auto;
   
 }
 
-#map img:nth-child(2){
+#mario {
   position: absolute;
   left: 35%;
   top: 27%;
+}
+
+#bubble {
+  font-size: 45px;
+  position: absolute;
+  left: 38%;
+  top: 13%;
+  opacity: 0;
 }
 
 audio {
