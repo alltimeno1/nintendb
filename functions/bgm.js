@@ -5,7 +5,7 @@ const playBtn = document.querySelector('audio');
 playBtn.addEventListener('play', animate);
 
 let dist0 = 0;
-let dist = 0; 
+let dist1 = 0; 
 let dist2 = 0;
 let dist3 = 0;
 
@@ -29,12 +29,12 @@ function move() {
 }
 
 function jump() {
-  if (dist > 22) {
+  if (dist1 > 22) {
     return;
   }
-  character.style.left = 38 + dist + '%';
-  character.style.top = 26 - dist / 3 + '%';
-  dist += 0.5;
+  character.style.left = 38 + dist1 + '%';
+  character.style.top = 26 - dist1 / 3 + '%';
+  dist1 += 0.5;
   
   requestAnimationFrame(jump);
 }

@@ -44,12 +44,8 @@ function checkbox(e) {
     item.remove();
   }
   
-  if (e.target.checked) {
-    const result = titleData.filter(
-      title => tagList.every(tag => title.tag.includes(tag)));
-    
-    readAllTitles(result);
-  } else {
-    readAllTitles();
-  }
+  const result = titleData.filter(
+    title => tagList.every(tag => title.tag.includes(tag)));
+  console.log(result);
+  readAllTitles(result);
 }
