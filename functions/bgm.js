@@ -8,13 +8,24 @@ let dist3 = 0
 
 playBtn.addEventListener('play', animate)
 
-function animate() {
+function sleep(time) {
+  return new Promise((resolve) => {
+    setTimeout(() => resolve(), time)
+  })
+}
+
+async function animate() {
   bubble.style.opacity = 1
-  setTimeout(() => (bubble.style.opacity = 0), 4000)
-  setTimeout(() => move(), 4500)
-  setTimeout(() => jump(), 5500)
-  setTimeout(() => climbDown(), 7000)
-  setTimeout(() => enterCastle(), 9500)
+  await sleep(4000)
+  bubble.style.opacity = 0
+  await sleep(500)
+  move()
+  await sleep(1000)
+  jump()
+  await sleep(1500)
+  climbDown()
+  await sleep(2500)
+  enterCastle()
 }
 
 function move() {

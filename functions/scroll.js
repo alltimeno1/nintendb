@@ -1,4 +1,6 @@
 // 스크롤 이벤트 등록
+const btnTop = document.querySelector('#to-top')
+
 window.addEventListener('scroll', onScroll)
 btnTop.addEventListener('click', scrollTop)
 
@@ -20,6 +22,6 @@ function onScroll() {
 }
 
 // 스크롤 이벤트2
-const scrollTop = () => window.scrollTo(0, 0, 'smooth')
-
-const btnTop = document.querySelector('#to-top')
+function scrollTop() {
+  window.scrollTo(0, 0, 'smooth')
+}

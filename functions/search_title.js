@@ -2,8 +2,6 @@
 import data from './data.js'
 import { readAllTitles } from './read_title.js'
 
-const titleData = data
-
 const searchBar = document.querySelector('.search_box input')
 const checkboxes = document.querySelector('.checkboxes')
 let tagList = []
@@ -14,16 +12,9 @@ checkboxes.addEventListener('change', checkbox)
 
 function search(e) {
   if (e.key === 'Enter') {
-    const result = titleData.filter((title) =>
-      title.name.includes(e.target.value)
-    )
-    const list = document.querySelectorAll('.gamelist')
+    const result = data.filter((title) => title.name.includes(e.target.value))
 
-    for (let item of list) {
-      item.remove()
-    }
-
-    readAllTitles(result)
+    rewriteTitles(result)
   }
 }
 
@@ -42,10 +33,15 @@ function addTag(e) {
 }
 
 function checkbox(e) {
-  const gameList = document.querySelectorAll('.gamelist')
-  const result = titleData.filter((title) =>
+  const result = data.filter((title) =>
     tagList.every((tag) => title.tag.includes(tag))
   )
+
+  rewriteTitles(result)
+}
+
+function rewriteTitles(result) {
+  const gameList = document.querySelectorAll('.gamelist')
 
   for (let item of gameList) {
     item.remove()

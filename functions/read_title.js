@@ -4,7 +4,8 @@ import data from './data.js'
 const titleData = data
 
 // 게임 박스 생성
-function makeBoxHtml(id, image, name, date, rating, price) {
+function makeBoxHtml(id, title) {
+  const { name, image, date, rating, price, tag } = title
   let details = ''
 
   if (id === 'best') {
@@ -29,18 +30,25 @@ function makeBoxHtml(id, image, name, date, rating, price) {
 function readTitles(id) {
   const box = document.querySelector(`#${id} .more`)
 
-  titleData.forEach(({ name, image, date, rating, price }, idx) => {
+  titleData.forEach((title, idx) => {
     const item = document.createElement('a')
 
     item.className = 'item'
     item.href = `/title/${idx + 1}`
-    item.innerHTML = makeBoxHtml(id, image, name, date, rating, price)
+    item.innerHTML = makeBoxHtml(id, title)
     box.before(item)
   })
 }
 
 // 게임 리스트 생성
-function makeListHtml(image, name, date, rating, price, idx, tag) {
+function makeListHtml(idx, title) {
+  const { name, image, date, rating, price, tag } = title
+  let tags = ''
+
+  for (let item of tag) {
+    tags += `<li class="tag"><a href="#">#${item}</a></li>\n`
+  }
+
   const titleHtml = `
     <img class="gl-img" src=${image} width="240" height="240">
     <div class="gl-info">
@@ -49,12 +57,7 @@ function makeListHtml(image, name, date, rating, price, idx, tag) {
         <p class="gl-date">${date} 출시</p>
       </div>
       <ul class="tags">
-        <li class="tag"><a href="#">#${tag[0]}</a></li>
-        <li class="tag"><a href="#">#${tag[1]}</a></li>
-        <li class="tag"><a href="#">#${tag[2]}</a></li>
-        <li class="tag"><a href="#">#${tag[3]}</a></li>
-        <li class="tag"><a href="#">#${tag[4]}</a></li>
-        <li class="tag"><a href="#">#${tag[5]}</a></li>
+        ${tags}
       </ul>
       <div class="stats">
         <img src="../images/metacritic.png" width="20" height="20">
@@ -69,11 +72,11 @@ function makeListHtml(image, name, date, rating, price, idx, tag) {
 function readAllTitles(data = titleData) {
   const box = document.querySelector('.gamelists')
 
-  data.forEach(({ name, image, date, rating, price, tag }, idx) => {
+  data.forEach((title, idx) => {
     const item = document.createElement('li')
 
     item.className = 'gamelist'
-    item.innerHTML = makeListHtml(image, name, date, rating, price, idx, tag)
+    item.innerHTML = makeListHtml(idx, title)
     box.appendChild(item)
   })
 }

@@ -1,9 +1,6 @@
 $('#nickname').on('input', activate)
 $('#msg').on('input', activate)
-
-const btnReply = document.querySelector('.btn-dark')
-
-btnReply.addEventListener('click', writeMsg)
+$('.btn-dark').on('click', writeMsg)
 
 // 댓글 작성
 function writeMsg() {
