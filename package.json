@@ -3,16 +3,22 @@
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
+    "test": "jest",
     "migrate": "sequelize db:migrate",
     "seed": "sequelize db:seed:all"
   },
   "dependencies": {
     "express": "^4.17.3",
     "mysql2": "^2.3.3",
+    "pug": "^3.0.2",
     "sequelize": "^6.17.0",
     "sequelize-cli": "^6.4.1"
   },
   "devDependencies": {
-    "prettier": "^2.6.2"
+    "@types/jest": "^27.4.1",
+    "@types/supertest": "^2.0.12",
+    "jest": "^27.5.1",
+    "prettier": "^2.6.2",
+    "supertest": "^6.2.2"
   }
 }
