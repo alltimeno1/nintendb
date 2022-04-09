@@ -3,3 +3,4 @@ node_modules
 .vscode
 .prettierrc
 app.spec.js
+.prettierignore

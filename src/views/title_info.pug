@@ -1,0 +1,35 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    meta(http-equiv='X-UA-Compatible' content='IE=edge')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    title  Toy project - All about Nintendo Switch
+    link(rel='icon' href='../../static/img/favicon.ico' type='image/x-icon')
+    link(href='../../style.css' rel='stylesheet')
+  body
+    #nav
+      a(href='/home')
+        img(src='../../static/img/logo.png' height='100px')
+      ul
+        li
+          a(href='/home') 홈
+        li
+          a#current(href='/title') 게임
+        li
+          a(href='/rank') 랭킹
+        li
+          a(href='/forum') 커뮤니티
+        li
+          a(href='/etc') 고객지원
+    img#banner(src='../../static/img/banner.jpg' width='100%')
+    #container
+      h2=name
+      img(src=`../${image}` height='100px')
+      p=date 
+      p=rating 
+      p=price
+      p=tag
+    #to-top
+      | 🔝
+    script(type='module' src='../src/js/scroll.js')

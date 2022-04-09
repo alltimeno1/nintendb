@@ -80,7 +80,7 @@ body {
 }
 
 .search_box input {
-  background-image: url("images/search_icon.png");
+  background-image: url("static/img/search_icon.png");
   background-position: 5px center;
   background-size: contain;
   background-repeat: no-repeat;

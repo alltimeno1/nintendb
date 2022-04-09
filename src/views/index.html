@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> Toy project - All about Nintendo Switch</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.js"
+  integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+  crossorigin="anonymous"></script>
+  <link rel="icon" href="../../static/img/favicon.ico" type="image/x-icon">
+  <link href="../../style.css" rel="stylesheet">
+</head>
+<body>
+  <div id="nav">
+    <a href="/home"><img src="../../static/img/logo.png" height="100px"></a>
+    <ul>
+      <li><a href="/home" id="current">홈</a></li>
+      <li><a href="/title">게임</a></li>
+      <li><a href="/rank">랭킹</a></li>
+      <li><a href="/forum">커뮤니티</a></li>
+      <li><a href="/etc">고객지원</a></li>
+    </ul>
+  </div>
+
+  <img id="banner" src="../../static/img/banner.jpg" width=100%>
+  
+  <div id="contents">
+    <div id="best" class="box">
+      <h3>인기 게임</h3>
+      <a class="more" href="/title">
+        더 보기
+      </a>
+    </div>
+    <div id="new" class="box">
+      <h3>신작 게임</h3>
+      <a class="more" href="/title">
+        더 보기
+      </a>
+    </div>
+    <div id="sale" class="box">
+      <h3>할인 중</h3>
+      <a class="more" href="/title">
+        더 보기
+      </a>
+    </div>
+  </div>
+  <div id="to-top">
+    🔝
+  </div>
+  <script type= "module" src="src/js/read_titles_by.js"></script>
+  <script type= "module" src="src/js/scroll.js"></script>
+</body>
+</html>
