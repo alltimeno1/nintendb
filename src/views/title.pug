@@ -1,0 +1,108 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    meta(http-equiv='X-UA-Compatible' content='IE=edge')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    title  Toy project - All about Nintendo Switch
+    link(rel='icon' href='../../static/img/favicon.ico' type='image/x-icon')
+    link(href='../../style.css' rel='stylesheet')
+  body
+    #nav
+      a(href='/home')
+        img(src='../../static/img/logo.png' height='100px')
+      ul
+        li
+          a(href='/home') 홈
+        li
+          a#current(href='/title') 게임
+        li
+          a(href='/rank') 랭킹
+        li
+          a(href='/forum') 커뮤니티
+        li
+          a(href='/etc') 고객지원
+    img#banner(src='../../static/img/banner.jpg' width='100%')
+    #container
+      #container2
+        .filter
+          .checkboxes
+            .checkbox.lang
+              p.checkbox_tit 대응 언어
+              ul.clearfix
+                li
+                  input#langKR.input_chk(type='checkbox' value='한국어')
+                  label(for='langKR')
+                    span.input_box
+                    |                     한국어
+                li
+                  input#langUS.input_chk(type='checkbox' value='영어')
+                  label(for='langUS')
+                    span.input_box
+                    |                     영어
+            .checkbox.play_type
+              p.checkbox_tit 플레이 인원
+              ul.clearfix
+                li
+                  input#single.input_chk(type='checkbox' value='싱글 플레이')
+                  label(for='single')
+                    span.input_box
+                    |                     싱글
+                li
+                  input#multi.input_chk(type='checkbox' value='멀티 플레이')
+                  label(for='multi')
+                    span.input_box
+                    |                     멀티
+            .checkbox.genre
+              p.checkbox_tit 장르
+              ul.clearfix
+                li
+                  input#rpg.input_chk(type='checkbox' value='RPG')
+                  label(for='rpg')
+                    span.input_box
+                    |                     RPG
+                li
+                  input#action.input_chk(type='checkbox' value='액션 어드밴쳐')
+                  label(for='action')
+                    span.input_box
+                    |                     액션 어드밴쳐
+                li
+                  input#racing.input_chk(type='checkbox' value='레이싱')
+                  label(for='racing')
+                    span.input_box
+                    |                     레이싱
+                li
+                  input#fps.input_chk(type='checkbox' value='FPS')
+                  label(for='fps')
+                    span.input_box
+                    |                     FPS
+          li.search_box
+            input(type='text' maxlength='225' placeholder='검색')
+        .popular
+          h2 인기 검색어
+          ol.top10
+            each item in title
+              li.keyword
+                a(href=`/title/${item.id}`)=item.name
+        ul.gamelists
+          p=tagList
+          each item in title
+            li.gamelist
+              img.gl-img(src=item.image width='240' height='240')
+              .gl-info
+                .header
+                  h2.gl-title
+                    a(href='/title/1')=item.name
+                  p.gl-date=`${item.date.toLocaleDateString()} 출시`
+                ul.tags
+                  li.tag
+                    each desc in item.tag.split(', ')
+                      a(href='#')=`#${desc}\n`
+                .stats
+                  img(src='../static/img/metacritic.png' width='20' height='20')
+                  span.rating=item.rating
+                  span.price=`🇰🇷 ₩${item.price}`
+    #to-top
+      | 🔝
+    script(type='module' src='src/js/scroll.js')
+    script(type='module' src='src/js/search_title.js')
