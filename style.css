@@ -26,11 +26,12 @@ body {
 
 #nav img {
   margin-left: 20px;
+  float:left
 }
 
 #nav ul {
   list-style: none;
-  float: right;
+  float: left;
   margin: 0;
   line-height: 100px;
 }
@@ -45,6 +46,15 @@ body {
   text-decoration: none;
   color: rgb(104, 101, 101);
   font-size: 25px;
+  margin: 0 20px;
+}
+
+#nav #login {
+  line-height: 100px;
+  float: right;
+  color: black;
+  font-weight: 500;
+  font-size: 18px;
   margin: 0 20px;
 }
 
@@ -525,10 +535,22 @@ audio {
   border: solid 1px #ebebeb;
   font-size: 16px;
   padding: 10px 15px;
+  margin-bottom: 24px;
 }
 
-.contact input {
-  margin-bottom: 24px;
+.contact button {
+  float: left;
+  font-size: 16px;
+  padding: 0.5rem 1rem;
+  background-color: #4a4a4a;
+  color: white;
+  border: 0;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.contact button:hover {
+  background-color: black;
 }
 
 .contact textarea {

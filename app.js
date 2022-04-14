@@ -22,7 +22,7 @@ app.get('/:page', async (req, res) => {
   } else if (page === 'rank') {
     res.send('준비 중입니다. 조금만 기다려 주세요 :)')
   } else {
-    res.sendFile(__dirname + `/src/views/${page}.html`)
+    res.render(`${page}`)
   }
 })
 
