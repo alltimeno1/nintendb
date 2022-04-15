@@ -89,22 +89,6 @@ body {
   margin-right: 20px;
 }
 
-.search_box input {
-  background-image: url("static/img/search_icon.png");
-  background-position: 5px center;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-size: 20px;
-  height: 40px;
-  width:170px;
-	padding: 0 35px;
-	font-size: 15px;
-  font-weight: 400;	
-  border-radius: 5px;
-  outline: none;
-  border: 2px solid silver;
-}
-
 /* 배너 */
 #banner {
   padding-top: 100px;
@@ -150,6 +134,11 @@ body {
   margin: 5px 10px 5px 5px;
   border-radius: 3px;
   width: 60px;
+}
+
+#contents .box .cover:hover {
+  opacity: 0.8;
+  transition: all 0.3s;
 }
 
 #contents .box h5 {
@@ -259,6 +248,22 @@ body {
   float: right;
 }
 
+.search_box input {
+  background-image: url("static/img/search_icon.png");
+  background-position: 5px center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-size: 20px;
+  height: 40px;
+  width:170px;
+	padding: 0 35px;
+	font-size: 15px;
+  font-weight: 400;	
+  border-radius: 5px;
+  outline: none;
+  border: 2px solid silver;
+}
+
 /* 인기 검색어 */
 .popular {
   text-align: left;
@@ -359,6 +364,12 @@ body {
   float: left;
   border-top-left-radius: 7px;
   border-bottom-left-radius: 7px;
+  cursor: pointer;
+}
+
+.gl-img:hover {
+  opacity: 0.8;
+  transition: all 0.3s;
 }
 
 .gl-info {
@@ -556,6 +567,114 @@ audio {
 .contact textarea {
   resize: none;
   height: 222px;
+}
+
+/* 상세 페이지 */
+#detailbox {
+  width: 900px;
+  height: 400px;
+  background-color: white;
+  margin: 30px auto;
+  border-radius: 10px;
+  border: 2px solid #e5e5e5;
+  padding: 20px;
+  text-align: left;
+}
+
+#detailbox img {
+  border-radius: 10px;
+  width: 350px;
+  height: 350px;
+  margin-right: 50px;
+  display: inline-block;
+}
+
+#details {
+  display: inline-block;
+  width: 400px;
+  vertical-align: top;
+}
+
+#detailbox h2 {
+  font-size: 30px;
+  margin-bottom: 80px;
+}
+
+#detailbox p {
+  border-bottom: 1px solid rgb(240, 240, 240);
+  padding: 20px 0 10px 0;
+  margin: 0;
+  font-weight: 600;
+}
+
+#detailbox p span {
+  font-weight: normal;
+}
+
+#commentbox {
+  width: 900px;
+  background-color: white;
+  margin: 30px auto;
+  border-radius: 10px;
+  border: 2px solid #e5e5e5;
+  padding: 20px;
+}
+
+#commentbox h4 {
+  text-align: left;
+  margin-left: 10px;
+  font-size: 20px;
+}
+
+#commentbox button{
+  float: right;
+  height: 60px;
+  width: 60px;
+  border-radius: 5px;
+  border: 2px solid grey;
+  cursor: pointer;
+}
+
+#commentbox textarea {
+  float: right;
+  width: 620px;
+  height: 60px;
+  border-radius: 5px;
+  border: 2px solid grey;
+  padding: 5px 15px;
+  margin: 0 15px;
+}
+
+#commentbox input {
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 2px solid grey;
+	padding: 0 10px;
+  width: 130px;
+  height: 25px;
+}
+
+.comments {
+  margin: 50px 0;
+  text-align: left;
+  list-style: none;
+}
+
+.comments li {
+  padding: 10px 0;
+  border-bottom: 2px solid rgb(240, 240, 240);
+}
+
+.comments div {
+  display: inline-block;
+}
+
+.comments div:nth-child(1) {
+  width: 120px;
+}
+
+.comments div:nth-child(2) {
+  width: 650px;
 }
 
 /* TOP 버튼 */

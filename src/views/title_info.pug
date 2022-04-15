@@ -22,15 +22,35 @@ html(lang='en')
           a(href='/forum') 커뮤니티
         li
           a(href='/etc') 고객지원
-      a#login(href='#') 로그인/회원가입
+      a#login(href='/login') 로그인/회원가입
     img#banner(src='../../static/img/banner.jpg' width='100%')
     #container
-      h2=name
-      img(src=`../${image}` height='100px')
-      p=date.toLocaleDateString()
-      p=rating 
-      p=price
-      p=tag
+      #detailbox
+        img(src=`../${title.image}` height='100px')
+        #details
+          h2=title.name
+          p 발매일 : 
+            span=new Date(title.date).toLocaleDateString()
+          p 메타크리틱 평점 : 
+            span=`${title.rating} / 100`
+          p 가격 : 
+            span=`${title.price}원`
+          p=title.tag
+      #commentbox 
+        h4 한줄평 남기기
+        button(type='submit') 등록
+        textarea(name='text' placeholder='매너 있는 댓글 부탁드립니다 :)')
+        input(type='text' name='name' placeholder='아이디')
+        input(type='password' name='password' placeholder='비밀번호')
+        ul.comments
+          li 
+            div 아이디
+            div 너무 재밌어요
+          each item in comment 
+            li 
+              div=item.name 
+              div=item.text
     #to-top
       | 🔝
     script(type='module' src='../src/js/scroll.js')
+    script(type='module' src='../src/js/update_comment.js')

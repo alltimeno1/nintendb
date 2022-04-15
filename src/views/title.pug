@@ -22,7 +22,7 @@ html(lang='en')
           a(href='/forum') 커뮤니티
         li
           a(href='/etc') 고객지원
-      a#login(href='#') 로그인/회원가입
+      a#login(href='/login') 로그인/회원가입
     img#banner(src='../../static/img/banner.jpg' width='100%')
     #container
       #container2
@@ -84,7 +84,7 @@ html(lang='en')
           ol.top10
             each item in title
               li.keyword
-                a(href=`/title/${item.id}`)=item.name
+                a(href=`/title/${item._id}`)=item.name
         ul.gamelists
           p=tagList
           each item in title
@@ -93,8 +93,8 @@ html(lang='en')
               .gl-info
                 .header
                   h2.gl-title
-                    a(href='/title/1')=item.name
-                  p.gl-date=`${item.date.toLocaleDateString()} 출시`
+                    a(href=`/title/${item._id}`)=item.name
+                  p.gl-date=`${new Date(item.date).toLocaleDateString()} 출시`
                 ul.tags
                   li.tag
                     each desc in item.tag.split(', ')

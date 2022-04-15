@@ -23,13 +23,13 @@ html(lang='en')
           a(href='/forum') 커뮤니티
         li
           a(href='/etc') 고객지원
-      a#login(href='#') 로그인/회원가입
+      a#login(href='/login') 로그인/회원가입
     img#banner(src='../../static/img/banner.jpg' width='100%')
     #contents
       #best.box
         h3 인기 게임
-        each item in title
-          a.item(href=`/title/${item.id}`)
+        each item in best
+          a.item(href=`/title/${item._id}`)
             img.cover(src=item.image)
             h5=item.name
             span
@@ -39,17 +39,17 @@ html(lang='en')
           | 더 보기
       #new.box
         h3 신작 게임
-        each item in title
-          a.item(href=`/title/${item.id}`)
+        each item in recent
+          a.item(href=`/title/${item._id}`)
             img.cover(src=item.image)
             h5=item.name
-            span=`${item.date.toLocaleDateString()} 출시`
+            span=`${new Date(item.date).toLocaleDateString()} 출시`
         a.more(href='/title')
           | 더 보기
       #sale.box
         h3 할인 중
-        each item in title
-          a.item(href=`/title/${item.id}`)
+        each item in sale
+          a.item(href=`/title/${item._id}`)
             img.cover(src=item.image)
             h5=item.name
             span=`🇰🇷 ₩ ${item.price}`
