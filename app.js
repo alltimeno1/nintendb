@@ -19,7 +19,7 @@ app.set('view engine', 'pug')
 
 app.get('/', (req, res) => res.send('URL should contain /home'))
 
-app.get('/:page', async (req, res) => {
+app.get('/:page', async (req, res, next) => {
   try {
     const { page } = req.params
     const games = await getGameCollection('games')
@@ -34,7 +34,7 @@ app.get('/:page', async (req, res) => {
       const title = await games.find().toArray()
 
       res.render('title', { title })
-    } else if (page === 'rank' || 'login') {
+    } else if (page === 'rank' || page === 'login') {
       res.send('준비 중입니다. 조금만 기다려 주세요 :)')
     } else {
       res.render(`${page}`)
@@ -52,19 +52,18 @@ app.get('/title/:id', async (req, res, next) => {
     const title = await games.findOne({ _id: ObjectId(id) })
     const comment = await comments.find({ game_id: ObjectId(id) }).toArray()
 
-    if (title) {
-      res.render('title_info', { title, comment })
-    } else {
+    if (!title) {
       res.status(404).send({
         message: 'There is no title with the id or DB disconnected :(',
       })
     }
+    return res.render('title_info', { title, comment })
   } catch (error) {
     return next(error.message)
   }
 })
 
-app.post('/title/:id', async (req, res) => {
+app.post('/title/:id', async (req, res, next) => {
   try {
     const { game_id, id, password, text } = req.body
     const comments = await getGameCollection('comments')
@@ -74,6 +73,19 @@ app.post('/title/:id', async (req, res) => {
       name: id,
       password: password,
       text: text,
+    })
+  } catch (error) {
+    return next(error.message)
+  }
+})
+
+app.delete('/title/:id', async (req, res, next) => {
+  try {
+    const { id, password } = req.body
+    const comments = await getGameCollection('comments')
+    comments.deleteOne({
+      _id: ObjectId(id),
+      password: password,
     })
   } catch (error) {
     return next(error.message)

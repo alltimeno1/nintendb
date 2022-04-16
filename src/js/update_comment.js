@@ -1,11 +1,24 @@
-const button = document.querySelector('button')
+const button = document.querySelector('.submit')
 const text = document.querySelector('textarea')
 const [id, password] = document.querySelectorAll('input')
 const idx = window.location.pathname.split('/')[2]
 
-button.addEventListener('click', postRequest)
+button.addEventListener('click', postComment)
+text.addEventListener('keydown', postCommentByKey)
 
-function postRequest() {
+function postCommentByKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault()
+    e.stopPropagation()
+    postComment()
+  }
+}
+
+function postComment() {
+  if (id.value === '' || password.value === '' || text.value === '') {
+    alert('아이디와 비밀번호, 내용을 입력해 주세요!')
+    return
+  }
   fetch(`/title/:id`, {
     method: 'POST',
     headers: {
@@ -17,7 +30,7 @@ function postRequest() {
       password: password.value,
       text: text.value,
     }),
-  })
+  }).catch(console.log)
 
   window.location.reload()
 }

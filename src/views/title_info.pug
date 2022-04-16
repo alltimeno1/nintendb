@@ -35,22 +35,28 @@ html(lang='en')
             span=`${title.rating} / 100`
           p 가격 : 
             span=`${title.price}원`
-          p=title.tag
+          p
+            each tag in title.tag.split(',')
+              button=tag
       #commentbox 
         h4 한줄평 남기기
-        button(type='submit') 등록
-        textarea(name='text' placeholder='매너 있는 댓글 부탁드립니다 :)')
-        input(type='text' name='name' placeholder='아이디')
-        input(type='password' name='password' placeholder='비밀번호')
+        .private
+          input(type='text' name='name' placeholder='아이디')
+          input(type='password' name='password' placeholder='비밀번호')
+        textarea(name='text' placeholder='착한 댓글 부탁드립니다 :)')
+        button.submit(type='submit') 등록
         ul.comments
-          li 
+          li.example
             div 아이디
-            div 너무 재밌어요
+            div 내용
+            div 삭제
           each item in comment 
             li 
               div=item.name 
               div=item.text
+              div.delete(id=item._id) ✖️
     #to-top
       | 🔝
     script(type='module' src='../src/js/scroll.js')
     script(type='module' src='../src/js/update_comment.js')
+    script(type='module' src='../src/js/delete_comment.js')
