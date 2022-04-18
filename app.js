@@ -1,15 +1,8 @@
 const express = require('express')
 const { ObjectId } = require('mongodb')
-const mongoClient = require('./src/js/mongo')
+const { client, connectCollection } = require('./src/js/mongo')
 
 const app = express()
-const _client = mongoClient.connect()
-
-async function getGameCollection(colName) {
-  const client = await _client
-
-  return client.db('switch').collection(colName)
-}
 
 app.use(express.json())
 app.use(express.static(__dirname))
@@ -22,7 +15,7 @@ app.get('/', (req, res) => res.send('URL should contain /home'))
 app.get('/:page', async (req, res, next) => {
   try {
     const { page } = req.params
-    const games = await getGameCollection('games')
+    const games = await connectCollection('games')
 
     if (page === 'home') {
       const best = await games.find().sort({ rating: -1 }).limit(4).toArray()
@@ -47,8 +40,8 @@ app.get('/:page', async (req, res, next) => {
 app.get('/title/:id', async (req, res, next) => {
   try {
     const { id } = req.params
-    const games = await getGameCollection('games')
-    const comments = await getGameCollection('comments')
+    const games = await connectCollection('games')
+    const comments = await connectCollection('comments')
     const title = await games.findOne({ _id: ObjectId(id) })
     const comment = await comments.find({ game_id: ObjectId(id) }).toArray()
 
@@ -57,6 +50,7 @@ app.get('/title/:id', async (req, res, next) => {
         message: 'There is no title with the id or DB disconnected :(',
       })
     }
+
     return res.render('title_info', { title, comment })
   } catch (error) {
     return next(error.message)
@@ -66,7 +60,7 @@ app.get('/title/:id', async (req, res, next) => {
 app.post('/title/:id', async (req, res, next) => {
   try {
     const { game_id, id, password, text } = req.body
-    const comments = await getGameCollection('comments')
+    const comments = await connectCollection('comments')
 
     comments.insertOne({
       game_id: ObjectId(game_id),
@@ -82,7 +76,7 @@ app.post('/title/:id', async (req, res, next) => {
 app.delete('/title/:id', async (req, res, next) => {
   try {
     const { id, password } = req.body
-    const comments = await getGameCollection('comments')
+    const comments = await connectCollection('comments')
     comments.deleteOne({
       _id: ObjectId(id),
       password: password,

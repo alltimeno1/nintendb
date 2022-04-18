@@ -86,10 +86,9 @@ html(lang='en')
               li.keyword
                 a(href=`/title/${item._id}`)=item.name
         ul.gamelists
-          p=tagList
           each item in title
             li.gamelist
-              img.gl-img(src=item.image width='240' height='240')
+              img.gl-img(src=item.image height='240' width='240')
               .gl-info
                 .header
                   h2.gl-title
@@ -102,7 +101,7 @@ html(lang='en')
                 .stats
                   img(src='../static/img/metacritic.png' width='20' height='20')
                   span.rating=item.rating
-                  span.price=`🇰🇷 ₩${item.price}`
+                  span.price=`₩${item.price}`
     #to-top
       | 🔝
     script(type='module' src='src/js/scroll.js')

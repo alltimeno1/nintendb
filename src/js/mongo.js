@@ -8,4 +8,10 @@ const client = new MongoClient(uri, {
   useUnifiedTopology: true,
 })
 
-module.exports = client
+async function connectCollection(colName) {
+  const _client = await client.connect()
+
+  return _client.db('switch').collection(colName)
+}
+
+module.exports = { client, connectCollection }
