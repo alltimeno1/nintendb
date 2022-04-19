@@ -4,7 +4,7 @@ html(lang='en')
     meta(charset='UTF-8')
     meta(http-equiv='X-UA-Compatible' content='IE=edge')
     meta(name='viewport' content='width=device-width, initial-scale=1.0')
-    title  Toy project - All about Nintendo Switch
+    title Nintendb - All about Nintendo Switch
     script(src='https://code.jquery.com/jquery-3.6.0.js' integrity='sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=' crossorigin='anonymous')
     link(rel='icon' href='../../static/img/favicon.ico' type='image/x-icon')
     link(href='../../style.css' rel='stylesheet')
@@ -29,18 +29,18 @@ html(lang='en')
       #best.box
         h3 인기 게임
         each item in best
-          a.item(href=`/title/${item._id}`)
+          a.item(href=`/title/${item.name}`)
             img.cover(src=item.image)
             h5=item.name
-            span
+            div
               img.meta(src='../static/img/metacritic.png')
-              =item.rating
+              span=item.rating
         a.more(href='/title')
           | 더 보기
       #new.box
         h3 신작 게임
         each item in recent
-          a.item(href=`/title/${item._id}`)
+          a.item(href=`/title/${item.name}`)
             img.cover(src=item.image)
             h5=item.name
             span=`${new Date(item.date).toLocaleDateString()} 출시`
@@ -49,10 +49,12 @@ html(lang='en')
       #sale.box
         h3 할인 중
         each item in sale
-          a.item(href=`/title/${item._id}`)
+          a.item(href=`/title/${item.name}`)
             img.cover(src=item.image)
             h5=item.name
-            span=`🇰🇷 ₩ ${item.price}`
+            span=`🇰🇷 ${item.bargainPrice.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' })} `
+            span=item.price.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' })
+            span=` -${item.discountRate}%`
         a.more(href='/title')
           | 더 보기
     #to-top

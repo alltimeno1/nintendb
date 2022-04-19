@@ -17,10 +17,14 @@ app.get('/:page', async (req, res, next) => {
     const { page } = req.params
     const games = await connectCollection('games')
 
-    if (page === 'home') {
+    if (page === 'home' || page === 'rank') {
       const best = await games.find().sort({ rating: -1 }).limit(4).toArray()
       const recent = await games.find().sort({ date: -1 }).limit(4).toArray()
-      const sale = await games.find().sort({ price: 1 }).limit(4).toArray()
+      const sale = await games
+        .find()
+        .sort({ discountRate: -1 })
+        .limit(4)
+        .toArray()
 
       res.render('index', { best, recent, sale })
     } else if (page === 'title') {
@@ -42,8 +46,8 @@ app.get('/title/:id', async (req, res, next) => {
     const { id } = req.params
     const games = await connectCollection('games')
     const comments = await connectCollection('comments')
-    const title = await games.findOne({ _id: ObjectId(id) })
-    const comment = await comments.find({ game_id: ObjectId(id) }).toArray()
+    const title = await games.findOne({ name: id })
+    const comment = await comments.find({ game_id: id }).toArray()
 
     if (!title) {
       res.status(404).send({
@@ -63,10 +67,10 @@ app.post('/title/:id', async (req, res, next) => {
     const comments = await connectCollection('comments')
 
     comments.insertOne({
-      game_id: ObjectId(game_id),
-      name: id,
-      password: password,
-      text: text,
+      game_id,
+      id,
+      password,
+      text,
     })
   } catch (error) {
     return next(error.message)

@@ -172,17 +172,31 @@ body {
   font-weight: 300;
 }
 
-#contents #best span {
+#contents #best div {
+  font-size: 14px;
   font-weight: 500;
-  line-height: 30px;
+  height: 30px;
+  width: 150px;
 }
 
 #contents #best .meta {
   height: 22px;
-  margin: 0 10px 0 0;
+  margin-right: 8px;
   vertical-align: middle;
-  margin-top: auto;
-  margin-bottom: auto;
+}
+
+#contents #best span {
+  height: 30px;
+  vertical-align: middle;
+}
+
+#contents #sale .item span:nth-child(4) {
+  text-decoration: line-through;
+}
+
+#contents #sale .item span:nth-child(5) {
+  font-weight: 500;
+  color: rgba(255, 0, 0, 0.637);
 }
 
 #contents .more {
@@ -231,8 +245,12 @@ body {
   margin: 20px 20px 0 20px;
 }
 
+.checkbox.lang {
+  width: 350px;
+}
+
 .checkbox.genre {
-  width: 450px;
+  width: 600px;
 }
 
 .checkbox_tit {
@@ -360,10 +378,7 @@ body {
   margin-left: 35px;
   position: relative;
   opacity: 1;
-}
-
-.gl-top {
-  height: 150px;
+  animation: itemFadeIn 0.5s;
 }
 
 .gl-date {
@@ -382,6 +397,7 @@ body {
 .gl-img:hover {
   opacity: 0.8;
   transition: all 0.3s;
+  transform: scale(1.05);
 }
 
 .gl-info {
@@ -430,6 +446,10 @@ body {
   font-size: 14px;
   font-weight: 300;
   line-height: 1.64;
+}
+
+.tags .tag a:hover {
+  font-weight: 600;
 }
 
 .stats {
@@ -603,6 +623,7 @@ audio {
   height: 350px;
   margin-right: 50px;
   display: inline-block;
+  object-fit: cover;
 }
 
 #details {

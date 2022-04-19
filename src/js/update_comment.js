@@ -1,7 +1,7 @@
 const button = document.querySelector('.submit')
 const text = document.querySelector('textarea')
 const [id, password] = document.querySelectorAll('input')
-const idx = window.location.pathname.split('/')[2]
+const uri = window.location.pathname.split('/')[2]
 
 button.addEventListener('click', postComment)
 text.addEventListener('keydown', postCommentByKey)
@@ -25,7 +25,7 @@ function postComment() {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      game_id: idx,
+      game_id: decodeURI(uri),
       id: id.value,
       password: password.value,
       text: text.value,

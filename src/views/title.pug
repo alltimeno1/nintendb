@@ -4,7 +4,7 @@ html(lang='en')
     meta(charset='UTF-8')
     meta(http-equiv='X-UA-Compatible' content='IE=edge')
     meta(name='viewport' content='width=device-width, initial-scale=1.0')
-    title  Toy project - All about Nintendo Switch
+    title Nintendb - All about Nintendo Switch
     link(rel='icon' href='../../static/img/favicon.ico' type='image/x-icon')
     link(href='../../style.css' rel='stylesheet')
   body
@@ -41,16 +41,21 @@ html(lang='en')
                   label(for='langUS')
                     span.input_box
                     |                     영어
+                li
+                  input#langJP.input_chk(type='checkbox' value='일본어')
+                  label(for='langJP')
+                    span.input_box
+                    |                     일본어
             .checkbox.play_type
               p.checkbox_tit 플레이 인원
               ul.clearfix
                 li
-                  input#single.input_chk(type='checkbox' value='싱글 플레이')
+                  input#single.input_chk(type='checkbox' value='싱글')
                   label(for='single')
                     span.input_box
                     |                     싱글
                 li
-                  input#multi.input_chk(type='checkbox' value='멀티 플레이')
+                  input#multi.input_chk(type='checkbox' value='멀티')
                   label(for='multi')
                     span.input_box
                     |                     멀티
@@ -63,20 +68,30 @@ html(lang='en')
                     span.input_box
                     |                     RPG
                 li
-                  input#action.input_chk(type='checkbox' value='액션 어드밴쳐')
+                  input#action.input_chk(type='checkbox' value='액션')
                   label(for='action')
                     span.input_box
-                    |                     액션 어드밴쳐
+                    |                     액션
                 li
-                  input#racing.input_chk(type='checkbox' value='레이싱')
-                  label(for='racing')
+                  input#racing.input_chk(type='checkbox' value='어드벤처')
+                  label(for='adventure')
                     span.input_box
-                    |                     레이싱
+                    |                     어드벤처
                 li
                   input#fps.input_chk(type='checkbox' value='FPS')
                   label(for='fps')
                     span.input_box
                     |                     FPS
+                li
+                  input#fps.input_chk(type='checkbox' value='시뮬레이션')
+                  label(for='simulation')
+                    span.input_box
+                    |                     시뮬레이션
+                li
+                  input#fps.input_chk(type='checkbox' value='스포츠')
+                  label(for='sports')
+                    span.input_box
+                    |                     스포츠
           li.search_box
             input(type='text' maxlength='225' placeholder='검색')
         .popular
@@ -84,15 +99,16 @@ html(lang='en')
           ol.top10
             each item in title
               li.keyword
-                a(href=`/title/${item._id}`)=item.name
+                a(href=`/title/${item.name}`)=item.name
         ul.gamelists
           each item in title
             li.gamelist
-              img.gl-img(src=item.image height='240' width='240')
+              a(href=`/title/${item.name}`)
+                img.gl-img(src=item.image height='240' width='240')
               .gl-info
                 .header
                   h2.gl-title
-                    a(href=`/title/${item._id}`)=item.name
+                    a(href=`/title/${item.name}`)=item.name
                   p.gl-date=`${new Date(item.date).toLocaleDateString()} 출시`
                 ul.tags
                   li.tag
@@ -101,7 +117,7 @@ html(lang='en')
                 .stats
                   img(src='../static/img/metacritic.png' width='20' height='20')
                   span.rating=item.rating
-                  span.price=`₩${item.price}`
+                  span.price=item.price.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' })
     #to-top
       | 🔝
     script(type='module' src='src/js/scroll.js')
