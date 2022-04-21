@@ -84,11 +84,6 @@ body {
   }
 }
 
-/* 검색창 */
-.search_box {
-  margin-right: 20px;
-}
-
 /* 배너 */
 #banner {
   padding-top: 100px;
@@ -274,6 +269,7 @@ body {
 }
 
 .search_box {
+  margin-right: 20px;
   line-height: 100px;
   text-align: right;
   width: 190px;
@@ -476,34 +472,94 @@ body {
 }
 
 /* 커뮤니티 페이지 */
-.mypost {
-  max-width: 500px;
-  width: 95%;
 
-  margin: 20px auto 0px auto;
-
-  box-shadow: 0px 0px 3px 0px gray;
-  padding: 20px;
-
+#board {
+  width: 1050px;
+  margin: 20px auto;
   background-color: white;
+  border-radius: 5px;
+  padding-top: 10px;
 }
 
-.mybtn {
-  margin: 20px auto 0px auto;
-  display: flex;
-  flex-direction: row;
-  justify-content: left;
-  align-items: center;
-  border-right-width: 200px;
+#board h1 {
+  font-weight: 400;
+  margin-bottom: 25px;
 }
 
-.card {
-  max-width: 500px;
-  width: 95%;
-  margin: 20px auto 0px auto;
-  padding: 20px;
+table {
+  width: 1000px;
+  margin: 10px auto;
+  background-color: white;
+  border-collapse: collapse;
+}
 
-  text-align: center;
+table th, td {
+  border-bottom: 1px solid #9b9b9b;
+  padding: 10px;
+}
+
+table .title {
+  text-align: left;
+}
+
+table .title a {
+  text-decoration: none;
+  color: black
+}
+
+table colgroup {
+  height: 30px;
+}
+
+#board .write {
+  margin: 20px 0 20px 900px;
+}
+
+#board .update {
+  margin: 20px 5px 20px 750px;
+}
+
+#board button {
+  background-color: #4a4a4a;
+  color: white;
+  font-size: 15px;
+  border: 0;
+  border-radius: 10px;
+  width: 70px;
+  height: 40px;
+  cursor: pointer;
+}
+
+#board button:hover {
+  font-weight: bold;
+}
+
+#post {
+  width: 900px;
+  margin: 30px auto;
+}
+
+#post .info {
+  border-bottom: 1px solid #9b9b9b;
+  text-align: left;
+  padding-bottom: 10px;
+}
+
+#post .info h3 {
+  text-align: left;
+  padding-left: 15px;
+  margin-bottom: 10px;
+}
+
+#post .info span {
+  padding: 0 15px;
+  border-right: 1px solid #9b9b9b;
+}
+
+#post .text {
+  text-align: left;
+  padding-left: 15px;
+  margin-bottom: 50px;
 }
 
 /* 고객 지원 */

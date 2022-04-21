@@ -4,6 +4,9 @@ html(lang='en')
     meta(charset='UTF-8')
     meta(http-equiv='X-UA-Compatible' content='IE=edge')
     meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(property="og:title" content='Nintendb')
+    meta(property="og:description" content='닌텐도 스위치 게임 한눈에 보기')
+    meta(property="og:image" content='https://logowik.com/content/uploads/images/nintendo-switch1393.jpg')
     title Nintendb - All about Nintendo Switch
     script(src='https://code.jquery.com/jquery-3.6.0.js' integrity='sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=' crossorigin='anonymous')
     link(rel='icon' href='../../static/img/favicon.ico' type='image/x-icon')
@@ -43,7 +46,7 @@ html(lang='en')
           a.item(href=`/title/${item.name}`)
             img.cover(src=item.image)
             h5=item.name
-            span=`${new Date(item.date).toLocaleDateString()} 출시`
+            span=`${new Date(item.date).toLocaleDateString('ko-KR')} 출시`
         a.more(href='/title')
           | 더 보기
       #sale.box

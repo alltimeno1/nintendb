@@ -4,6 +4,9 @@ html(lang='en')
     meta(charset='UTF-8')
     meta(http-equiv='X-UA-Compatible' content='IE=edge')
     meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(property="og:title" content='Nintendb')
+    meta(property="og:description" content='닌텐도 스위치 게임 한눈에 보기')
+    meta(property="og:image" content='https://logowik.com/content/uploads/images/nintendo-switch1393.jpg')
     title Nintendb - All about Nintendo Switch
     link(rel='icon' href='../../static/img/favicon.ico' type='image/x-icon')
     link(href='../../style.css' rel='stylesheet')
@@ -31,67 +34,30 @@ html(lang='en')
             .checkbox.lang
               p.checkbox_tit 대응 언어
               ul.clearfix
-                li
-                  input#langKR.input_chk(type='checkbox' value='한국어')
-                  label(for='langKR')
-                    span.input_box
-                    |                     한국어
-                li
-                  input#langUS.input_chk(type='checkbox' value='영어')
-                  label(for='langUS')
-                    span.input_box
-                    |                     영어
-                li
-                  input#langJP.input_chk(type='checkbox' value='일본어')
-                  label(for='langJP')
-                    span.input_box
-                    |                     일본어
+                each item in [['한국어', 'langKR'], ['영어', 'langUS'], ['일본어', 'langJP']]
+                  li
+                    input.input_chk(type='checkbox' value=item[0] id=item[1])
+                    label(for=item[1])
+                      span.input_box
+                      = ' ' + item[0]
             .checkbox.play_type
               p.checkbox_tit 플레이 인원
               ul.clearfix
-                li
-                  input#single.input_chk(type='checkbox' value='싱글')
-                  label(for='single')
-                    span.input_box
-                    |                     싱글
-                li
-                  input#multi.input_chk(type='checkbox' value='멀티')
-                  label(for='multi')
-                    span.input_box
-                    |                     멀티
+                each item in [['싱글', 'single'], ['멀티', 'multi']]
+                  li
+                    input.input_chk(type='checkbox' value=item[0] id=item[1])
+                    label(for=item[1])
+                      span.input_box
+                      = ' ' + item[0]
             .checkbox.genre
               p.checkbox_tit 장르
               ul.clearfix
-                li
-                  input#rpg.input_chk(type='checkbox' value='RPG')
-                  label(for='rpg')
-                    span.input_box
-                    |                     RPG
-                li
-                  input#action.input_chk(type='checkbox' value='액션')
-                  label(for='action')
-                    span.input_box
-                    |                     액션
-                li
-                  input#racing.input_chk(type='checkbox' value='어드벤처')
-                  label(for='adventure')
-                    span.input_box
-                    |                     어드벤처
-                li
-                  input#fps.input_chk(type='checkbox' value='FPS')
-                  label(for='fps')
-                    span.input_box
-                    |                     FPS
-                li
-                  input#fps.input_chk(type='checkbox' value='시뮬레이션')
-                  label(for='simulation')
-                    span.input_box
-                    |                     시뮬레이션
-                li
-                  input#fps.input_chk(type='checkbox' value='스포츠')
-                  label(for='sports')
-                    span.input_box
-                    |                     스포츠
+                each item in [['RPG', 'rpg'], ['액션', 'action'], ['어드벤처', 'adventure'], ['FPS', 'fps'], ['시뮬레이션', 'simulation'], ['스포츠', 'sports']]
+                  li
+                    input.input_chk(type='checkbox' value=item[0] id=item[1])
+                    label(for=item[1])
+                      span.input_box
+                      = ' ' + item[0]
           li.search_box
             input(type='text' maxlength='225' placeholder='검색')
         .popular
@@ -109,14 +75,14 @@ html(lang='en')
                 .header
                   h2.gl-title
                     a(href=`/title/${item.name}`)=item.name
-                  p.gl-date=`${new Date(item.date).toLocaleDateString()} 출시`
+                  p.gl-date=`${new Date(item.date).toLocaleDateString('ko-KR')} 출시`
                 ul.tags
                   li.tag
                     each desc in item.tag.split(', ')
                       a(href='#')=`#${desc}\n`
                 .stats
                   img(src='../static/img/metacritic.png' width='20' height='20')
-                  span.rating=item.rating
+                  span.rating=item.rating !== 0 ? item.rating : 'TBD'
                   span.price=item.price.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' })
     #to-top
       | 🔝
