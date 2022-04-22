@@ -1,3 +1,3 @@
 # Nintendb
 
-www.nintendb.shop/home
+nintendb.shop/home

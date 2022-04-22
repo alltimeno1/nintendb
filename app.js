@@ -12,12 +12,10 @@ app.set('view engine', 'pug')
 
 const title = require('./src/routers/title')
 const forum = require('./src/routers/forum')
-const form = require('./src/routers/form')
 const etc = require('./src/routers/etc')
 
 app.use('/title', title)
 app.use('/forum', forum)
-app.use('/form', form)
 app.use('/', etc)
 
 app.listen(3000, () => {

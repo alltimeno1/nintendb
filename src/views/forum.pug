@@ -6,10 +6,11 @@ html(lang='en')
     meta(name='viewport' content='width=device-width, initial-scale=1.0')
     meta(property="og:title" content='Nintendb')
     meta(property="og:description" content='닌텐도 스위치 커뮤니티')
-    meta(property="og:image" content='https://logowik.com/content/uploads/images/nintendo-switch1393.jpg')
+    meta(property="og:image" content='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1ZWevkWyUNWJjAq1D7eSZk58eDunIPi4rbA&usqp=CAU')
     title Nintendb - All about Nintendo Switch
     link(rel='icon' href='../../static/img/favicon.ico' type='image/x-icon')
-    link(href='../../style.css' rel='stylesheet')
+    link(href='src/css/style.css' rel='stylesheet')
+    link(href='src/css/forum.css' rel='stylesheet')
   body
     #nav
       a(href='/home')
@@ -32,12 +33,12 @@ html(lang='en')
         h1 자유 게시판
         table.forum 
           colgroup 
-            col(style='width:10%')
+            col(style='width:8%')
             col(style='width:50%')
-            col(style='width:10%')
-            col(style='width:10%')
-            col(style='width:10%')
-            col(style='width:10%')
+            col(style='width:14%')
+            col(style='width:12%')
+            col(style='width:8%')
+            col(style='width:8%')
           thead 
             tr 
               th(scope='col') 번호
@@ -55,7 +56,7 @@ html(lang='en')
                 td.id=item.nickname
                 td.date=item.date.toLocaleDateString('ko-KR')
                 td.count=item.viewCount
-                td.recommend=item.recommend
+                td.recommend=item.recommend.length
         button.write(onclick="location.href='/form'") 글쓰기
     #to-top
       | 🔝

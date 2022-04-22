@@ -12,6 +12,7 @@ checkboxes.addEventListener('change', checkbox)
 function search(e) {
   if (e.key === 'Enter') {
     gameTags.forEach((item) => {
+      console.log(item.name, e.target.value)
       if (item.name.includes(e.target.value)) {
         item.style.display = ''
       } else {
@@ -47,7 +48,7 @@ function checkbox(e) {
 
 function findInfo() {
   gameTags.forEach((item) => {
-    item.name = item.querySelector('a').text
+    item.name = item.querySelector('.gl-title a').text
     item.querySelectorAll('.tag a').forEach((e) => {
       if (item.tags) {
         item.tags.push(e.text.slice(1, -1))

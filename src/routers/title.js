@@ -1,4 +1,5 @@
 const router = require('express').Router()
+const { ObjectId } = require('mongodb')
 const { connectCollection } = require('../js/mongo')
 
 router.get('', async (req, res, next) => {
@@ -54,7 +55,7 @@ router.delete('/:id', async (req, res, next) => {
     const { id, password } = req.body
     const comments = await connectCollection('comments')
     comments.deleteOne({
-      game_id: decodeURI(id),
+      _id: ObjectId(id),
       password: password,
     })
   } catch (error) {

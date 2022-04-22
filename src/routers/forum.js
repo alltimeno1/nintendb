@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const { connectCollection } = require('../js/mongo')
+const requestIp = require('request-ip')
 
 router.get('', async (req, res, next) => {
   try {
@@ -37,21 +38,56 @@ router.post('', async (req, res, next) => {
   try {
     const { title, nickname, password, text } = req.body
     const board = await connectCollection('board')
-    const colLen = await board.countDocuments()
-    const today = new Date()
+    const counts = await connectCollection('counts')
+    const count = await counts.findOneAndUpdate(
+      { name: 'board' },
+      { $inc: { count: 1 } }
+    )
 
     await board.insertOne({
-      id: colLen + 1,
+      id: count.value.count,
       title,
       nickname,
       password,
       text,
-      date: today,
+      date: new Date(),
       viewCount: 0,
       recommend: 0,
     })
 
     res.redirect('forum')
+  } catch (error) {
+    return next(error.message)
+  }
+})
+
+router.post('/:id', async (req, res, next) => {
+  try {
+    const { post_id, password } = req.body
+    const board = await connectCollection('board')
+    await board.deleteOne({
+      id: parseInt(post_id),
+      password: password,
+    })
+    res.redirect('/forum')
+  } catch (error) {
+    return next(error.message)
+  }
+})
+
+router.post('/:id/recommend', async (req, res, next) => {
+  try {
+    const { id } = req.params
+    const { post_id } = req.body
+    const ip = requestIp.getClientIp(req)
+    const board = await connectCollection('board')
+
+    await board.updateOne(
+      { id: parseInt(post_id) },
+      { $set: { recommend: [ip] } }
+    )
+
+    res.redirect(`/forum/${id}`)
   } catch (error) {
     return next(error.message)
   }

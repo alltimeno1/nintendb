@@ -1,0 +1,274 @@
+/* 게임 페이지 */
+
+#container {
+  display:inline-block;
+  min-width: 900px;
+  width: 100%;
+  margin: 30px auto;
+  text-align: center;
+}
+
+#container2 {
+  display: inline-block;
+  margin: 0 auto;
+}
+
+/* 필터 */
+.filter {
+  background-color: white;
+  border: 1px solid rgb(214, 214, 214);
+  border-radius: 7px;
+  margin-bottom: 30px;
+  height: 150px;
+  width: 866px;
+  list-style: none;
+}
+
+.checkbox {
+  float: left;
+  width: 270px;
+  border-bottom: 1px solid rgb(214, 214, 214);
+  margin: 20px 20px 0 20px;
+}
+
+.checkbox.lang {
+  width: 350px;
+}
+
+.checkbox.genre {
+  width: 600px;
+}
+
+.checkbox_tit {
+  float: left;
+  margin: auto 10px;
+  line-height: 37px;
+  font-weight: bold;
+}
+
+.checkbox ul {
+  display: inline-block;
+  line-height: 37px;
+  margin: 0;
+  padding-left: 0;
+}
+
+.checkbox li {
+  float: left;
+  margin: 0 10px;
+  list-style: none;
+}
+
+.search_box {
+  margin-right: 20px;
+  line-height: 100px;
+  text-align: right;
+  width: 190px;
+  float: right;
+}
+
+.search_box input {
+  background-image: url("../../static/img/search_icon.png");
+  background-position: 5px center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-size: 20px;
+  height: 40px;
+  width:170px;
+	padding: 0 35px;
+	font-size: 15px;
+  font-weight: 400;	
+  border-radius: 5px;
+  outline: none;
+  border: 2px solid silver;
+}
+
+/* 인기 검색어 */
+.popular {
+  text-align: left;
+  border-radius: 7px;
+  width: 231px;
+  background-color: white;
+  float: left;
+  padding: 17px 14px;
+}
+
+.popular h2 {
+  font-size: 14px;
+  color: #4a4a4a;
+}
+
+.top10 {
+  counter-reset: counter;
+  padding-left: 0;
+  list-style: none;
+}
+
+.top10 .keyword:not(:last-child) {
+  margin-bottom: 12px;
+}
+
+@keyframes itemFadeIn {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+}
+
+.top10 .keyword {
+  display: block;
+  width: 203px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  opacity: 0;
+}
+
+.top10 .keyword.fadeIn {
+  animation: itemFadeIn 1s;
+  opacity: 1;
+}
+
+.top10 .keyword:before {
+  content: counter(counter,decimal-leading-zero);
+  counter-increment: counter;
+  color: white;
+  border-radius: 50%;
+  font-size: 11px;
+  margin-right: 10px;
+  padding: 3px 5px;
+  position: relative;
+  bottom: 2px;
+
+  width: 18px;
+  height: 18px;
+  border-radius: 6px;
+  background-color: #2391e9;
+}
+
+.top10 .keyword:nth-of-type(1n+4):before {
+  background-color: #dbdbdb;
+}
+
+.top10 .keyword a {
+  font-size: 14px;
+  color: #4a4a4a;
+  text-decoration: none;
+}
+
+.top10 .keyword a:hover {
+  text-decoration: underline;
+}
+
+/* 게임 리스트 */
+.gamelists {
+  text-align: left;
+  list-style: none;
+  padding: 0;
+  margin: auto;
+  float: left;
+}
+
+.gamelist {
+  width: 600px;
+  height: 240px;
+  border-radius: 7px;
+  background-color: white;
+  margin-bottom: 35px;
+  margin-left: 35px;
+  position: relative;
+  opacity: 1;
+  animation: itemFadeIn 0.5s;
+}
+
+.gl-date {
+  margin-top: 0;
+  font-weight: 300;
+}
+
+.gl-img {
+  float: left;
+  border-top-left-radius: 7px;
+  border-bottom-left-radius: 7px;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.gl-img:hover {
+  opacity: 0.8;
+  transition: all 0.3s;
+  transform: scale(1.05);
+}
+
+.gl-info {
+  float: left;
+  width: 340px;
+  padding: 10px 15px;
+}
+
+.gl-title {
+  display: inline-block;
+  vertical-align: middle;
+  width: 300px;
+  font-weight: 500;
+  line-height: 1.45;
+  margin-top: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.gl-title a {
+  color: #4a4a4a;
+  font-size: 20px;
+  text-decoration: none;
+}
+
+.gl-title a:hover {
+  font-weight: bold;
+}
+
+.tags {
+  padding: 0;
+  margin: 0;
+  height: 60px;
+}
+
+.tags .tag {
+  display: inline;
+  margin-right: 3px;
+  white-space: nowrap;
+}
+
+.tags .tag a {
+  color: #9b9b9b;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.64;
+}
+
+.tags .tag a:hover {
+  font-weight: 600;
+}
+
+.stats {
+  vertical-align: middle;
+  border-top: solid 0.3px #9b9b9b;
+  padding-top: 11px;
+  margin: 11px 0;
+}
+
+.stats img {
+  vertical-align: middle;
+  margin: 0 9px;
+}
+
+.stats span {
+  vertical-align: middle;
+  margin-right: 20px;
+
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 2.21;
+  text-align: left;
+  color: #4a4a4a;
+}

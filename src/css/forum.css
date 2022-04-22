@@ -1,0 +1,145 @@
+/* 커뮤니티 페이지 */
+#board {
+  width: 1050px;
+  margin: 20px auto;
+  background-color: white;
+  border-radius: 5px;
+  padding-top: 10px;
+}
+
+#board h1 {
+  font-weight: 400;
+  margin-bottom: 25px;
+}
+
+table {
+  width: 1000px;
+  margin: 10px auto;
+  background-color: white;
+  border-collapse: collapse;
+}
+
+table th, td {
+  border-bottom: 1px solid #9b9b9b;
+  padding: 10px;
+}
+
+table .title {
+  text-align: left;
+}
+
+table .title a {
+  text-decoration: none;
+  color: black
+}
+
+table colgroup {
+  height: 30px;
+}
+
+#board .write {
+  margin: 20px 0 20px 900px;
+}
+
+#board button {
+  background-color: #4a4a4a;
+  color: white;
+  font-size: 15px;
+  border: 0;
+  border-radius: 10px;
+  width: 70px;
+  height: 40px;
+  cursor: pointer;
+}
+
+#board button:hover {
+  font-weight: bold;
+}
+
+#post {
+  width: 900px;
+  margin: 30px auto;
+}
+
+#post .info {
+  border-bottom: 1px solid #9b9b9b;
+  text-align: left;
+  padding-bottom: 10px;
+}
+
+#post .info h3 {
+  text-align: left;
+  padding-left: 15px;
+  margin-bottom: 10px;
+}
+
+#post .info span {
+  padding: 0 15px;
+  border-right: 1px solid #9b9b9b;
+}
+
+#post .text {
+  text-align: left;
+  padding-left: 15px;
+  margin-bottom: 50px;
+}
+
+/* 등록 페이지 */
+#board form input {
+  height: 30px;
+  margin-bottom: 18px;
+  border: 1px solid #9b9b9b;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+#board form input[name="title"]{
+  display: block;
+  width: 827px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#board form input[name="nickname"] {
+  float: left;
+  margin-left: 111px;
+}
+
+#board form input[name="password"] {
+  float: left;
+  margin-left: 20px;
+}
+
+#board form textarea {
+  border: 1px solid #9b9b9b;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+#board form button{
+  margin: 10px 0 20px 760px;
+}
+
+/* 게시글 페이지 */
+form[name='deleting'] {
+  display: inline-block;
+  margin-left: 600px;
+}
+
+#board .delete {
+  margin: 0 5px 20px 10px;
+}
+
+#board .update {
+  margin: 0 5px 20px 5px;
+}
+
+#board form[name='deleting'] input[type=password]:nth-child(2) {
+  height: 40px;
+  padding: 5px;
+}
+
+#post form[name='recommend'] button {
+  margin: 0;
+  background-color: steelblue;
+}

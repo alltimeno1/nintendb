@@ -1,0 +1,98 @@
+/* 고객 지원 */
+#contents #fun {
+  font-size: 40px;
+  color: #4a4a4a;
+  margin-top: 40px;
+  padding: 0px;
+  text-align: center;
+}
+
+#map {
+  width: 1100px;
+  height: 450px;
+  margin: 40px auto 20px auto;
+  position: relative;
+}
+
+#map img:first-child {
+  margin: 20px auto;
+  
+}
+
+#mario {
+  position: absolute;
+  left: 35%;
+  top: 27%;
+}
+
+#bubble {
+  font-size: 45px;
+  position: absolute;
+  left: 38%;
+  top: 13%;
+  opacity: 0;
+}
+
+audio {
+  width: 500px;
+  margin-bottom: 30px;
+}
+
+.contact {
+  height: 700px;
+  min-height: 600px;
+  background-color: #f9f9f9;
+  text-align: center;
+  padding-top: 100px;
+}
+
+.contact h3 {
+  font-size: 40px;
+  color: #4a4a4a;
+  margin: 0;
+  margin-bottom: 37px;
+}
+
+.contact p {
+  font-size: 16px;
+  color: #4a4a4a;
+  margin: 0;
+  margin-bottom: 61px;
+}
+
+.contact form {
+  display: inline-block;
+  vertical-align: middle;
+  width: 646px;
+}
+
+.contact input,
+.contact textarea {
+  display: block;
+  width: 100%;
+  border-radius: 4px;
+  border: solid 1px #ebebeb;
+  font-size: 16px;
+  padding: 10px 15px;
+  margin-bottom: 24px;
+}
+
+.contact button {
+  float: left;
+  font-size: 16px;
+  padding: 0.5rem 1rem;
+  background-color: #4a4a4a;
+  color: white;
+  border: 0;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.contact button:hover {
+  background-color: black;
+}
+
+.contact textarea {
+  resize: none;
+  height: 222px;
+}

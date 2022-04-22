@@ -1,0 +1,110 @@
+/* 메인 페이지 */
+#contents .box {
+  width: 300px;
+  margin: 50px 20px;
+  padding: 5px;
+  border-radius: 4px;
+  background-color: white;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.11),0 6px 8px rgba(0,0,0,0.07);
+  display: inline-block;
+  text-align: left;
+}
+
+#contents h3 {
+  padding: 5px 0 10px 0;
+  margin: 0;
+  text-align: center;
+  font-weight: 700;
+  color: #6c6a69;
+}
+
+@keyframes itemFadeIn {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+}
+
+#contents .item {
+  display: block;
+  height: 70px;
+  border-bottom: 1px solid rgb(240, 240, 240);
+  text-decoration: none;
+  color: black;
+  opacity: 0;
+}
+
+#contents .fadeIn {
+  animation: itemFadeIn 1s;
+  opacity: 1;
+}
+
+#contents .box .cover {
+  float: left;
+  margin: 15px 10px 5px 5px;
+  border-radius: 3px;
+  width: 60px;
+}
+
+#contents .box .cover:hover {
+  opacity: 0.8;
+  transition: all 0.3s;
+}
+
+#contents .box h5 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 400;
+  padding-top: 12px;
+  padding-bottom: 6px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap
+}
+
+#contents .box h5:hover {
+  font-weight: bold;
+}
+
+#contents .box span {
+  font-size: 14px;
+  font-weight: 300;
+}
+
+#contents #best div {
+  font-size: 14px;
+  font-weight: 500;
+  height: 30px;
+  width: 150px;
+}
+
+#contents #best .meta {
+  height: 22px;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+#contents #best span {
+  height: 30px;
+  vertical-align: middle;
+}
+
+#contents #sale .item span:nth-child(4) {
+  text-decoration: line-through;
+}
+
+#contents #sale .item span:nth-child(5) {
+  font-weight: 500;
+  color: rgba(255, 0, 0, 0.637);
+}
+
+#contents .more {
+  display: block;
+  text-align: center;
+  line-height: 40px;
+  font-weight: 1000;
+  text-decoration: none;
+  color:black;
+}
+
+#contents .more:hover {
+  font-weight: bold;
+}

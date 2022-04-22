@@ -5,7 +5,8 @@ buttons.forEach((button) => button.addEventListener('click', deleteComment))
 
 function deleteComment(e) {
   const password = prompt('비밀번호를 입력해 주세요')
-  const idx = e.target.id
+  const idx = e.target.parentElement.id
+  console.log('idx', idx)
 
   fetch(`/title/:id`, {
     method: 'DELETE',

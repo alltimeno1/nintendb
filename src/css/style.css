@@ -1,0 +1,122 @@
+* {
+  box-sizing: border-box;
+}
+
+@import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css);
+
+body {
+  font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+  margin: 0;
+  padding: 0;
+  background: #F1F2F3;
+  min-width:800px;
+}
+
+/* 네비게이션 바 */
+#nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  height: 100px;
+  background-color: white;
+  box-shadow: 0 1px 2px grey;
+}
+
+#nav img {
+  margin-left: 20px;
+  float:left
+}
+
+#nav ul {
+  list-style: none;
+  float: left;
+  margin: 0;
+  line-height: 100px;
+}
+
+#nav li {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 20px;
+}
+
+#nav a {
+  text-decoration: none;
+  color: rgb(104, 101, 101);
+  font-size: 25px;
+  margin: 0 20px;
+}
+
+#nav #login {
+  line-height: 100px;
+  float: right;
+  color: black;
+  font-weight: 500;
+  font-size: 18px;
+  margin: 0 20px;
+}
+
+#nav #current {
+  font-weight: 500;
+  color: black;
+}
+
+/* 미디어 쿼리 */
+@media (max-width:1008px) {
+  #nav img {
+    margin-left: 0;
+  }
+
+  #nav a {
+  font-size:15px;
+
+  margin: 0 15px
+  }
+
+  #nav li {
+    margin-left: 0;
+  }
+
+  #nav ul {
+    padding-left: 0;
+  }
+}
+
+/* 배너 */
+#banner {
+  padding-top: 100px;
+  max-height: 400px;
+  object-fit: cover;
+  object-position: 50% 75%;
+}
+
+#contents {
+  text-align: center;
+}
+
+/* TOP 버튼 */
+#to-top {
+	position: fixed;
+	right: 30px;
+	bottom: 30px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	background-color: #fefefe;
+	box-shadow: 2px 2px 10px #bfbfbf;
+	visibility: hidden;
+	opacity: 0;
+	transition-duration: .3s;
+	cursor: pointer;
+  font-size: 25px
+}
+
+#to-top.show {
+	visibility: visible;
+	opacity: 1;
+}
