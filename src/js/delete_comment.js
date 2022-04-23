@@ -14,7 +14,7 @@ function deleteComment(e) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      id: idx,
+      comment_id: idx,
       password: password,
     }),
   }).catch(console.log)

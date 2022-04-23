@@ -119,10 +119,12 @@
 
 .comments div {
   display: inline-block;
+  white-space: pre-line;
 }
 
 .comments div:nth-child(1) {
   width: 120px;
+  vertical-align: top;
 }
 
 .comments div:nth-child(2) {
@@ -136,6 +138,7 @@
 .comments .delete {
   opacity: 0.3;
   cursor: pointer;
+  vertical-align: top;
 }
 
 .comments .delete:hover {

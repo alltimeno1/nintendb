@@ -1,7 +1,9 @@
 const router = require('express').Router()
 const { connectCollection } = require('../js/mongo')
 const requestIp = require('request-ip')
+const { boardRegExp } = require('../js/regular_expressions')
 
+// 게시판 조회
 router.get('', async (req, res, next) => {
   try {
     const board = await connectCollection('board')
@@ -13,6 +15,7 @@ router.get('', async (req, res, next) => {
   }
 })
 
+// 게시글 조회
 router.get('/:id', async (req, res, next) => {
   try {
     const { id } = req.params
@@ -34,47 +37,64 @@ router.get('/:id', async (req, res, next) => {
   }
 })
 
+// 게시글 등록
 router.post('', async (req, res, next) => {
   try {
     const { title, nickname, password, text } = req.body
     const board = await connectCollection('board')
     const counts = await connectCollection('counts')
-    const count = await counts.findOneAndUpdate(
+    const postNum = await counts.findOneAndUpdate(
       { name: 'board' },
       { $inc: { count: 1 } }
     )
+    const message = boardRegExp(title, '', nickname, password)
 
-    await board.insertOne({
-      id: count.value.count,
-      title,
-      nickname,
-      password,
-      text,
-      date: new Date(),
-      viewCount: 0,
-      recommend: 0,
-    })
+    if (!message && text) {
+      await board.insertOne({
+        id: postNum.value.count,
+        title,
+        nickname,
+        password,
+        text: text.replace(/\n/g, '<br>'),
+        date: new Date(),
+        viewCount: 0,
+        recommend: [],
+      })
 
-    res.redirect('forum')
+      res.redirect('forum')
+    } else {
+      res.send(`<script>alert('${message}');location.href='/form';</script>`)
+    }
   } catch (error) {
     return next(error.message)
   }
 })
 
+// 게시글 삭제
 router.post('/:id', async (req, res, next) => {
   try {
+    const { id } = req.params
     const { post_id, password } = req.body
     const board = await connectCollection('board')
-    await board.deleteOne({
+
+    const result = await board.deleteOne({
       id: parseInt(post_id),
       password: password,
     })
-    res.redirect('/forum')
+
+    if (result.deletedCount) {
+      res.redirect('/forum')
+    } else {
+      res.send(
+        `<script>alert('비밀번호를 정확히 입력해주세요!.');location.href='/forum/${id}';</script>`
+      )
+    }
   } catch (error) {
     return next(error.message)
   }
 })
 
+// 게시글 추천
 router.post('/:id/recommend', async (req, res, next) => {
   try {
     const { id } = req.params
@@ -84,7 +104,7 @@ router.post('/:id/recommend', async (req, res, next) => {
 
     await board.updateOne(
       { id: parseInt(post_id) },
-      { $set: { recommend: [ip] } }
+      { $addToSet: { recommend: ip } }
     )
 
     res.redirect(`/forum/${id}`)

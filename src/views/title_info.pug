@@ -60,14 +60,13 @@ html(lang='en')
             div 익명
             div 너무 재밌었어요 추천!!
             div.delete ✖️
-          each item in comment 
+          each item in comment
             li(id=item._id)
               div=item.name 
-              div=item.text
+              div=item.text.replace(/<br>/g, '\n')
               div.delete(id=encodeURI(item.game_id)) ✖️
     #to-top
       | 🔝
     script(type='module' src='../src/js/scroll.js')
-    //- script(type='module' src='../src/js/update_comment.js')
     script(type='module' src='../src/js/delete_comment.js')
     script(type='module' src='../src/js/create_comment.js')

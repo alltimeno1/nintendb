@@ -139,6 +139,11 @@ form[name='deleting'] {
   padding: 5px;
 }
 
+#post .text {
+  white-space: pre-line;
+  line-height: 2em;
+}
+
 #post form[name='recommend'] button {
   margin: 0;
   background-color: steelblue;
