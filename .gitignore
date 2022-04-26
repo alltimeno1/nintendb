@@ -1,7 +1,3 @@
 node_modules
 .DS_Store
-.vscode
-.prettierrc
-app.spec.js
-.prettierignore
 .env

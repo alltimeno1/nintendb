@@ -1,33 +1,25 @@
-const axios = require('axios')
+'use strict'
+Object.defineProperty(exports, '__esModule', { value: true })
+const axios_1 = require('axios')
 const cheerio = require('cheerio')
-const getEngName = require('./puppeteer')
-
+const scrap_english_1 = require('./scrap_english')
 async function scrapMeta(serialNum) {
   try {
-    let engName = (await getEngName(serialNum)) || null
-
+    let engName = (await (0, scrap_english_1.default)(serialNum)) || ''
     if (!engName) {
-      return engName
+      return 0
     }
-
-    engName = engName.toLowerCase().replace('ns ', '')
-
-    const response = await axios.get(
+    const keyword = engName.toLowerCase().replace('ns ', '')
+    const response = await axios_1.default.get(
       `https://www.metacritic.com/search/game/${encodeURI(
-        engName
+        keyword
       )}/results?plats[268409]=1&search_type=advanced`
     )
-
     const $ = cheerio.load(response.data)
-
-    const result = $('.first_result .metascore_w').text() || 0
-
-    console.log('result', result)
-
+    const result = parseInt($('.first_result .metascore_w').text())
     return result
   } catch (error) {
-    console.log(error.message)
+    console.log(error)
   }
 }
-
-module.exports = scrapMeta
+exports.default = scrapMeta

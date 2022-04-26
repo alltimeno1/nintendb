@@ -1,0 +1,66 @@
+/* MY 페이지 */
+#board {
+  width: 1050px;
+  margin: 20px auto;
+  background-color: white;
+  border-radius: 5px;
+  padding-top: 10px;
+  text-align: center;
+}
+
+#board h1 {
+  font-weight: 400;
+  margin-bottom: 25px;
+}
+
+table {
+  width: 1000px;
+  margin: 10px auto;
+  background-color: white;
+  border-collapse: collapse;
+}
+
+table th, td {
+  border-bottom: 1px solid #9b9b9b;
+  padding: 20px;
+}
+
+table .info {
+  display: inline-block;
+  height: 60px;
+  float: left;
+}
+
+table .info img {
+  height: 60px;
+}
+
+table .info a {
+  text-decoration: none;
+  color: black;
+  font-size: 18px;
+  margin: auto 20px;
+  display: inline-block;
+  height: 75px;
+  vertical-align: middle;
+}
+
+table colgroup {
+  height: 30px;
+}
+
+#board button {
+  background-color: #4a4a4a;
+  color: white;
+  font-size: 15px;
+  margin: 20px 0 20px 900px;
+  border: 0;
+  border-radius: 10px;
+  width: 70px;
+  height: 40px;
+  cursor: pointer;
+}
+
+#board button:hover {
+  font-weight: bold;
+}

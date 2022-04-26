@@ -15,6 +15,19 @@ router.get('', async (req, res, next) => {
   }
 })
 
+// 게시판 조회
+router.get('/update/:id', async (req, res, next) => {
+  try {
+    const { id } = req.params
+    const board = await connectCollection('board')
+    const post = await board.findOne({ id: parseInt(id) })
+
+    res.render('update_form', { post })
+  } catch (error) {
+    return next(error.message)
+  }
+})
+
 // 게시글 조회
 router.get('/:id', async (req, res, next) => {
   try {
@@ -87,6 +100,30 @@ router.post('/:id', async (req, res, next) => {
     } else {
       res.send(
         `<script>alert('비밀번호를 정확히 입력해주세요!.');location.href='/forum/${id}';</script>`
+      )
+    }
+  } catch (error) {
+    return next(error.message)
+  }
+})
+
+// 게시글 수정
+router.post('/update/:id', async (req, res, next) => {
+  try {
+    const { id } = req.params
+    const { title, nickname, password, text } = req.body
+    const board = await connectCollection('board')
+
+    const result = await board.findOneAndUpdate(
+      { id: parseInt(id), password },
+      { $set: { title, nickname, text } }
+    )
+    console.log(result)
+    if (result.value) {
+      res.redirect(`/forum/${id}`)
+    } else {
+      res.send(
+        `<script>alert('비밀번호를 정확히 입력해주세요!.');location.href='/forum/update/${id}';</script>`
       )
     }
   } catch (error) {

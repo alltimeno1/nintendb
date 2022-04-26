@@ -1,0 +1,61 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    meta(http-equiv='X-UA-Compatible' content='IE=edge')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(property="og:title" content='Nintendb')
+    meta(property="og:description" content='상세 페이지')
+    meta(property="og:image" content='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1ZWevkWyUNWJjAq1D7eSZk58eDunIPi4rbA&usqp=CAU')
+    title Nintendb - All about Nintendo Switch
+    link(rel='icon' href='../../static/img/favicon.ico' type='image/x-icon')
+    link(href='/src/css/style.css' rel='stylesheet')
+    link(href='/src/css/private.css' rel='stylesheet')
+  body
+    #nav
+      a(href='/home')
+        img(src='../../static/img/logo.png' height='100px')
+      ul
+        li
+          a(href='/home') 홈
+        li
+          a(href='/title') 게임
+        li
+          a(href='/forum') 커뮤니티
+        li
+          a#current(href='/private') MY
+        li
+          a(href='/etc') 고객지원
+      a#login(href='/login') 로그인/회원가입
+    img#banner(src='../../static/img/banner.jpg' width='100%')
+    #buckets
+      #contents
+      #board
+        h1 관심 목록
+        h1=result.name
+        table.forum 
+          colgroup 
+            col(style='width:10%')
+            col(style='width:55%')
+            col(style='width:15%')
+            col(style='width:10%')
+            col(style='width:10%')
+          thead 
+            tr 
+              th(scope='col') 번호
+              th(scope='col') 정보
+              th(scope='col') 가격
+              th(scope='col') 평점
+              th(scope='col') 삭제
+          tbody
+            each item in result 
+              tr 
+                td=1
+                td
+                  .info
+                    img(src=item.image)
+                    a(href=`/title/${item.name}`)=item.name
+                td=item.price.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' })
+                td=item.rating || 'TBD'
+                td ✖️
+        button.write(onclick="location.href='/private'") 초기화

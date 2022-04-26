@@ -1,7 +1,7 @@
-const hiddenInput = document.querySelector('input[type=hidden]')
+const hiddenInput = document.querySelector('#commentbox input[type=hidden]')
 const form = document.querySelector('#commentbox form')
-const button = document.querySelector('.submit')
-const text = document.querySelector('textarea')
+const button = document.querySelector('#commentbox .submit')
+const text = document.querySelector('#commentbox textarea')
 const game_id = window.location.pathname.split('/')[2]
 
 button.addEventListener('click', window.location.reload)

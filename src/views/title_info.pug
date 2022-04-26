@@ -21,9 +21,9 @@ html(lang='en')
         li
           a#current(href='/title') 게임
         li
-          a(href='/rank') 랭킹
-        li
           a(href='/forum') 커뮤니티
+        li
+          a(href='/private') MY
         li
           a(href='/etc') 고객지원
       a#login(href='/login') 로그인/회원가입
@@ -33,6 +33,9 @@ html(lang='en')
         img(src=title.image height='100px')
         #details
           h2=title.name
+          form(action=`bucket` name='bucket' method='post')
+            input(type='hidden' name='game_id' value=title.name)
+            button 찜하기
           p 발매일 : 
             span=new Date(title.date).toLocaleDateString('ko-KR')
           p 메타크리틱 평점 : 
@@ -64,7 +67,7 @@ html(lang='en')
             li(id=item._id)
               div=item.name 
               div=item.text.replace(/<br>/g, '\n')
-              div.delete(id=encodeURI(item.game_id)) ✖️
+              div.delete ✖️
     #to-top
       | 🔝
     script(type='module' src='../src/js/scroll.js')

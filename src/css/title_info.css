@@ -27,7 +27,15 @@
 
 #detailbox h2 {
   font-size: 30px;
-  margin-bottom: 70px;
+  margin-bottom: 25px;
+}
+
+#detailbox form button {
+  font-size: 15px;
+  border: 0;
+  margin-bottom: 10px;
+  background-color:cornflowerblue;
+  color:aliceblue;
 }
 
 #detailbox p {

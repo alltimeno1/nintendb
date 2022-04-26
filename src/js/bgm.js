@@ -1,10 +1,6 @@
 const character = document.querySelector('#mario')
 const bubble = document.querySelector('#bubble')
 const playBtn = document.querySelector('audio')
-let dist0 = 0
-let dist1 = 0
-let dist2 = 0
-let dist3 = 0
 
 playBtn.addEventListener('play', animate)
 
@@ -14,59 +10,50 @@ function sleep(time) {
   })
 }
 
+class MarioAnimation {
+  constructor(goal, x, runSpeed, y, jumpSpeed, opacity = 1) {
+    this.step = 0
+    this.goal = goal
+    this.opacity = opacity
+    this.x = x
+    this.runSpeed = runSpeed
+    this.y = y
+    this.jumpSpeed = jumpSpeed
+  }
+
+  async movement(time) {
+    if (!this.step) {
+      await sleep(time)
+    } else if (this.step > this.goal) {
+      character.style.opacity = this.opacity
+      return
+    }
+
+    if (this.x) {
+      character.style.left = this.x + this.step / this.runSpeed + '%'
+    }
+
+    if (this.y) {
+      character.style.top = this.y - this.step / this.jumpSpeed + '%'
+    }
+
+    this.step += 0.5
+
+    requestAnimationFrame(() => this.movement())
+  }
+}
+
+const run = new MarioAnimation(16, 35, 4, 0, 0)
+const jump = new MarioAnimation(22, 38, 1, 26, 3)
+const climbDown = new MarioAnimation(53, 0, 0, 18, -1)
+const enterCastle = new MarioAnimation(32, 61, 2, 71, -4, 0)
+
 async function animate() {
   bubble.style.opacity = 1
   await sleep(4000)
   bubble.style.opacity = 0
-  await sleep(500)
-  move()
-  await sleep(1000)
-  jump()
-  await sleep(1500)
-  climbDown()
-  await sleep(2500)
-  enterCastle()
-}
-
-function move() {
-  if (dist0 > 16) {
-    return
-  }
-  character.style.left = 35 + dist0 / 4 + '%'
-  dist0 += 0.5
-
-  requestAnimationFrame(move)
-}
-
-function jump() {
-  if (dist1 > 22) {
-    return
-  }
-  character.style.left = 38 + dist1 + '%'
-  character.style.top = 26 - dist1 / 3 + '%'
-  dist1 += 0.5
-
-  requestAnimationFrame(jump)
-}
-
-function climbDown() {
-  if (dist2 > 53) {
-    return
-  }
-  character.style.top = 18 + dist2 + '%'
-  dist2 += 0.5
-
-  requestAnimationFrame(climbDown)
-}
-
-function enterCastle() {
-  if (dist3 > 32) {
-    character.style.opacity = 0
-    return
-  }
-  character.style.left = 61 + dist3 / 2 + '%'
-  character.style.top = 71 + dist3 / 4 + '%'
-  dist3 += 0.5
-
-  requestAnimationFrame(enterCastle)
+  await run.movement(500)
+  await jump.movement(1000)
+  await climbDown.movement(1500)
+  await enterCastle.movement(2500)
 }

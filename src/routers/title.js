@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const { ObjectId } = require('mongodb')
+const requestIp = require('request-ip')
 const { connectCollection } = require('../js/mongo')
 const { boardRegExp } = require('../js/regular_expressions')
 
@@ -36,6 +37,30 @@ router.get('/:id', async (req, res, next) => {
   }
 })
 
+// 찜하기
+router.post('/bucket', async (req, res, next) => {
+  try {
+    const { game_id } = req.body
+    const ip = requestIp.getClientIp(req)
+    const buckets = await connectCollection('buckets')
+
+    const bucket = await buckets.findOneAndUpdate(
+      { address: ip },
+      { $addToSet: { list: game_id } }
+    )
+
+    if (!bucket.value) {
+      await buckets.insertOne({ address: ip, list: [game_id] })
+    }
+
+    res.send(
+      `<script>alert('MY에 ${game_id}가 추가되었습니다!');location.href='/title/${game_id}';</script>`
+    )
+  } catch (error) {
+    return next(error.message)
+  }
+})
+
 // 댓글 등록
 router.post('/:id', async (req, res, next) => {
   try {
@@ -64,7 +89,6 @@ router.post('/:id', async (req, res, next) => {
 // 댓글 삭제
 router.delete('/:id', async (req, res, next) => {
   try {
-    const { id } = req.params
     const { comment_id, password } = req.body
     const comments = await connectCollection('comments')
 
