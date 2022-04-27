@@ -1,13 +1,15 @@
 const router = require('express').Router()
 const { connectCollection } = require('../js/mongo')
-const requestIp = require('request-ip')
 
-router.get('/', (req, res) => res.send('URL should contain /home'))
+router.get('/', (req, res) => res.redirect('/home'))
 
 router.get('/:page', async (req, res, next) => {
   try {
     const { page } = req.params
     const games = await connectCollection('games')
+    const status = req.isAuthenticated()
+      ? ['/logout', '로그아웃']
+      : ['/login', '로그인/회원가입']
 
     if (page === 'home') {
       const best = await games.find().sort({ rating: -1 }).limit(4).toArray()
@@ -18,19 +20,9 @@ router.get('/:page', async (req, res, next) => {
         .limit(4)
         .toArray()
 
-      res.render('index', { best, recent, sale })
-    } else if (page === 'private') {
-      const ip = requestIp.getClientIp(req)
-      const games = await connectCollection('games')
-      const buckets = await connectCollection('buckets')
-      const myList = await buckets.findOne({ address: ip })
-      const result = await games.find({ name: { $in: myList.list } }).toArray()
-
-      res.render('private', { result })
-    } else if (page === 'login') {
-      res.send('준비 중입니다. 조금만 기다려 주세요 :)')
+      res.render('index', { best, recent, sale, status })
     } else {
-      res.render(`${page}`)
+      res.render(`${page}`, { status })
     }
   } catch (error) {
     return next(error.message)

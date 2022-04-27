@@ -26,13 +26,13 @@ html(lang='en')
           a#current(href='/private') MY
         li
           a(href='/etc') 고객지원
-      a#login(href='/login') 로그인/회원가입
+      
+      a#login(href=status[0])=status[1]
     img#banner(src='../../static/img/banner.jpg' width='100%')
     #buckets
       #contents
       #board
         h1 관심 목록
-        h1=result.name
         table.forum 
           colgroup 
             col(style='width:10%')
@@ -57,5 +57,10 @@ html(lang='en')
                     a(href=`/title/${item.name}`)=item.name
                 td=item.price.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' })
                 td=item.rating || 'TBD'
-                td ✖️
-        button.write(onclick="location.href='/private'") 초기화
+                td.delete ✖️
+        form(action='/private/reset' name='reset' method='post')
+          button.reset 비우기
+    #to-top
+      | 🔝
+    script(type='module' src='../src/js/scroll.js')
+    script(type='module' src='../src/js/delete_bucket.js')

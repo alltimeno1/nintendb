@@ -26,7 +26,6 @@ table th, td {
 }
 
 table .info {
-  display: inline-block;
   height: 60px;
   float: left;
 }
@@ -42,7 +41,12 @@ table .info a {
   margin: auto 20px;
   display: inline-block;
   height: 75px;
+  width: 360px;
+  text-align: left;
   vertical-align: middle;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 table colgroup {
@@ -63,4 +67,15 @@ table colgroup {
 
 #board button:hover {
   font-weight: bold;
+}
+
+#board .delete {
+  font-size: 18px;
+  opacity: 0.3;
+  cursor: pointer;
+}
+
+#board .delete:hover {
+  opacity: 0.7;
+  color: red;
 }

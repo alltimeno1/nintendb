@@ -8,21 +8,27 @@ router.get('', async (req, res, next) => {
   try {
     const board = await connectCollection('board')
     const post = await board.find().sort({ id: -1 }).toArray()
+    const status = req.isAuthenticated()
+      ? ['/logout', '로그아웃']
+      : ['/login', '로그인/회원가입']
 
-    res.render('forum', { post })
+    res.render('forum', { post, status })
   } catch (error) {
     return next(error.message)
   }
 })
 
-// 게시판 조회
+// 게시글 수정 페이지 조회
 router.get('/update/:id', async (req, res, next) => {
   try {
     const { id } = req.params
     const board = await connectCollection('board')
     const post = await board.findOne({ id: parseInt(id) })
+    const status = req.isAuthenticated()
+      ? ['/logout', '로그아웃']
+      : ['/login', '로그인/회원가입']
 
-    res.render('update_form', { post })
+    res.render('update_form', { post, status })
   } catch (error) {
     return next(error.message)
   }
@@ -32,6 +38,9 @@ router.get('/update/:id', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
   try {
     const { id } = req.params
+    const status = req.isAuthenticated()
+      ? ['/logout', '로그아웃']
+      : ['/login', '로그인/회원가입']
     const board = await connectCollection('board')
 
     await board.updateOne({ id: parseInt(id) }, { $inc: { viewCount: 1 } })
@@ -44,7 +53,7 @@ router.get('/:id', async (req, res, next) => {
       })
     }
 
-    return res.render('post', { post })
+    return res.render('post', { post, status })
   } catch (error) {
     return next(error.message)
   }

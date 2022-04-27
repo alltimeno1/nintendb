@@ -26,7 +26,7 @@ html(lang='en')
           a(href='/private') MY
         li
           a(href='/etc') 고객지원
-      a#login(href='/login') 로그인/회원가입
+      a#login(href='/logout') 로그아웃
     img#banner(src='../../static/img/banner.jpg' width='100%')
     #container
       #detailbox
@@ -45,13 +45,10 @@ html(lang='en')
           p
             each tag in title.tag.split(',')
               button=tag
-      #commentbox 
+      #commentbox.login
         h4 한줄평 남기기
         form(name='comment' method='post')
-          .private
-            input(type='text' name='user_name' placeholder='아이디')
-            input(type='password' name='password' placeholder='비밀번호')
-            input(type='hidden' name='game_id')
+          input(type='hidden' name='game_id')
           textarea(name='text' placeholder='착한 댓글 부탁드립니다 :)')
           button.submit 등록
         ul.comments
@@ -63,18 +60,14 @@ html(lang='en')
             div 익명
             div 너무 재밌었어요 추천!!
             form.delete
-              input(type='hidden')
-              input(type='hidden')
-              input(type='password' name='password' placeholder='비밀번호')
               button ✖️
           each item in comment
-            li
+            li(id=item._id)
               div=item.name 
               div=item.text.replace(/<br>/g, '\n')
               form.delete(action=`/title/${decodeURI(title.name)}/delete` method='post')
                 input(type='hidden' name='comment_id' value=item._id)
                 input(type='hidden' name='title_id' value=title.name)
-                input(type='password' name='password' placeholder='비밀번호')
                 button ✖️
     #to-top
       | 🔝

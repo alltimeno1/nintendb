@@ -27,10 +27,11 @@
 
 #detailbox h2 {
   font-size: 30px;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
 }
 
 #detailbox form button {
+  height: 40px;
   font-size: 15px;
   border: 0;
   margin-bottom: 10px;
@@ -101,6 +102,14 @@
   margin: 0 15px 30px 15px;
 }
 
+#commentbox.login h4 {
+  margin-left: 18px;
+}
+
+#commentbox.login textarea {
+  width: 750px;
+}
+
 #commentbox .submit {
   float: left;
   height: 70px;
@@ -115,7 +124,9 @@
 }
 
 .comments {
+  width: 850px;
   margin: 50px 0;
+  padding-left: 20px;
   text-align: left;
   list-style: none;
 }
@@ -132,10 +143,14 @@
 
 .comments div:nth-child(1) {
   width: 120px;
-  vertical-align: top;
+  vertical-align: middle;
 }
 
 .comments div:nth-child(2) {
+  width: 600px;
+}
+
+.login .comments div:nth-child(2) {
   width: 650px;
 }
 
@@ -143,13 +158,30 @@
   font-weight: bold;
 }
 
-.comments .delete {
-  opacity: 0.3;
-  cursor: pointer;
-  vertical-align: top;
+.comments .example div:nth-child(3){
+  text-align: center;
 }
 
-.comments .delete:hover {
-  opacity: 0.7;
+.comments .delete {
+  display: inline;
+}
+
+.comments .delete button {
+  background-color: white;
+  border: 0;
+  cursor: pointer;
+  vertical-align: top;
+  opacity: 0.8;
+  font-size: 16px;
+  vertical-align: middle;
+}
+
+.comments .delete button:hover {
+  opacity: 1;
   color: red;
+}
+
+#commentbox > ul > li > form > input:nth-child(3) {
+  width: 80px;
+  margin: 0;
 }

@@ -26,7 +26,7 @@ html(lang='en')
           a(href='/private') MY
         li
           a(href='/etc') 고객지원
-      a#login(href='/login') 로그인/회원가입
+      a#login(href=status[0])=status[1]
     img#banner(src='../../static/img/banner.jpg' width='100%')
     #container
       #container2
