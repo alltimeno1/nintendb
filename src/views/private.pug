@@ -14,7 +14,7 @@ html(lang='en')
   body
     #nav
       a(href='/home')
-        img(src='../../static/img/logo.png' height='100px')
+        img(src='../../static/img/logo.png')
       ul
         li
           a(href='/home') 홈
@@ -48,9 +48,9 @@ html(lang='en')
               th(scope='col') 평점
               th(scope='col') 삭제
           tbody
-            each item in result 
+            each item, index in result 
               tr 
-                td=1
+                td=index + 1
                 td
                   .info
                     img(src=item.image)

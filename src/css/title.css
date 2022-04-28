@@ -2,8 +2,7 @@
 
 #container {
   display:inline-block;
-  min-width: 900px;
-  width: 100%;
+  width: 1200px;
   margin: 30px auto;
   text-align: center;
 }
@@ -20,7 +19,7 @@
   border-radius: 7px;
   margin-bottom: 30px;
   height: 150px;
-  width: 866px;
+  width: 900px;
   list-style: none;
 }
 
@@ -90,7 +89,7 @@
   width: 231px;
   background-color: white;
   float: left;
-  padding: 17px 14px;
+  padding: 15px 14px;
 }
 
 .popular h2 {
@@ -168,40 +167,35 @@
 }
 
 .gamelist {
-  width: 600px;
-  height: 240px;
+  width: 630px;
+  height: 225px;
   border-radius: 7px;
   background-color: white;
   margin-bottom: 35px;
-  margin-left: 35px;
+  margin-left: 39px;
   position: relative;
   opacity: 1;
   animation: itemFadeIn 0.5s;
 }
 
-.gl-date {
-  margin-top: 0;
-  font-weight: 300;
+.gl-info {
+  float: left;
+  width: 340px;
+  padding: 10px 20px;
 }
 
 .gl-img {
   float: left;
-  border-top-left-radius: 7px;
-  border-bottom-left-radius: 7px;
-  object-fit: cover;
+  border-radius: 7px;
   cursor: pointer;
+  width: 274px;
+  margin: 15px 5px 0 10px;
 }
 
 .gl-img:hover {
   opacity: 0.8;
   transition: all 0.3s;
   transform: scale(1.05);
-}
-
-.gl-info {
-  float: left;
-  width: 340px;
-  padding: 10px 15px;
 }
 
 .gl-title {
@@ -226,16 +220,22 @@
   font-weight: bold;
 }
 
+.gl-date {
+  margin-top: 0;
+  font-weight: 300;
+}
+
 .tags {
   padding: 0;
   margin: 0;
   height: 60px;
+  display: inline-block;
 }
 
 .tags .tag {
   display: inline;
   margin-right: 3px;
-  white-space: nowrap;
+  overflow: hidden;
 }
 
 .tags .tag a {
@@ -254,7 +254,7 @@
   vertical-align: middle;
   border-top: solid 0.3px #9b9b9b;
   padding-top: 11px;
-  margin: 11px 0;
+  margin: 0;
 }
 
 .stats img {

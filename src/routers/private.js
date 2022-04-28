@@ -20,7 +20,9 @@ router.get('', async (req, res, next) => {
       status = ['/login', '로그인/회원가입']
     }
 
-    const result = await games.find({ name: { $in: myList.list } }).toArray()
+    const result = await games
+      .find({ name: { $in: myList?.list || [] } })
+      .toArray()
 
     res.render('private', { result, status })
   } catch (error) {

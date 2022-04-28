@@ -14,7 +14,7 @@ html(lang='en')
   body
     #nav
       a(href='/home')
-        img(src='../../static/img/logo.png' height='100px')
+        img(src='../../static/img/logo.png')
       ul
         li
           a(href='/home') 홈
@@ -30,12 +30,9 @@ html(lang='en')
     img#banner(src='../../static/img/banner.jpg' width='100%')
     #container
       #detailbox
-        img(src=title.image height='100px')
+        h2=title.name
+        img(src=title.image)
         #details
-          h2=title.name
-          form(action=`bucket` name='bucket' method='post')
-            input(type='hidden' name='game_id' value=title.name)
-            button 찜하기
           p 발매일 : 
             span=new Date(title.date).toLocaleDateString('ko-KR')
           p 메타크리틱 평점 : 
@@ -45,6 +42,9 @@ html(lang='en')
           p
             each tag in title.tag.split(',')
               button=tag
+          form(action=`bucket` name='bucket' method='post')
+            input(type='hidden' name='game_id' value=title.name)
+            button 찜하기
       #commentbox.login
         h4 한줄평 남기기
         form(name='comment' method='post')

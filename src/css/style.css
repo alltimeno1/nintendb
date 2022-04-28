@@ -5,35 +5,38 @@
 @import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css);
 
 body {
-  font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+  font-family: 'Spoqa Han Sans Neo', sans-serif;
   margin: 0;
   padding: 0;
-  background: #F1F2F3;
+  background: #f9f9f9;
+  width: 1200px;
+  margin: auto;
 }
 
 /* 네비게이션 바 */
 #nav {
   position: fixed;
   top: 0;
-  left: 0;
-  right: 0;
+  left: auto;
+  right: auto;
   z-index: 10;
-  height: 100px;
+  height: 90px;
   background-color: white;
   box-shadow: 0 1px 2px grey;
-  min-width: 700px;
+  width: 1200px;
 }
 
 #nav img {
   margin-left: 20px;
-  float:left
+  float:left;
+  height: 90px;
 }
 
 #nav ul {
   list-style: none;
   float: left;
   margin: 0;
-  line-height: 100px;
+  line-height: 90px;
 }
 
 #nav li {
@@ -45,12 +48,12 @@ body {
 #nav a {
   text-decoration: none;
   color: rgb(104, 101, 101);
-  font-size: 25px;
+  font-size: 22px;
   margin: 0 20px;
 }
 
 #nav #login {
-  line-height: 100px;
+  line-height: 90px;
   float: right;
   color: black;
   font-weight: 600;
@@ -64,14 +67,16 @@ body {
 }
 
 /* 미디어 쿼리 */
-@media (max-width:950px) {
+@media (max-width:1200px) {
   #nav a {
     font-size:16px;
     margin: 0 5px;
   }  
   
   #nav #login {
-    font-size:14px;
+    font-size: 16px;
+    float: left;
+    margin-left: 25px;
   }
 
   #nav ul {
@@ -81,11 +86,11 @@ body {
 
 /* 배너 */
 #banner {
-  padding-top: 100px;
+  padding-top: 90px;
   max-height: 400px;
   object-fit: cover;
   object-position: 50% 75%;
-  min-width: 900px;
+  width: 1200px;
 }
 
 #contents {

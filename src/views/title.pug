@@ -14,7 +14,7 @@ html(lang='en')
   body
     #nav
       a(href='/home')
-        img(src='../../static/img/logo.png' height='100px')
+        img(src='../../static/img/logo.png')
       ul
         li
           a(href='/home') 홈
@@ -71,7 +71,7 @@ html(lang='en')
           each item in title
             li.gamelist
               a(href=`/title/${item.name}`)
-                img.gl-img(src=item.image height='240' width='240')
+                img.gl-img(src=item.image)
               .gl-info
                 .header
                   h2.gl-title
