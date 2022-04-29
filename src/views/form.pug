@@ -9,8 +9,8 @@ html(lang='en')
     meta(property="og:image" content='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1ZWevkWyUNWJjAq1D7eSZk58eDunIPi4rbA&usqp=CAU')
     title Nintendb - All about Nintendo Switch
     link(rel='icon' href='../../static/img/favicon.ico' type='image/x-icon')
-    link(href='src/css/style.css' rel='stylesheet')
-    link(href='src/css/forum.css' rel='stylesheet')
+    link(href='/src/css/style.css' rel='stylesheet')
+    link(href='/src/css/forum.css' rel='stylesheet')
   body
     #nav
       a(href='/home')
@@ -26,15 +26,19 @@ html(lang='en')
           a(href='/private') MY
         li
           a(href='/etc') 고객지원
-      a#login(href=status[0])=status[1]
+      if status
+        a#login(href='/logout') 로그아웃
+      else
+        a#login(href='/login') 로그인/회원가입
     img#banner(src='../../static/img/banner.jpg' width='100%')
     #contents
       #board
         h1 글 등록하기
         form(action='/forum' name='posting' method='post')
           input(type='text' name='title' placeholder='제목')
-          input(type='text' name='nickname' placeholder='아이디')
-          input(type='password' name='password' placeholder='비밀번호')
+          if !status
+            input(type='text' name='nickname' placeholder='아이디')
+            input(type='password' name='password' placeholder='비밀번호')
           textarea(name='text' placeholder='내용' cols='100' rows='10')
           button 등록
     #to-top

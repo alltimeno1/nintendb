@@ -26,15 +26,19 @@ html(lang='en')
           a(href='/private') MY
         li
           a#current(href='/etc') 고객지원
-      a#login(href=status[0])=status[1]
+      if status
+        a#login(href='/logout') 로그아웃
+      else
+        a#login(href='/login') 로그인/회원가입
     img#banner(src='../../static/img/banner.jpg' width='100%')
     #contents
       h3#fun 쉬어가기
       #map
         img(src='../../static/img/mario_map.gif' height='400px')
-        img#mario(src='../../static/img/mario.png' width='25px')
+        img#mario(src='https://img.cppng.com/download/2020-06/92454-mario-square-super-angle-bros-download-hq-png.png' width='25px')
         span#bubble 💬
-      p ⬇️ 마리오 골인 구경하기
+        img#firework(src='https://emojipedia-us.s3.amazonaws.com/source/skype/289/fireworks_1f386.png')
+      p ⬇️ 마리오 골인하기
       audio(controls='' src='../../static/bgm/mario_bgm.mp3' type='audio/mp3')
     section.contact
       .helper

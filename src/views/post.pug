@@ -26,7 +26,10 @@ html(lang='en')
           a(href='/private') MY
         li
           a(href='/etc') 고객지원
-      a#login(href=status[0])=status[1]
+      if status
+        a#login(href='/logout') 로그아웃
+      else
+        a#login(href='/login') 로그인/회원가입
     img#banner(src='../../static/img/banner.jpg' width='100%')
     #contents
       #board
@@ -41,11 +44,17 @@ html(lang='en')
             p=post.text.replace(/<br>/g, '\n')
           form(action=`/forum/${post.id}/recommend` name='recommend' method='post') 
               input(type='hidden' name='post_id' value=post.id)
+              if status
+                input(type='hidden' name='user_id' value=userId)
               button.recommend 추천
         form(action=`/forum/${post.id}` name='deleting' method='post')
           input(type='hidden' name='post_id' value=post.id)
-          input(type='password' name='password' placeholder='비밀번호')
-          button.delete 삭제
+          if status && checkMyPost
+            input(type='hidden' name='post_id' value=post.user_id)
+            button.delete(style='margin-left: 150px') 삭제
+          else
+            input(type='password' name='password' placeholder='비밀번호')
+            button.delete 삭제
         button.update(onclick=`location.href='/forum/update/${post.id}'`) 수정
     #to-top
       | 🔝

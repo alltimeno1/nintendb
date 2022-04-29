@@ -26,11 +26,12 @@ html(lang='en')
           a#current(href='/private') MY
         li
           a(href='/etc') 고객지원
-      
-      a#login(href=status[0])=status[1]
+      if status
+        a#login(href='/logout') 로그아웃
+      else
+        a#login(href='/login') 로그인/회원가입
     img#banner(src='../../static/img/banner.jpg' width='100%')
     #buckets
-      #contents
       #board
         h1 관심 목록
         table.forum 

@@ -26,7 +26,10 @@ html(lang='en')
           a(href='/private') MY
         li
           a(href='/etc') 고객지원
-      a#login(href=status[0])=status[1]
+      if status 
+        a#login(href='/logout') 로그아웃
+      else 
+        a#login(href='/login') 로그인/회원가입
     img#banner(src='../../static/img/banner.jpg' width='100%')
     #contents
       #board
@@ -57,7 +60,7 @@ html(lang='en')
                 td.date=item.date.toLocaleDateString('ko-KR')
                 td.count=item.viewCount
                 td.recommend=item.recommend.length
-        button.write(onclick="location.href='/form'") 글쓰기
+        button.write(onclick="location.href='/forum/post'") 글쓰기
     #to-top
       | 🔝
     script(type='module' src='src/js/scroll.js')

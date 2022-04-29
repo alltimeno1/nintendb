@@ -1,5 +1,6 @@
 const character = document.querySelector('#mario')
 const bubble = document.querySelector('#bubble')
+const firework = document.querySelector('#firework')
 const playBtn = document.querySelector('audio')
 
 playBtn.addEventListener('play', animate)
@@ -56,4 +57,5 @@ async function animate() {
   await jump.movement(1000)
   await climbDown.movement(1500)
   await enterCastle.movement(2500)
+  firework.style.opacity = 1
 }

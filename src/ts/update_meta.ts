@@ -2,11 +2,9 @@ import axios from 'axios'
 import * as cheerio from 'cheerio'
 import getEngName from './scrap_english'
 
-export default async function scrapMeta(
-  serialNum: string
-): Promise<number | void> {
+export default async function scrapMeta(serialNum: string): Promise<number | void> {
   try {
-    let engName: string = (await getEngName(serialNum)) || ''
+    let engName: string = serialNum ? (await getEngName(serialNum)) || '' : ''
 
     if (!engName) {
       return 0

@@ -2,6 +2,7 @@ const router = require('express').Router()
 const { connectCollection } = require('../js/mongo')
 const requestIp = require('request-ip')
 const { boardRegExp } = require('../js/regular_expressions')
+const e = require('express')
 
 // 게시판 조회
 router.get('', async (req, res, next) => {
@@ -9,10 +10,19 @@ router.get('', async (req, res, next) => {
     const board = await connectCollection('board')
     const post = await board.find().sort({ id: -1 }).toArray()
     const status = req.isAuthenticated()
-      ? ['/logout', '로그아웃']
-      : ['/login', '로그인/회원가입']
 
     res.render('forum', { post, status })
+  } catch (error) {
+    return next(error.message)
+  }
+})
+
+// 게시글 등록 페이지 조회
+router.get('/post', async (req, res, next) => {
+  try {
+    const status = req.isAuthenticated()
+
+    res.render('form', { status })
   } catch (error) {
     return next(error.message)
   }
@@ -25,10 +35,9 @@ router.get('/update/:id', async (req, res, next) => {
     const board = await connectCollection('board')
     const post = await board.findOne({ id: parseInt(id) })
     const status = req.isAuthenticated()
-      ? ['/logout', '로그아웃']
-      : ['/login', '로그인/회원가입']
+    const checkMyPost = req.user?.id === post.user_id
 
-    res.render('update_form', { post, status })
+    res.render('update_form', { post, status, checkMyPost })
   } catch (error) {
     return next(error.message)
   }
@@ -38,14 +47,14 @@ router.get('/update/:id', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
   try {
     const { id } = req.params
-    const status = req.isAuthenticated()
-      ? ['/logout', '로그아웃']
-      : ['/login', '로그인/회원가입']
     const board = await connectCollection('board')
 
     await board.updateOne({ id: parseInt(id) }, { $inc: { viewCount: 1 } })
 
     const post = await board.findOne({ id: parseInt(id) })
+    const status = req.isAuthenticated()
+    const checkMyPost = req.user?.id === post.user_id
+    const userId = req.user?.id
 
     if (!post) {
       res.status(404).send({
@@ -53,7 +62,7 @@ router.get('/:id', async (req, res, next) => {
       })
     }
 
-    return res.render('post', { post, status })
+    return res.render('post', { post, status, checkMyPost, userId })
   } catch (error) {
     return next(error.message)
   }
@@ -62,21 +71,22 @@ router.get('/:id', async (req, res, next) => {
 // 게시글 등록
 router.post('', async (req, res, next) => {
   try {
-    const { title, nickname, password, text } = req.body
+    const { title, text } = req.body
     const board = await connectCollection('board')
     const counts = await connectCollection('counts')
     const postNum = await counts.findOneAndUpdate(
       { name: 'board' },
       { $inc: { count: 1 } }
     )
-    const message = boardRegExp(title, '', nickname, password)
 
-    if (!message && text) {
+    if (req.isAuthenticated()) {
+      const { displayName, id } = req.user
+
       await board.insertOne({
         id: postNum.value.count,
         title,
-        nickname,
-        password,
+        nickname: displayName,
+        user_id: id,
         text: text.replace(/\n/g, '<br>'),
         date: new Date(),
         viewCount: 0,
@@ -85,7 +95,25 @@ router.post('', async (req, res, next) => {
 
       res.redirect('forum')
     } else {
-      res.send(`<script>alert('${message}');location.href='/form';</script>`)
+      const { nickname, password } = req.body
+      const message = boardRegExp(title, '', nickname, password)
+
+      if (!message && text) {
+        await board.insertOne({
+          id: postNum.value.count,
+          title,
+          nickname,
+          password,
+          text: text.replace(/\n/g, '<br>'),
+          date: new Date(),
+          viewCount: 0,
+          recommend: [],
+        })
+
+        res.redirect('forum')
+      } else {
+        res.send(`<script>alert('${message}');location.href='/form';</script>`)
+      }
     }
   } catch (error) {
     return next(error.message)
@@ -96,20 +124,29 @@ router.post('', async (req, res, next) => {
 router.post('/:id', async (req, res, next) => {
   try {
     const { id } = req.params
-    const { post_id, password } = req.body
+    const { post_id, user_id, password } = req.body
     const board = await connectCollection('board')
 
-    const result = await board.deleteOne({
-      id: parseInt(post_id),
-      password: password,
-    })
+    if (user_id) {
+      await board.deleteOne({
+        id: parseInt(post_id),
+        user_id,
+      })
 
-    if (result.deletedCount) {
       res.redirect('/forum')
     } else {
-      res.send(
-        `<script>alert('비밀번호를 정확히 입력해주세요!.');location.href='/forum/${id}';</script>`
-      )
+      const result = await board.deleteOne({
+        id: parseInt(post_id),
+        password: password,
+      })
+
+      if (result.deletedCount) {
+        res.redirect('/forum')
+      } else {
+        res.send(
+          `<script>alert('비밀번호를 정확히 입력해주세요!.');location.href='/forum/${id}';</script>`
+        )
+      }
     }
   } catch (error) {
     return next(error.message)
@@ -120,20 +157,31 @@ router.post('/:id', async (req, res, next) => {
 router.post('/update/:id', async (req, res, next) => {
   try {
     const { id } = req.params
-    const { title, nickname, password, text } = req.body
     const board = await connectCollection('board')
 
-    const result = await board.findOneAndUpdate(
-      { id: parseInt(id), password },
-      { $set: { title, nickname, text } }
-    )
-    console.log(result)
-    if (result.value) {
+    if (req.body.user_id) {
+      const { title, user_id, text } = req.body
+
+      await board.updateOne(
+        { id: parseInt(id), user_id },
+        { $set: { title, text } }
+      )
+
       res.redirect(`/forum/${id}`)
     } else {
-      res.send(
-        `<script>alert('비밀번호를 정확히 입력해주세요!.');location.href='/forum/update/${id}';</script>`
+      const { title, nickname, password, text } = req.body
+      const result = await board.findOneAndUpdate(
+        { id: parseInt(id), password },
+        { $set: { title, nickname, text } }
       )
+
+      if (result.value) {
+        res.redirect(`/forum/${id}`)
+      } else {
+        res.send(
+          `<script>alert('비밀번호를 정확히 입력해주세요!.');location.href='/forum/update/${id}';</script>`
+        )
+      }
     }
   } catch (error) {
     return next(error.message)
@@ -144,15 +192,22 @@ router.post('/update/:id', async (req, res, next) => {
 router.post('/:id/recommend', async (req, res, next) => {
   try {
     const { id } = req.params
-    const { post_id } = req.body
-    const ip = requestIp.getClientIp(req)
+    const { post_id, user_id } = req.body
     const board = await connectCollection('board')
+    console.log(user_id)
+    if (user_id) {
+      await board.updateOne(
+        { id: parseInt(post_id) },
+        { $addToSet: { recommend: user_id } }
+      )
+    } else {
+      const ip = requestIp.getClientIp(req)
 
-    await board.updateOne(
-      { id: parseInt(post_id) },
-      { $addToSet: { recommend: ip } }
-    )
-
+      await board.updateOne(
+        { id: parseInt(post_id) },
+        { $addToSet: { recommend: ip } }
+      )
+    }
     res.redirect(`/forum/${id}`)
   } catch (error) {
     return next(error.message)

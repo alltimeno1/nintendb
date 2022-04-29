@@ -8,8 +8,6 @@ router.get('/:page', async (req, res, next) => {
     const { page } = req.params
     const games = await connectCollection('games')
     const status = req.isAuthenticated()
-      ? ['/logout', '로그아웃']
-      : ['/login', '로그인/회원가입']
 
     if (page === 'home') {
       const best = await games.find().sort({ rating: -1 }).limit(4).toArray()

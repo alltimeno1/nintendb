@@ -6,13 +6,25 @@ const { connectCollection } = require('../js/mongo')
 const { boardRegExp } = require('../js/regular_expressions')
 
 // 모든 게임 조회
-router.get('', async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
     const games = await connectCollection('games')
     const title = await games.find().toArray()
     const status = req.isAuthenticated()
-      ? ['/logout', '로그아웃']
-      : ['/login', '로그인/회원가입']
+
+    res.render('title', { title, status })
+  } catch (error) {
+    return next(error.message)
+  }
+})
+
+// 특정 키워드 게임 조회
+router.get('/filter', async (req, res, next) => {
+  try {
+    const { keyword } = req.query
+    const games = await connectCollection('games')
+    const title = await games.find({ name: { $regex: keyword } }).toArray()
+    const status = req.isAuthenticated()
 
     res.render('title', { title, status })
   } catch (error) {
@@ -52,12 +64,12 @@ router.post('/bucket', async (req, res, next) => {
     const buckets = await connectCollection('buckets')
     if (req.isAuthenticated()) {
       const bucket = await buckets.findOneAndUpdate(
-        { id: req.user.id },
+        { user_id: req.user.id },
         { $addToSet: { list: game_id } }
       )
 
       if (!bucket.value) {
-        await buckets.insertOne({ id: req.user.id, list: [game_id] })
+        await buckets.insertOne({ user_id: req.user.id, list: [game_id] })
       }
     } else {
       const ip = requestIp.getClientIp(req)
@@ -109,9 +121,7 @@ router.post('/:id', async (req, res, next) => {
         })
         res.redirect(`/title/${game_id}`)
       } else {
-        res.send(
-          `<script>alert('${message}');location.href='/title/${game_id}';</script>`
-        )
+        res.send(`<script>alert('${message}');location.href='/title/${game_id}';</script>`)
       }
     }
   } catch (error) {

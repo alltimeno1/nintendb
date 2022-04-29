@@ -10,7 +10,25 @@ body {
   padding: 0;
   background: #f9f9f9;
   width: 1200px;
+  height: 100%;
   margin: auto;
+  position: relative;
+}
+
+html::before {
+  width: 100%;
+  height: 180%;
+  content: "";
+  background-image: url('https://i.pinimg.com/originals/c1/5a/f3/c15af3f323046aa99bb43d916c8cfce2.jpg');
+  background-repeat: no-repeat;
+  background-size: fit;
+  opacity: 0.05;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1;   
 }
 
 /* 네비게이션 바 */
@@ -22,8 +40,8 @@ body {
   z-index: 10;
   height: 90px;
   background-color: white;
-  box-shadow: 0 1px 2px grey;
   width: 1200px;
+  border: 1px solid rgb(214, 214, 214);
 }
 
 #nav img {
@@ -69,14 +87,31 @@ body {
 /* 미디어 쿼리 */
 @media (max-width:1200px) {
   #nav a {
-    font-size:16px;
+    font-size: 16px;
     margin: 0 5px;
   }  
   
   #nav #login {
-    font-size: 16px;
+    font-size: 15px;
     float: left;
     margin-left: 25px;
+  }
+
+  #nav ul {
+    padding-left: 0;
+  }
+}
+
+@media (max-width:570px) {
+  #nav a {
+    font-size: 13px;
+    margin: 0 3px;
+  }  
+  
+  #nav #login {
+    font-size: 12px;
+    float: left;
+    margin-left: 10px;
   }
 
   #nav ul {

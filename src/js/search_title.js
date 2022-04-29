@@ -5,22 +5,8 @@ let tagList = []
 
 findInfo()
 
-searchBar.addEventListener('keypress', search)
 checkboxes.addEventListener('change', addTag)
 checkboxes.addEventListener('change', checkbox)
-
-function search(e) {
-  if (e.key === 'Enter') {
-    gameTags.forEach((item) => {
-      console.log(item.name, e.target.value)
-      if (item.name.includes(e.target.value)) {
-        item.style.display = ''
-      } else {
-        item.style.display = 'none'
-      }
-    })
-  }
-}
 
 function addTag(e) {
   const bool = tagList.includes(e.target.value)

@@ -5,7 +5,7 @@ const cheerio = require('cheerio')
 const scrap_english_1 = require('./scrap_english')
 async function scrapMeta(serialNum) {
   try {
-    let engName = (await (0, scrap_english_1.default)(serialNum)) || ''
+    let engName = serialNum ? (await (0, scrap_english_1.default)(serialNum)) || '' : ''
     if (!engName) {
       return 0
     }

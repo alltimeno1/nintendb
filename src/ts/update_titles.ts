@@ -1,14 +1,15 @@
 const { client, connectCollection } = require('./mongo')
 import scrapTitleInfo from './crawling'
 
-async function main() {
+async function main(URI: string, reset: string) {
   try {
     const games = await connectCollection('games')
 
-    const gameList = await scrapTitleInfo()
+    const gameList = await scrapTitleInfo(URI)
 
-    // Reset
-    await games.deleteMany({})
+    if (reset === 'y') {
+      await games.deleteMany({})
+    }
 
     await games.insertMany(gameList)
 
@@ -20,4 +21,4 @@ async function main() {
   }
 }
 
-main()
+main(process.argv[2], process.argv[3])

@@ -19,7 +19,7 @@
   border-radius: 7px;
   margin-bottom: 30px;
   height: 150px;
-  width: 900px;
+  width: 902px;
   list-style: none;
 }
 
@@ -31,11 +31,11 @@
 }
 
 .checkbox.lang {
-  width: 350px;
+  width: 360px;
 }
 
 .checkbox.genre {
-  width: 600px;
+  width: 610px;
 }
 
 .checkbox_tit {
@@ -90,6 +90,7 @@
   background-color: white;
   float: left;
   padding: 15px 14px;
+  border: 1px solid rgb(214, 214, 214);
 }
 
 .popular h2 {
@@ -167,8 +168,8 @@
 }
 
 .gamelist {
-  width: 630px;
-  height: 225px;
+  width: 632px;
+  height: 227px;
   border-radius: 7px;
   background-color: white;
   margin-bottom: 35px;
@@ -176,6 +177,7 @@
   position: relative;
   opacity: 1;
   animation: itemFadeIn 0.5s;
+  border: 1px solid rgb(214, 214, 214);
 }
 
 .gl-info {

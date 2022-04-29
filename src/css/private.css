@@ -1,4 +1,9 @@
 /* MY 페이지 */
+#buckets {
+  display:inline-block;
+  width: 1200px;
+}
+
 #board {
   width: 1050px;
   margin: 20px auto;
@@ -6,6 +11,7 @@
   border-radius: 5px;
   padding-top: 10px;
   text-align: center;
+  border: 1px solid rgb(214, 214, 214);
 }
 
 #board h1 {

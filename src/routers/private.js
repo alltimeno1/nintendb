@@ -7,17 +7,15 @@ router.get('', async (req, res, next) => {
   try {
     const games = await connectCollection('games')
     const buckets = await connectCollection('buckets')
+    const status = req.isAuthenticated()
     let myList = []
-    let status = []
 
     if (req.isAuthenticated()) {
-      myList = await buckets.findOne({ id: req.user.id })
-      status = ['/logout', '로그아웃']
+      myList = await buckets.findOne({ user_id: req.user.id })
     } else {
       const ip = requestIp.getClientIp(req)
 
       myList = await buckets.findOne({ address: ip })
-      status = ['/login', '로그인/회원가입']
     }
 
     const result = await games
@@ -37,7 +35,7 @@ router.post('/delete', async (req, res, next) => {
 
     if (req.isAuthenticated()) {
       await buckets.updateOne(
-        { id: req.user.id },
+        { user_id: req.user.id },
         { $pull: { list: req.body.titleName } }
       )
     } else {
@@ -61,7 +59,7 @@ router.post('/reset', async (req, res, next) => {
     const buckets = await connectCollection('buckets')
 
     if (req.isAuthenticated()) {
-      await buckets.updateOne({ id: req.user.id }, { $set: { list: [] } })
+      await buckets.updateOne({ user_id: req.user.id }, { $set: { list: [] } })
     } else {
       const ip = requestIp.getClientIp(req)
 

@@ -9,8 +9,8 @@ html(lang='en')
     meta(property="og:image" content='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1ZWevkWyUNWJjAq1D7eSZk58eDunIPi4rbA&usqp=CAU')
     title Nintendb - All about Nintendo Switch
     link(rel='icon' href='../../static/img/favicon.ico' type='image/x-icon')
-    link(href='src/css/style.css' rel='stylesheet')
-    link(href='src/css/title.css' rel='stylesheet')
+    link(href='/src/css/style.css' rel='stylesheet')
+    link(href='/src/css/title.css' rel='stylesheet')
   body
     #nav
       a(href='/home')
@@ -26,7 +26,10 @@ html(lang='en')
           a(href='/private') MY
         li
           a(href='/etc') 고객지원
-      a#login(href=status[0])=status[1]
+      if status
+        a#login(href='/logout') 로그아웃
+      else
+        a#login(href='/login') 로그인/회원가입
     img#banner(src='../../static/img/banner.jpg' width='100%')
     #container
       #container2
@@ -37,7 +40,7 @@ html(lang='en')
               ul.clearfix
                 each item in [['한국어', 'langKR'], ['영어', 'langUS'], ['일본어', 'langJP']]
                   li
-                    input.input_chk(type='checkbox' value=item[0] id=item[1])
+                    input.input_chk(type='checkbox' name= item[1] value=item[0] id=item[1])
                     label(for=item[1])
                       span.input_box
                       = ' ' + item[0]
@@ -46,7 +49,7 @@ html(lang='en')
               ul.clearfix
                 each item in [['싱글', 'single'], ['멀티', 'multi']]
                   li
-                    input.input_chk(type='checkbox' value=item[0] id=item[1])
+                    input.input_chk(type='checkbox' name= item[1] value=item[0] id=item[1])
                     label(for=item[1])
                       span.input_box
                       = ' ' + item[0]
@@ -55,18 +58,20 @@ html(lang='en')
               ul.clearfix
                 each item in [['RPG', 'rpg'], ['액션', 'action'], ['어드벤처', 'adventure'], ['FPS', 'fps'], ['시뮬레이션', 'simulation'], ['스포츠', 'sports']]
                   li
-                    input.input_chk(type='checkbox' value=item[0] id=item[1])
+                    input.input_chk(type='checkbox' name= item[1] value=item[0] id=item[1])
                     label(for=item[1])
                       span.input_box
                       = ' ' + item[0]
           li.search_box
-            input(type='text' maxlength='225' placeholder='검색')
+            form(action='/title/filter' method='get')
+              input(type='text' name='keyword' maxlength='225' placeholder='검색')
         .popular
           h2 인기 검색어
           ol.top10
-            each item in title
-              li.keyword
-                a(href=`/title/${item.name}`)=item.name
+            each item, index in title
+              if index < 10
+                li.keyword
+                  a(href=`/title/${item.name}`)=item.name
         ul.gamelists
           each item in title
             li.gamelist
@@ -87,6 +92,6 @@ html(lang='en')
                   span.price=item.price.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' })
     #to-top
       | 🔝
-    script(type='module' src='src/js/scroll.js')
-    script(type='module' src='src/js/search_title.js')
-    script(type='module' src='src/js/fadeIn.js')
+    script(type='module' src='/src/js/scroll.js')
+    script(type='module' src='/src/js/search_title.js')
+    script(type='module' src='/src/js/fadeIn.js')

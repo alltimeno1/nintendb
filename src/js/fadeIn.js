@@ -9,10 +9,7 @@ function fadeInItems(selector, time) {
   }
 }
 
-if (
-  window.location.pathname === '/home' ||
-  window.location.pathname === '/rank'
-) {
+if (window.location.pathname === '/home' || window.location.pathname === '/rank') {
   fadeInItems(bestItems, 300)
   fadeInItems(newItems, 300)
   fadeInItems(saleItems, 300)
