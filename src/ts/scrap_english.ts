@@ -2,7 +2,7 @@ import * as puppeteer from 'puppeteer'
 
 export default async function getEngName(id: string): Promise<string | void> {
   const browser = await puppeteer.launch()
-  console.log('serial num : ', id)
+
   try {
     const page = await browser.newPage()
 
@@ -40,7 +40,6 @@ export default async function getEngName(id: string): Promise<string | void> {
     if (idx !== -1) {
       return result.slice(0, idx)
     }
-    console.log('result : ', result)
 
     return result
   } catch (error: any) {

@@ -19,7 +19,7 @@ html(lang='en')
         li
           a(href='/home') 홈
         li
-          a#current(href='/title') 게임
+          a#current(href='/title?sort=date') 게임
         li
           a(href='/forum') 커뮤니티
         li
@@ -30,9 +30,11 @@ html(lang='en')
     img#banner(src='../../static/img/banner.jpg' width='100%')
     #container
       #detailbox
-        h2=title.name
-        img(src=title.image)
+        .leftbox
+          img(src=title.image)
+          p=title.description
         #details
+          h2=title.name
           p 발매일 : 
             span=new Date(title.date).toLocaleDateString('ko-KR')
           p 메타크리틱 평점 : 

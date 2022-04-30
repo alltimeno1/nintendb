@@ -1,6 +1,7 @@
 import axios from 'axios'
 import * as cheerio from 'cheerio'
 import scrapMeta from './update_meta'
+import scrapDesc from './scrap_description'
 
 interface Game {
   name: string
@@ -12,6 +13,7 @@ interface Game {
   discountRate: number
   tag: string
   serialNum: string
+  description: string
 }
 
 let href: string[] = []
@@ -58,9 +60,9 @@ export default async function scrapTitleInfo(URI: string): Promise<Game[] | void
       const priceText: string =
         $('.old-price .price').text() || $('.product-page-info-form .price').text() || ''
       const bargainPriceText: string = $('.special-price .price').text() || priceText || ''
-      const price: number = parseInt(priceText.replace(/[₩,]/g, '')) || NaN
-      const bargainPrice: number = parseInt(bargainPriceText.replace(/[₩,]/g, '')) || NaN
-      const discountRate: number = Math.round(((price - bargainPrice) / price) * 100) || 0
+      const price: number = parseInt(priceText.replace(/[₩,]/g, '')) || 0
+      const bargainPrice: number = parseInt(bargainPriceText.replace(/[₩,]/g, '')) || 0
+      const discountRate: number = price ? Math.round(((price - bargainPrice) / price) * 100) : 0
 
       const genre: string = $('.game_category .product-attribute-val').text()
       const playerNum: string =
@@ -79,6 +81,7 @@ export default async function scrapTitleInfo(URI: string): Promise<Game[] | void
       const tag: string = genre
         ? `${language}, ${playerNum}, ${genre}`
         : `${language}, ${playerNum}`
+      const description: string = await scrapDesc($)
 
       const game: Game = {
         name,
@@ -90,6 +93,7 @@ export default async function scrapTitleInfo(URI: string): Promise<Game[] | void
         discountRate,
         tag,
         serialNum,
+        description,
       }
 
       gameList.push(game)

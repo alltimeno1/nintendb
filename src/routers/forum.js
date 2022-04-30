@@ -74,10 +74,7 @@ router.post('', async (req, res, next) => {
     const { title, text } = req.body
     const board = await connectCollection('board')
     const counts = await connectCollection('counts')
-    const postNum = await counts.findOneAndUpdate(
-      { name: 'board' },
-      { $inc: { count: 1 } }
-    )
+    const postNum = await counts.findOneAndUpdate({ name: 'board' }, { $inc: { count: 1 } })
 
     if (req.isAuthenticated()) {
       const { displayName, id } = req.user
@@ -144,7 +141,7 @@ router.post('/:id', async (req, res, next) => {
         res.redirect('/forum')
       } else {
         res.send(
-          `<script>alert('비밀번호를 정확히 입력해주세요!.');location.href='/forum/${id}';</script>`
+          `<script>alert('비밀번호를 정확히 입력해주세요!');location.href='/forum/${id}';</script>`
         )
       }
     }
@@ -162,10 +159,7 @@ router.post('/update/:id', async (req, res, next) => {
     if (req.body.user_id) {
       const { title, user_id, text } = req.body
 
-      await board.updateOne(
-        { id: parseInt(id), user_id },
-        { $set: { title, text } }
-      )
+      await board.updateOne({ id: parseInt(id), user_id }, { $set: { title, text } })
 
       res.redirect(`/forum/${id}`)
     } else {
@@ -196,17 +190,11 @@ router.post('/:id/recommend', async (req, res, next) => {
     const board = await connectCollection('board')
     console.log(user_id)
     if (user_id) {
-      await board.updateOne(
-        { id: parseInt(post_id) },
-        { $addToSet: { recommend: user_id } }
-      )
+      await board.updateOne({ id: parseInt(post_id) }, { $addToSet: { recommend: user_id } })
     } else {
       const ip = requestIp.getClientIp(req)
 
-      await board.updateOne(
-        { id: parseInt(post_id) },
-        { $addToSet: { recommend: ip } }
-      )
+      await board.updateOne({ id: parseInt(post_id) }, { $addToSet: { recommend: ip } })
     }
     res.redirect(`/forum/${id}`)
   } catch (error) {

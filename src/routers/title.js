@@ -1,18 +1,22 @@
 const router = require('express').Router()
-const e = require('express')
 const { ObjectId } = require('mongodb')
 const requestIp = require('request-ip')
 const { connectCollection } = require('../js/mongo')
 const { boardRegExp } = require('../js/regular_expressions')
 
 // 모든 게임 조회
-router.get('/', async (req, res, next) => {
+router.get('', async (req, res, next) => {
   try {
+    const { sort } = req.query
     const games = await connectCollection('games')
-    const title = await games.find().toArray()
+    const title = await games
+      .find()
+      .sort({ [sort]: -1 })
+      .toArray()
+    const top10 = await games.find().sort({ rating: -1 }).limit(10).toArray()
     const status = req.isAuthenticated()
 
-    res.render('title', { title, status })
+    res.render('title', { top10, title, status })
   } catch (error) {
     return next(error.message)
   }
@@ -24,9 +28,10 @@ router.get('/filter', async (req, res, next) => {
     const { keyword } = req.query
     const games = await connectCollection('games')
     const title = await games.find({ name: { $regex: keyword } }).toArray()
+    const top10 = await games.find().sort({ rating: -1 }).limit(10).toArray()
     const status = req.isAuthenticated()
 
-    res.render('title', { title, status })
+    res.render('title', { top10, title, status })
   } catch (error) {
     return next(error.message)
   }
@@ -132,6 +137,7 @@ router.post('/:id', async (req, res, next) => {
 // 댓글 삭제
 router.post('/:id/delete', async (req, res, next) => {
   try {
+    const { id } = req.params
     const { comment_id, password, title_id } = req.body
     const comments = await connectCollection('comments')
 
@@ -141,10 +147,16 @@ router.post('/:id/delete', async (req, res, next) => {
         id: req.user.id,
       })
     } else {
-      await comments.deleteOne({
+      const result = await comments.findOneAndDelete({
         _id: ObjectId(comment_id),
         password: password,
       })
+
+      if (!result.value) {
+        return res.send(
+          `<script>alert('비밀번호를 정확히 입력해주세요!');location.href='/title/${id}';</script>`
+        )
+      }
     }
 
     res.redirect(`/title/${title_id}`)

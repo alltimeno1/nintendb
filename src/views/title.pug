@@ -19,7 +19,7 @@ html(lang='en')
         li
           a(href='/home') 홈
         li
-          a#current(href='/title') 게임
+          a#current(href='/title?sort=date') 게임
         li
           a(href='/forum') 커뮤니티
         li
@@ -68,15 +68,15 @@ html(lang='en')
         .popular
           h2 인기 검색어
           ol.top10
-            each item, index in title
-              if index < 10
-                li.keyword
-                  a(href=`/title/${item.name}`)=item.name
+            each item in top10
+              li.keyword
+                a(href=`/title/${item.name}`)=item.name
         ul.gamelists
           each item in title
             li.gamelist
-              a(href=`/title/${item.name}`)
-                img.gl-img(src=item.image)
+              div
+                a(href=`/title/${item.name}`)
+                  img.gl-img(src=item.image)
               .gl-info
                 .header
                   h2.gl-title

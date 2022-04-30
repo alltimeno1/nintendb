@@ -180,18 +180,23 @@
   border: 1px solid rgb(214, 214, 214);
 }
 
-.gl-info {
+.gamelist > div {
+  width: 310px;
+  height: 225px;
   float: left;
-  width: 340px;
-  padding: 10px 20px;
 }
 
 .gl-img {
-  float: left;
   border-radius: 7px;
   cursor: pointer;
-  width: 274px;
-  margin: 15px 5px 0 10px;
+  width: 300px;
+  margin: 29px 0 35px 10px;
+}
+
+.gl-info {
+  float: left;
+  width: 340px;
+  padding: 20px 20px 0 20px;
 }
 
 .gl-img:hover {

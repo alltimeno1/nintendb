@@ -20,7 +20,7 @@ html(lang='en')
         li
           a#current(href='/home') 홈
         li
-          a(href='/title') 게임
+          a(href='/title?sort=date') 게임
         li
           a(href='/forum') 커뮤니티
         li
@@ -42,7 +42,7 @@ html(lang='en')
             div
               img.meta(src='../static/img/metacritic.png')
               span=item.rating
-        a.more(href='/title')
+        a.more(href='/title?sort=rating')
           | 더 보기
       #new.box
         h3 신작 게임
@@ -51,7 +51,7 @@ html(lang='en')
             img.cover(src=item.image)
             h5=item.name
             span=`${new Date(item.date).toLocaleDateString('ko-KR')} 출시`
-        a.more(href='/title')
+        a.more(href='/title?sort=date')
           | 더 보기
       #sale.box
         h3 할인 중
@@ -62,7 +62,7 @@ html(lang='en')
             span=`🇰🇷 ${item.bargainPrice.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' })} `
             span=item.price.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' })
             span=` -${item.discountRate}%`
-        a.more(href='/title')
+        a.more(href='/title?sort=discountRate')
           | 더 보기
     #to-top
       | 🔝
