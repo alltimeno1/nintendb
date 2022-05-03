@@ -56,7 +56,7 @@ html(lang='en')
             .checkbox.genre
               p.checkbox_tit 장르
               ul.clearfix
-                each item in [['RPG', 'rpg'], ['액션', 'action'], ['어드벤처', 'adventure'], ['FPS', 'fps'], ['시뮬레이션', 'simulation'], ['스포츠', 'sports']]
+                each item in [['RPG', 'rpg'], ['액션', 'action'], ['어드벤처', 'adventure'], ['슈팅', 'shooting'], ['시뮬레이션', 'simulation'], ['스포츠', 'sports']]
                   li
                     input.input_chk(type='checkbox' name= item[1] value=item[0] id=item[1])
                     label(for=item[1])

@@ -10,14 +10,14 @@ function sleep(time) {
     });
 }
 class MarioAnimation {
-    constructor(goal, x, runSpeed, y, jumpSpeed, opacity = 1, step = 0) {
+    constructor(goal, x, runSpeed, y, jumpSpeed, opacity = 1) {
+        this.step = 0;
         this.goal = goal;
+        this.opacity = opacity;
         this.x = x;
         this.runSpeed = runSpeed;
         this.y = y;
         this.jumpSpeed = jumpSpeed;
-        this.opacity = opacity;
-        this.step = step;
     }
     async movement(time) {
         if (!this.step) {
@@ -34,7 +34,7 @@ class MarioAnimation {
             character.style.top = this.y - this.step / this.jumpSpeed + '%';
         }
         this.step += 0.5;
-        requestAnimationFrame(() => this.movement(0));
+        requestAnimationFrame(() => this.movement());
     }
 }
 const run = new MarioAnimation(16, 35, 4, 0, 0);

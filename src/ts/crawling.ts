@@ -24,7 +24,7 @@ async function scrapTitlesUrl(URI: string): Promise<void> {
     const response = await axios.get(URI)
     const $ = cheerio.load(response.data)
 
-    $('.category-product-item-title-link').each((idx: any, item: any) =>
+    $('.category-product-item-title-link').each((idx: number, item: any) =>
       href.push(item.attribs.href)
     )
     console.log('Scrapping URI completed')
