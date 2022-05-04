@@ -1,6 +1,6 @@
 const router = require('express').Router()
-const { connectCollection } = require('../js/mongo')
-const { boardRegExp } = require('../js/regular_expressions')
+const { connectCollection } = require('../utils/mongo')
+const { boardRegExp } = require('../utils/regular_expressions')
 
 router.get('/', (req, res) => res.redirect('/home'))
 

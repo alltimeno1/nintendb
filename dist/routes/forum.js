@@ -1,11 +1,11 @@
 const router = require('express').Router()
-const { connectCollection } = require('../js/mongo')
+const { connectCollection } = require('../utils/mongo')
 const requestIp = require('request-ip')
-const { boardRegExp } = require('../js/regular_expressions')
+const { boardRegExp } = require('../utils/regular_expressions')
 const e = require('express')
 
 // 게시판 조회
-router.get('', async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
     const board = await connectCollection('board')
     const post = await board.find().sort({ id: -1 }).toArray()
@@ -69,7 +69,7 @@ router.get('/:id', async (req, res, next) => {
 })
 
 // 게시글 등록
-router.post('', async (req, res, next) => {
+router.post('/', async (req, res, next) => {
   try {
     const { title, text } = req.body
     const board = await connectCollection('board')

@@ -1,9 +1,9 @@
 const router = require('express').Router()
-const { connectCollection } = require('../js/mongo')
+const { connectCollection } = require('../utils/mongo')
 const requestIp = require('request-ip')
 
 // MY 페이지 조회
-router.get('', async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
     const games = await connectCollection('games')
     const buckets = await connectCollection('buckets')
@@ -18,9 +18,7 @@ router.get('', async (req, res, next) => {
       myList = await buckets.findOne({ address: ip })
     }
 
-    const result = await games
-      .find({ name: { $in: myList?.list || [] } })
-      .toArray()
+    const result = await games.find({ name: { $in: myList?.list || [] } }).toArray()
 
     res.render('private', { result, status })
   } catch (error) {
@@ -34,17 +32,11 @@ router.post('/delete', async (req, res, next) => {
     const buckets = await connectCollection('buckets')
 
     if (req.isAuthenticated()) {
-      await buckets.updateOne(
-        { user_id: req.user.id },
-        { $pull: { list: req.body.titleName } }
-      )
+      await buckets.updateOne({ user_id: req.user.id }, { $pull: { list: req.body.titleName } })
     } else {
       const ip = requestIp.getClientIp(req)
 
-      await buckets.updateOne(
-        { address: ip },
-        { $pull: { list: req.body.titleName } }
-      )
+      await buckets.updateOne({ address: ip }, { $pull: { list: req.body.titleName } })
     }
 
     res.redirect('/private')

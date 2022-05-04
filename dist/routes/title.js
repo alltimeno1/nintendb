@@ -1,11 +1,11 @@
 const router = require('express').Router()
 const { ObjectId } = require('mongodb')
 const requestIp = require('request-ip')
-const { connectCollection } = require('../js/mongo')
-const { boardRegExp } = require('../js/regular_expressions')
+const { connectCollection } = require('../utils/mongo')
+const { boardRegExp } = require('../utils/regular_expressions')
 
 // 모든 게임 조회
-router.get('', async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
     const { sort } = req.query
     const games = await connectCollection('games')
