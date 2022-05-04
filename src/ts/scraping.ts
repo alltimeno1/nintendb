@@ -1,6 +1,6 @@
 import axios from 'axios'
 import * as cheerio from 'cheerio'
-import scrapMeta from './update_meta'
+import scrapMeta from './scrap_meta'
 import scrapDesc from './scrap_description'
 
 interface Game {

@@ -5,10 +5,8 @@ const uri: string = `mongodb+srv://${process.env.MONGO_ID}:${process.env.MONGO_P
 
 const client = new MongoClient(uri)
 
-async function connectCollection(colName: string) {
+export async function connectCollection(colName: string) {
   const _client = await client.connect()
 
   return _client.db('switch').collection(colName)
 }
-
-module.exports = { client, connectCollection }

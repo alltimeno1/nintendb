@@ -1,5 +1,5 @@
 // 스크롤 이벤트 등록
-const btnTop = document.querySelector('#to-top')
+const btnTop = <HTMLElement>document.querySelector('#to-top')
 
 window.addEventListener('scroll', onScroll)
 btnTop?.addEventListener('click', scrollTop)
@@ -12,10 +12,10 @@ function onScroll(): void {
 
   if (window.scrollY > STANDARD) {
     // 스크롤이 30px을 넘었을 때
-    btnTop?.classList.add('show')
+    btnTop.classList.add('show')
   } else {
     // 스크롤이 30px을 넘지 않을 때
-    btnTop?.classList.remove('show')
+    btnTop.classList.remove('show')
   }
 
   lastScrollY = window.scrollY

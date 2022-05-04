@@ -3,7 +3,7 @@
 #container {
   display:inline-block;
   width: 1200px;
-  margin: 30px auto;
+  margin: 40px auto;
   text-align: center;
 }
 
@@ -193,7 +193,7 @@
   border-radius: 7px;
   cursor: pointer;
   width: 300px;
-  margin: 29px 0 35px 10px;
+  margin: 28px 0 28px 10px;
 }
 
 .gl-info {

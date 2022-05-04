@@ -1,11 +1,11 @@
-const hiddenInput: any = document.querySelector('#commentbox input[type=hidden]')
-const form: any = document.querySelector('#commentbox form')
-const button: any = document.querySelector('#commentbox .submit')
-const text = document.querySelector('#commentbox textarea')
+const hiddenInput = <HTMLInputElement>document.querySelector('#commentbox input[type=hidden]')
+const form = <HTMLFormElement>document.querySelector('#commentbox form')
+const button = <HTMLElement>document.querySelector('#commentbox .submit')
+const text = <HTMLElement>document.querySelector('#commentbox textarea')
 const game_id = window.location.pathname.split('/')[2]
 
-button?.addEventListener('click', window.location.reload)
-text?.addEventListener('keydown', postCommentByKey)
+button.addEventListener('click', window.location.reload)
+text.addEventListener('keydown', postCommentByKey)
 
 hiddenInput.value = game_id
 form.action = `/title/${game_id}`

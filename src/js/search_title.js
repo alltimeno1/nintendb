@@ -3,8 +3,8 @@ const checkboxes = document.querySelector('.checkboxes');
 const gameTags = document.querySelectorAll('.gamelist');
 let tagList = [];
 findInfo();
-checkboxes?.addEventListener('change', addTag);
-checkboxes?.addEventListener('change', checkbox);
+checkboxes.addEventListener('change', addTag);
+checkboxes.addEventListener('change', checkbox);
 function addTag(e) {
     const bool = tagList.includes(e.target.value);
     if (bool) {
@@ -19,7 +19,7 @@ function addTag(e) {
     console.log(tagList);
 }
 function checkbox(e) {
-    gameTags?.forEach((item) => {
+    gameTags.forEach((item) => {
         if (tagList.every((tag) => item.tags.includes(tag))) {
             item.style.display = '';
         }
@@ -29,7 +29,7 @@ function checkbox(e) {
     });
 }
 function findInfo() {
-    gameTags?.forEach((item) => {
+    gameTags.forEach((item) => {
         item.name = item.querySelector('.gl-title a').text;
         item.querySelectorAll('.tag a').forEach((e) => {
             if (item.tags) {

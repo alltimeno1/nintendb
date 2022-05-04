@@ -1,5 +1,5 @@
 const { client, connectCollection } = require('./mongo')
-import scrapTitleInfo from './crawling'
+import scrapTitleInfo from './scraping'
 
 async function main(URI: string, reset: string) {
   try {

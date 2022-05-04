@@ -3,7 +3,7 @@ const character = document.querySelector('#mario');
 const bubble = document.querySelector('#bubble');
 const firework = document.querySelector('#firework');
 const playBtn = document.querySelector('audio');
-playBtn?.addEventListener('play', animate);
+playBtn.addEventListener('play', animate);
 function sleep(time) {
     return new Promise((resolve) => {
         setTimeout(() => resolve(), time);
@@ -24,7 +24,7 @@ class MarioAnimation {
             await sleep(time);
         }
         else if (this.step > this.goal) {
-            character.style.opacity = this.opacity;
+            character.setAttribute('style', `opacity: ${this.opacity};`);
             return;
         }
         if (this.x) {
@@ -42,12 +42,12 @@ const jump = new MarioAnimation(22, 38, 1, 26, 3);
 const climbDown = new MarioAnimation(53, 0, 0, 18, -1);
 const enterCastle = new MarioAnimation(32, 61, 2, 71, -4, 0);
 async function animate() {
-    bubble.style.opacity = 1;
+    bubble.setAttribute('style', 'opacity: 1;');
     await sleep(4000);
-    bubble.style.opacity = 0;
+    bubble.setAttribute('style', 'opacity: 0;');
     await run.movement(500);
     await jump.movement(1000);
     await climbDown.movement(1500);
     await enterCastle.movement(2500);
-    firework.style.opacity = 1;
+    firework.setAttribute('style', 'opacity: 1;');
 }

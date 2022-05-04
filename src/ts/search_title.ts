@@ -1,11 +1,11 @@
-const checkboxes = document.querySelector('.checkboxes')
+const checkboxes = <HTMLElement>document.querySelector('.checkboxes')
 const gameTags = document.querySelectorAll('.gamelist')
 let tagList: string[] = []
 
 findInfo()
 
-checkboxes?.addEventListener('change', addTag)
-checkboxes?.addEventListener('change', checkbox)
+checkboxes.addEventListener('change', addTag)
+checkboxes.addEventListener('change', checkbox)
 
 function addTag(e: any): void {
   const bool = tagList.includes(e.target.value)
@@ -23,7 +23,7 @@ function addTag(e: any): void {
 }
 
 function checkbox(e: any): void {
-  gameTags?.forEach((item: any) => {
+  gameTags.forEach((item: any) => {
     if (tagList.every((tag) => item.tags.includes(tag))) {
       item.style.display = ''
     } else {
@@ -33,7 +33,7 @@ function checkbox(e: any): void {
 }
 
 function findInfo(): void {
-  gameTags?.forEach((item: any) => {
+  gameTags.forEach((item: any) => {
     item.name = item.querySelector('.gl-title a').text
     item.querySelectorAll('.tag a').forEach((e: any) => {
       if (item.tags) {

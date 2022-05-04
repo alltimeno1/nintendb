@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = require("axios");
 const cheerio = require("cheerio");
-const update_meta_1 = require("./update_meta");
+const scrap_meta_1 = require("./scrap_meta");
 const scrap_description_1 = require("./scrap_description");
 let href = [];
 let gameList = [];
@@ -49,7 +49,7 @@ async function scrapTitleInfo(URI) {
             const serialNumText = $('.attribute-group-disclaimer .product-attribute-val').text() || '';
             const idx = serialNumText.indexOf('GC-');
             const serialNum = idx !== -1 ? serialNumText.substr(idx, 19) : '';
-            const rating = (await (0, update_meta_1.default)(serialNum)) || 0;
+            const rating = (await (0, scrap_meta_1.default)(serialNum)) || 0;
             const tag = genre
                 ? `${language}, ${playerNum}, ${genre}`
                 : `${language}, ${playerNum}`;

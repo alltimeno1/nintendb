@@ -1,4 +1,4 @@
-export default async function scrapDesc($: any): Promise<string> {
+export default async function scrapDesc($: cheerio.Root): Promise<string> {
   let desc: string = ''
 
   for (let i = 1; i < 5; i++) {

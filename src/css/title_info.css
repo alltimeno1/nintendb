@@ -10,7 +10,7 @@
   width: 930px;
   height: 400px;
   background-color: white;
-  margin: 30px auto;
+  margin: 40px auto 30px auto;
   border-radius: 10px;
   border: 2px solid #e5e5e5;
   padding: 20px;
@@ -60,10 +60,10 @@
   top: 70px;
   height: 40px;
   width: 75px;
-  font-size: 15px;
+  font-size: 16px;
   border: 0;
   margin: 15px 0 0 5px;
-  background-color:cornflowerblue;
+  background-color:#2391e9;
   color:aliceblue;
 }
 
