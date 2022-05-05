@@ -39,6 +39,7 @@ table .info {
 
 table .info img {
   height: 60px;
+  border-radius: 5px;
 }
 
 table .info a {
