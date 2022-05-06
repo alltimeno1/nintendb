@@ -2,7 +2,7 @@ type BoardRegExp<T> = (title: T, text: T, id: T, password: T, email: T) => T
 
 export const boardRegExp: BoardRegExp<string> = (title, text, id, password, email = '') => {
   let message: string = ''
-  const reId: RegExp = /^[\w\Wㄱ-ㅎㅏ-ㅣ가-힣]{1,10}$/
+  const reId = /^[\w\Wㄱ-ㅎㅏ-ㅣ가-힣]{1,10}$/
   let re: RegExp
 
   if (title) {

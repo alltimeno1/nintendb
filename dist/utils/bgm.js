@@ -10,21 +10,21 @@ function sleep(time) {
     });
 }
 class MarioAnimation {
-    constructor(goal, x, runSpeed, y, jumpSpeed, opacity = 1, step = 0) {
+    constructor(goal, x, runSpeed, y, jumpSpeed, opacity = 1) {
         this.goal = goal;
         this.x = x;
         this.runSpeed = runSpeed;
         this.y = y;
         this.jumpSpeed = jumpSpeed;
         this.opacity = opacity;
-        this.step = step;
+        this.step = 0;
     }
     async movement(time) {
         if (!this.step) {
             await sleep(time);
         }
         else if (this.step > this.goal) {
-            character.setAttribute('style', `opacity: ${this.opacity};`);
+            character.style.opacity = this.opacity.toString();
             return;
         }
         if (this.x) {
@@ -42,12 +42,12 @@ const jump = new MarioAnimation(22, 38, 1, 26, 3);
 const climbDown = new MarioAnimation(53, 0, 0, 18, -1);
 const enterCastle = new MarioAnimation(32, 61, 2, 71, -4, 0);
 async function animate() {
-    bubble.setAttribute('style', 'opacity: 1;');
+    bubble.style.opacity = '1';
     await sleep(4000);
-    bubble.setAttribute('style', 'opacity: 0;');
+    bubble.style.opacity = '0';
     await run.movement(500);
     await jump.movement(1000);
     await climbDown.movement(1500);
     await enterCastle.movement(2500);
-    firework.setAttribute('style', 'opacity: 1;');
+    firework.style.opacity = '1';
 }

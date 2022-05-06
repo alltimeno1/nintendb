@@ -12,21 +12,22 @@ function sleep(time: number) {
 }
 
 class MarioAnimation {
+  private step = 0
+
   constructor(
     private goal: number,
     private x: number,
     private runSpeed: number,
     private y: number,
     private jumpSpeed: number,
-    private opacity: number = 1,
-    private step: number = 0
+    private opacity = 1
   ) {}
 
   async movement(time: number): Promise<void> {
     if (!this.step) {
       await sleep(time)
     } else if (this.step > this.goal) {
-      character.setAttribute('style', `opacity: ${this.opacity};`)
+      character.style.opacity = this.opacity.toString()
       return
     }
 
@@ -50,12 +51,12 @@ const climbDown: MarioAnimation = new MarioAnimation(53, 0, 0, 18, -1)
 const enterCastle: MarioAnimation = new MarioAnimation(32, 61, 2, 71, -4, 0)
 
 async function animate(): Promise<void> {
-  bubble.setAttribute('style', 'opacity: 1;')
+  bubble.style.opacity = '1'
   await sleep(4000)
-  bubble.setAttribute('style', 'opacity: 0;')
+  bubble.style.opacity = '0'
   await run.movement(500)
   await jump.movement(1000)
   await climbDown.movement(1500)
   await enterCastle.movement(2500)
-  firework.setAttribute('style', 'opacity: 1;')
+  firework.style.opacity = '1'
 }

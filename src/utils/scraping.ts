@@ -3,21 +3,8 @@ import * as cheerio from 'cheerio'
 import scrapMeta from './scrap_meta'
 import scrapDesc from './scrap_description'
 
-interface Game {
-  name: string
-  image: string
-  date: string
-  rating: number
-  price: number
-  bargainPrice: number
-  discountRate: number
-  tag: string
-  serialNum: string
-  description: string
-}
-
 let href: string[] = []
-let gameList: Game[] = []
+let gameList: Types.Game[] = []
 
 async function scrapTitlesUrl(URI: string): Promise<void> {
   try {
@@ -33,7 +20,7 @@ async function scrapTitlesUrl(URI: string): Promise<void> {
   }
 }
 
-export default async function scrapTitleInfo(URI: string): Promise<Game[] | void> {
+export default async function scrapTitleInfo(URI: string): Promise<Types.Game[] | void> {
   try {
     await scrapTitlesUrl(URI)
 
@@ -83,7 +70,7 @@ export default async function scrapTitleInfo(URI: string): Promise<Game[] | void
         : `${language}, ${playerNum}`
       const description: string = await scrapDesc($)
 
-      const game: Game = {
+      const game: Types.Game = {
         name,
         image,
         date,

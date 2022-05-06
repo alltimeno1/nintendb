@@ -7,24 +7,26 @@ findInfo()
 checkboxes.addEventListener('change', addTag)
 checkboxes.addEventListener('change', checkbox)
 
-function addTag(e: any): void {
-  const bool = tagList.includes(e.target.value)
+function addTag(e: Event) {
+  const { value } = e.target as HTMLButtonElement
+  const bool = tagList.includes(value)
 
   if (bool) {
-    const idx = tagList.findIndex((x) => x === e.target.value)
+    const idx = tagList.findIndex((x) => x === value)
 
     if (idx >= 0) {
       tagList.splice(idx, 1)
     }
   } else {
-    tagList.push(e.target.value)
+    tagList.push(value)
   }
-  console.log(tagList)
 }
 
-function checkbox(e: any): void {
-  gameTags.forEach((item: any) => {
-    if (tagList.every((tag) => item.tags.includes(tag))) {
+function checkbox() {
+  gameTags.forEach((item: Types.HtmlInterface) => {
+    if (!item.style) return
+
+    if (tagList.every((tag) => item.tags?.includes(tag))) {
       item.style.display = ''
     } else {
       item.style.display = 'none'
@@ -32,10 +34,15 @@ function checkbox(e: any): void {
   })
 }
 
-function findInfo(): void {
-  gameTags.forEach((item: any) => {
-    item.name = item.querySelector('.gl-title a').text
-    item.querySelectorAll('.tag a').forEach((e: any) => {
+function findInfo() {
+  gameTags.forEach((item: Types.HtmlInterface) => {
+    const name = item.querySelector('.gl-title a') as Types.HtmlInterface
+
+    item.name = name.text
+
+    item.querySelectorAll('.tag a').forEach((e: Types.HtmlInterface) => {
+      if (!e.text) return
+
       if (item.tags) {
         item.tags.push(e.text.slice(1, -1))
       } else {

@@ -10,7 +10,7 @@ text.addEventListener('keydown', postCommentByKey)
 hiddenInput.value = game_id
 form.action = `/title/${game_id}`
 
-function postCommentByKey(e: any): void {
+function postCommentByKey(e: KeyboardEvent): void {
   if (e.key === 'Enter' && !e.shiftKey) {
     e.preventDefault()
     e.stopPropagation()

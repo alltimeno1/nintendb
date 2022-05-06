@@ -2,7 +2,7 @@
 // 스크롤 이벤트 등록
 const btnTop = document.querySelector('#to-top');
 window.addEventListener('scroll', onScroll);
-btnTop?.addEventListener('click', scrollTop);
+btnTop.addEventListener('click', scrollTop);
 // 스크롤 이벤트
 let lastScrollY = 0;
 function onScroll() {

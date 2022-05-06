@@ -6,21 +6,23 @@ findInfo();
 checkboxes.addEventListener('change', addTag);
 checkboxes.addEventListener('change', checkbox);
 function addTag(e) {
-    const bool = tagList.includes(e.target.value);
+    const { value } = e.target;
+    const bool = tagList.includes(value);
     if (bool) {
-        const idx = tagList.findIndex((x) => x === e.target.value);
+        const idx = tagList.findIndex((x) => x === value);
         if (idx >= 0) {
             tagList.splice(idx, 1);
         }
     }
     else {
-        tagList.push(e.target.value);
+        tagList.push(value);
     }
-    console.log(tagList);
 }
-function checkbox(e) {
+function checkbox() {
     gameTags.forEach((item) => {
-        if (tagList.every((tag) => item.tags.includes(tag))) {
+        if (!item.style)
+            return;
+        if (tagList.every((tag) => item.tags?.includes(tag))) {
             item.style.display = '';
         }
         else {
@@ -30,8 +32,11 @@ function checkbox(e) {
 }
 function findInfo() {
     gameTags.forEach((item) => {
-        item.name = item.querySelector('.gl-title a').text;
+        const name = item.querySelector('.gl-title a');
+        item.name = name.text;
         item.querySelectorAll('.tag a').forEach((e) => {
+            if (!e.text)
+                return;
             if (item.tags) {
                 item.tags.push(e.text.slice(1, -1));
             }

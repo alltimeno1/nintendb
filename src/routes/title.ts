@@ -70,10 +70,10 @@ router.get('/:id', async (req, res, next) => {
 router.post('/bucket', async (req, res, next) => {
   try {
     const { game_id } = req.body
-    const { id: user_id } = req.user as Profile
     const buckets = await connectCollection('buckets')
 
     if (req.isAuthenticated()) {
+      const { id: user_id } = req.user as Profile
       const bucket = await buckets.findOneAndUpdate({ user_id }, { $addToSet: { list: game_id } })
 
       if (!bucket.value) {
@@ -141,11 +141,12 @@ router.post('/:id', async (req, res, next) => {
 router.post('/:id/delete', async (req, res, next) => {
   try {
     const { id } = req.params
-    const { id: user_id } = req.user as Profile
     const { comment_id, password, title_id } = req.body
     const comments = await connectCollection('comments')
 
     if (req.isAuthenticated()) {
+      const { id: user_id } = req.user as Profile
+
       await comments.deleteOne({
         _id: new ObjectId(comment_id),
         id: user_id,

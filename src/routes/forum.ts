@@ -35,11 +35,10 @@ router.get('/post', async (req, res, next) => {
 router.get('/update/:id', async (req, res, next) => {
   try {
     const { id } = req.params
-    const { id: user_id } = req.user as Profile
     const board = await connectCollection('board')
     const post = await board.findOne({ id: parseInt(id) })
     const status = req.isAuthenticated()
-    const checkMyPost = req.user && post ? user_id === post.user_id : false
+    const checkMyPost = req.user && post ? (req.user as Profile).id === post.user_id : false
 
     res.render('update_form', { post, status, checkMyPost })
   } catch (error: any) {
@@ -51,14 +50,13 @@ router.get('/update/:id', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
   try {
     const { id } = req.params
-    const { id: user_id } = req.user as Profile
     const board = await connectCollection('board')
 
     await board.updateOne({ id: parseInt(id) }, { $inc: { viewCount: 1 } })
 
     const post = await board.findOne({ id: parseInt(id) })
     const status = req.isAuthenticated()
-    const checkMyPost = user_id === post?.user_id
+    const checkMyPost = req.user && post ? (req.user as Profile).id === post.user_id : false
 
     if (!post) {
       res.status(404).send({
@@ -66,7 +64,7 @@ router.get('/:id', async (req, res, next) => {
       })
     }
 
-    return res.render('post', { post, status, checkMyPost, user_id })
+    return res.render('post', { post, status, checkMyPost })
   } catch (error) {
     return next(errorType(error))
   }

@@ -31,11 +31,10 @@ router.get('/post', async (req, res, next) => {
 router.get('/update/:id', async (req, res, next) => {
     try {
         const { id } = req.params;
-        const { id: user_id } = req.user;
         const board = await (0, mongo_1.connectCollection)('board');
         const post = await board.findOne({ id: parseInt(id) });
         const status = req.isAuthenticated();
-        const checkMyPost = req.user && post ? user_id === post.user_id : false;
+        const checkMyPost = req.user && post ? req.user.id === post.user_id : false;
         res.render('update_form', { post, status, checkMyPost });
     }
     catch (error) {
@@ -46,18 +45,17 @@ router.get('/update/:id', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
     try {
         const { id } = req.params;
-        const { id: user_id } = req.user;
         const board = await (0, mongo_1.connectCollection)('board');
         await board.updateOne({ id: parseInt(id) }, { $inc: { viewCount: 1 } });
         const post = await board.findOne({ id: parseInt(id) });
         const status = req.isAuthenticated();
-        const checkMyPost = user_id === post?.user_id;
+        const checkMyPost = req.user && post ? req.user.id === post.user_id : false;
         if (!post) {
             res.status(404).send({
                 message: 'There is no post with the id or DB disconnected :(',
             });
         }
-        return res.render('post', { post, status, checkMyPost, user_id });
+        return res.render('post', { post, status, checkMyPost });
     }
     catch (error) {
         return next((0, express_1.default)(error));

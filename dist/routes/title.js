@@ -65,9 +65,9 @@ router.get('/:id', async (req, res, next) => {
 router.post('/bucket', async (req, res, next) => {
     try {
         const { game_id } = req.body;
-        const { id: user_id } = req.user;
         const buckets = await (0, mongo_1.connectCollection)('buckets');
         if (req.isAuthenticated()) {
+            const { id: user_id } = req.user;
             const bucket = await buckets.findOneAndUpdate({ user_id }, { $addToSet: { list: game_id } });
             if (!bucket.value) {
                 await buckets.insertOne({ user_id, list: [game_id] });
@@ -126,10 +126,10 @@ router.post('/:id', async (req, res, next) => {
 router.post('/:id/delete', async (req, res, next) => {
     try {
         const { id } = req.params;
-        const { id: user_id } = req.user;
         const { comment_id, password, title_id } = req.body;
         const comments = await (0, mongo_1.connectCollection)('comments');
         if (req.isAuthenticated()) {
+            const { id: user_id } = req.user;
             await comments.deleteOne({
                 _id: new mongodb_1.ObjectId(comment_id),
                 id: user_id,
