@@ -31,7 +31,7 @@ router.get('/', async (req, res, next) => {
     }
 
     const result = await games.find({ name: { $in: myBucket?.list || [] } }).toArray()
-    console.log('123', profileImg, nickname)
+
     res.render('private', { result, status, profileImg, nickname })
   } catch (error) {
     return next(errorType(error))

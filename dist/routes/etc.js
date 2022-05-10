@@ -16,6 +16,14 @@ router.get('/:page', async (req, res, next) => {
             const sale = await games.find().sort({ discountRate: -1 }).limit(4).toArray();
             res.render('index', { best, recent, sale, status });
         }
+        else if (page === 'etc') {
+            let email = '';
+            if (status) {
+                const { _json } = req.user;
+                email = _json.email;
+            }
+            res.render(`${page}`, { status, email });
+        }
         else {
             res.render(`${page}`, { status });
         }

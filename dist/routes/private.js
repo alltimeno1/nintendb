@@ -25,7 +25,6 @@ router.get('/', async (req, res, next) => {
             myBucket = await buckets.findOne({ address: ip });
         }
         const result = await games.find({ name: { $in: myBucket?.list || [] } }).toArray();
-        console.log('123', profileImg, nickname);
         res.render('private', { result, status, profileImg, nickname });
     }
     catch (error) {

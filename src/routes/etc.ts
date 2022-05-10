@@ -19,6 +19,15 @@ router.get('/:page', async (req, res, next) => {
       const sale = await games.find().sort({ discountRate: -1 }).limit(4).toArray()
 
       res.render('index', { best, recent, sale, status })
+    } else if (page === 'etc') {
+      let email: string = ''
+
+      if (status) {
+        const { _json } = req.user as Types.NaverProfile
+        email = _json.email
+      }
+
+      res.render(`${page}`, { status, email })
     } else {
       res.render(`${page}`, { status })
     }
