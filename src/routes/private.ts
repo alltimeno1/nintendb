@@ -15,11 +15,15 @@ router.get('/', async (req, res, next) => {
     const status = req.isAuthenticated()
 
     let myBucket: MyBucket | null
+    let profileImg: string = 'static/img/profile_placeholder.png'
+    let nickname: string = '익명'
 
     if (req.isAuthenticated()) {
-      const { id: user_id } = req.user as Profile
-
+      const { id: user_id, displayName } = req.user as Profile
+      const { _json } = req.user as Types.NaverProfile
+      profileImg = _json.profile_image
       myBucket = await buckets.findOne({ user_id })
+      nickname = displayName
     } else {
       const ip = requestIp.getClientIp(req)
 
@@ -27,8 +31,8 @@ router.get('/', async (req, res, next) => {
     }
 
     const result = await games.find({ name: { $in: myBucket?.list || [] } }).toArray()
-
-    res.render('private', { result, status })
+    console.log('123', profileImg, nickname)
+    res.render('private', { result, status, profileImg, nickname })
   } catch (error) {
     return next(errorType(error))
   }

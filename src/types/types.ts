@@ -22,4 +22,13 @@ namespace Types {
     serialNum: string
     description: string
   }
+
+  export interface NaverProfile {
+    _json: {
+      email: string
+      nickname: string
+      profile_image: string
+      id: string
+    }
+  }
 }

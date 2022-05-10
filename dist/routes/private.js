@@ -11,16 +11,22 @@ router.get('/', async (req, res, next) => {
         const buckets = await (0, mongo_1.connectCollection)('buckets');
         const status = req.isAuthenticated();
         let myBucket;
+        let profileImg = 'static/img/profile_placeholder.png';
+        let nickname = '익명';
         if (req.isAuthenticated()) {
-            const { id: user_id } = req.user;
+            const { id: user_id, displayName } = req.user;
+            const { _json } = req.user;
+            profileImg = _json.profile_image;
             myBucket = await buckets.findOne({ user_id });
+            nickname = displayName;
         }
         else {
             const ip = requestIp.getClientIp(req);
             myBucket = await buckets.findOne({ address: ip });
         }
         const result = await games.find({ name: { $in: myBucket?.list || [] } }).toArray();
-        res.render('private', { result, status });
+        console.log('123', profileImg, nickname);
+        res.render('private', { result, status, profileImg, nickname });
     }
     catch (error) {
         return next((0, express_1.default)(error));
