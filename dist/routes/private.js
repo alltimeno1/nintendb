@@ -13,10 +13,10 @@ router.get('/', async (req, res, next) => {
         let myBucket;
         let profileImg = 'static/img/profile_placeholder.png';
         let nickname = '익명';
-        if (req.isAuthenticated()) {
+        if (status) {
             const { id: user_id, displayName } = req.user;
             const { _json } = req.user;
-            profileImg = _json.profile_image;
+            profileImg = _json.profile_image || profileImg;
             myBucket = await buckets.findOne({ user_id });
             nickname = displayName;
         }

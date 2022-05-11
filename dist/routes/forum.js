@@ -11,7 +11,12 @@ router.get('/', async (req, res, next) => {
         const board = await (0, mongo_1.connectCollection)('board');
         const post = await board.find().sort({ id: -1 }).toArray();
         const status = req.isAuthenticated();
-        res.render('forum', { post, status });
+        let profileImg = 'static/img/profile_placeholder.png';
+        if (status) {
+            const { _json } = req.user;
+            profileImg = _json.profile_image || profileImg;
+        }
+        res.render('forum', { post, status, profileImg });
     }
     catch (error) {
         return next((0, express_1.default)(error));
@@ -21,7 +26,12 @@ router.get('/', async (req, res, next) => {
 router.get('/post', async (req, res, next) => {
     try {
         const status = req.isAuthenticated();
-        res.render('form', { status });
+        let profileImg = 'static/img/profile_placeholder.png';
+        if (status) {
+            const { _json } = req.user;
+            profileImg = _json.profile_image || profileImg;
+        }
+        res.render('form', { status, profileImg });
     }
     catch (error) {
         return next((0, express_1.default)(error));
@@ -35,7 +45,12 @@ router.get('/update/:id', async (req, res, next) => {
         const post = await board.findOne({ id: parseInt(id) });
         const status = req.isAuthenticated();
         const checkMyPost = req.user && post ? req.user.id === post.user_id : false;
-        res.render('update_form', { post, status, checkMyPost });
+        let profileImg = 'static/img/profile_placeholder.png';
+        if (status) {
+            const { _json } = req.user;
+            profileImg = _json.profile_image || profileImg;
+        }
+        res.render('update_form', { post, status, checkMyPost, profileImg });
     }
     catch (error) {
         return next((0, express_1.default)(error));
@@ -50,12 +65,17 @@ router.get('/:id', async (req, res, next) => {
         const post = await board.findOne({ id: parseInt(id) });
         const status = req.isAuthenticated();
         const checkMyPost = req.user && post ? req.user.id === post.user_id : false;
+        let profileImg = 'static/img/profile_placeholder.png';
+        if (status) {
+            const { _json } = req.user;
+            profileImg = _json.profile_image || profileImg;
+        }
         if (!post) {
             res.status(404).send({
                 message: 'There is no post with the id or DB disconnected :(',
             });
         }
-        return res.render('post', { post, status, checkMyPost });
+        return res.render('post', { post, status, checkMyPost, profileImg });
     }
     catch (error) {
         return next((0, express_1.default)(error));

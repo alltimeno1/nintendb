@@ -10,11 +10,16 @@ router.get('/:page', async (req, res, next) => {
         const { page } = req.params;
         const games = await (0, mongo_1.connectCollection)('games');
         const status = req.isAuthenticated();
+        let profileImg = 'static/img/profile_placeholder.png';
+        if (status) {
+            const { _json } = req.user;
+            profileImg = _json.profile_image || profileImg;
+        }
         if (page === 'home') {
             const best = await games.find().sort({ rating: -1 }).limit(4).toArray();
             const recent = await games.find().sort({ date: -1 }).limit(4).toArray();
             const sale = await games.find().sort({ discountRate: -1 }).limit(4).toArray();
-            res.render('index', { best, recent, sale, status });
+            res.render('index', { best, recent, sale, status, profileImg });
         }
         else if (page === 'etc') {
             let email = '';
@@ -22,10 +27,10 @@ router.get('/:page', async (req, res, next) => {
                 const { _json } = req.user;
                 email = _json.email;
             }
-            res.render(`${page}`, { status, email });
+            res.render(page, { status, email, profileImg });
         }
         else {
-            res.render(`${page}`, { status });
+            res.render(page, { status, profileImg });
         }
     }
     catch (error) {

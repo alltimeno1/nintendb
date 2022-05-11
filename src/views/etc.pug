@@ -27,6 +27,8 @@ html(lang='en')
         li
           a#current(href='/etc') 고객지원
       if status
+        a.small_profile(href='/private')
+          img.small_profile_img(src=profileImg)
         a#login(href='/logout') 로그아웃
       else
         a#login(href='/login') 로그인/회원가입

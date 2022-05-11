@@ -17,7 +17,12 @@ router.get('/', async (req, res, next) => {
             .toArray();
         const top10 = await games.find().sort({ rating: -1 }).limit(10).toArray();
         const status = req.isAuthenticated();
-        res.render('title', { top10, title, status });
+        let profileImg = 'static/img/profile_placeholder.png';
+        if (status) {
+            const { _json } = req.user;
+            profileImg = _json.profile_image || profileImg;
+        }
+        res.render('title', { top10, title, status, profileImg });
     }
     catch (error) {
         return next((0, express_1.default)(error));
@@ -31,7 +36,12 @@ router.get('/filter', async (req, res, next) => {
         const title = await games.find({ name: { $regex: keyword } }).toArray();
         const top10 = await games.find().sort({ rating: -1 }).limit(10).toArray();
         const status = req.isAuthenticated();
-        res.render('title', { top10, title, status });
+        let profileImg = 'static/img/profile_placeholder.png';
+        if (status) {
+            const { _json } = req.user;
+            profileImg = _json.profile_image || profileImg;
+        }
+        res.render('title', { top10, title, status, profileImg });
     }
     catch (error) {
         return next((0, express_1.default)(error));
@@ -51,7 +61,9 @@ router.get('/:id', async (req, res, next) => {
             });
         }
         if (req.isAuthenticated()) {
-            res.render('title_info_login', { title, comment });
+            const { _json } = req.user;
+            const profileImg = _json.profile_image || 'static/img/profile_placeholder.png';
+            res.render('title_info_login', { title, comment, profileImg });
         }
         else {
             res.render('title_info', { title, comment });
