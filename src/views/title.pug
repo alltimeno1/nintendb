@@ -73,27 +73,30 @@ html(lang='en')
             each item in top10
               li.keyword
                 a(href=`/title/${item.name}`)=item.name
-        ul.gamelists
-          each item in title
-            li.gamelist
-              div
-                a(href=`/title/${item.name}`)
-                  img.gl-img(src=item.image)
-              .gl-info
-                .header
-                  h2.gl-title
-                    a(href=`/title/${item.name}`)=item.name
-                  p.gl-date=`${new Date(item.date).toLocaleDateString('ko-KR')} 출시`
-                ul.tags
-                  li.tag
-                    each desc in item.tag.split(', ')
-                      a(href='#')=`#${desc}\n`
-                .stats
-                  img(src='../static/img/metacritic.png' width='20' height='20')
-                  span.rating=item.rating !== 0 ? item.rating : 'TBD'
-                  span.price=item.price.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' })
+        .gamelists
+          ul
+            each item in title
+              li.gamelist
+                div
+                  a(href=`/title/${item.name}`)
+                    img.gl-img(src=item.image)
+                .gl-info
+                  .header
+                    h2.gl-title
+                      a(href=`/title/${item.name}`)=item.name
+                    p.gl-date=`${new Date(item.date).toLocaleDateString('ko-KR')} 출시`
+                  ul.tags
+                    li.tag
+                      each desc in item.tag.split(', ')
+                        a(href='#')=`#${desc}\n`
+                  .stats
+                    img(src='../static/img/metacritic.png' width='20' height='20')
+                    span.rating=item.rating !== 0 ? item.rating : 'TBD'
+                    span.price=item.price.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' })
+          button.more 더 보기
     #to-top
       | 🔝
     script(type='module' src='/dist/utils/scroll.js')
     script(type='module' src='/dist/utils/search_title.js')
     script(type='module' src='/dist/utils/fadeIn.js')
+    script(type='module' src='/dist/utils/showItems.js')

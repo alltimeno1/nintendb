@@ -6,6 +6,12 @@ namespace Types {
     style?: { display: string }
   }
 
+  export interface CSSInterface extends Element {
+    style: {
+      'max-height': string
+    }
+  }
+
   export interface Option {
     timeout: number
   }
