@@ -4,6 +4,7 @@ import { connectCollection } from '../utils/mongo'
 import { boardRegExp } from '../utils/regular_expressions'
 import errorType from '../utils/express'
 import { Profile } from 'passport'
+import { loadProfileImg } from '../utils/load_profile'
 
 const router = express.Router()
 
@@ -13,12 +14,7 @@ router.get('/', async (req, res, next) => {
     const board = await connectCollection('board')
     const post = await board.find().sort({ id: -1 }).toArray()
     const status = req.isAuthenticated()
-    let profileImg = 'static/img/profile_placeholder.png'
-
-    if (status) {
-      const { _json } = req.user as Types.NaverProfile
-      profileImg = _json.profile_image || profileImg
-    }
+    const profileImg = loadProfileImg(status, req)
 
     res.render('forum', { post, status, profileImg })
   } catch (error) {
@@ -30,12 +26,7 @@ router.get('/', async (req, res, next) => {
 router.get('/post', async (req, res, next) => {
   try {
     const status = req.isAuthenticated()
-    let profileImg = 'static/img/profile_placeholder.png'
-
-    if (status) {
-      const { _json } = req.user as Types.NaverProfile
-      profileImg = _json.profile_image || profileImg
-    }
+    const profileImg = loadProfileImg(status, req)
 
     res.render('form', { status, profileImg })
   } catch (error) {
@@ -51,12 +42,7 @@ router.get('/update/:id', async (req, res, next) => {
     const post = await board.findOne({ id: parseInt(id) })
     const status = req.isAuthenticated()
     const checkMyPost = req.user && post ? (req.user as Profile).id === post.user_id : false
-    let profileImg = 'static/img/profile_placeholder.png'
-
-    if (status) {
-      const { _json } = req.user as Types.NaverProfile
-      profileImg = _json.profile_image || profileImg
-    }
+    const profileImg = loadProfileImg(status, req)
 
     res.render('update_form', { post, status, checkMyPost, profileImg })
   } catch (error: any) {
@@ -75,12 +61,7 @@ router.get('/:id', async (req, res, next) => {
     const post = await board.findOne({ id: parseInt(id) })
     const status = req.isAuthenticated()
     const checkMyPost = req.user && post ? (req.user as Profile).id === post.user_id : false
-    let profileImg = 'static/img/profile_placeholder.png'
-
-    if (status) {
-      const { _json } = req.user as Types.NaverProfile
-      profileImg = _json.profile_image || profileImg
-    }
+    const profileImg = loadProfileImg(status, req)
 
     if (!post) {
       res.status(404).send({

@@ -5,6 +5,7 @@ const requestIp = require("request-ip");
 const mongo_1 = require("../utils/mongo");
 const regular_expressions_1 = require("../utils/regular_expressions");
 const express_1 = require("../utils/express");
+const load_profile_1 = require("../utils/load_profile");
 const router = express.Router();
 // 모든 게임 조회
 router.get('/', async (req, res, next) => {
@@ -17,11 +18,7 @@ router.get('/', async (req, res, next) => {
             .toArray();
         const top10 = await games.find().sort({ rating: -1 }).limit(10).toArray();
         const status = req.isAuthenticated();
-        let profileImg = 'static/img/profile_placeholder.png';
-        if (status) {
-            const { _json } = req.user;
-            profileImg = _json.profile_image || profileImg;
-        }
+        let profileImg = (0, load_profile_1.loadProfileImg)(status, req);
         res.render('title', { top10, title, status, profileImg });
     }
     catch (error) {
@@ -36,11 +33,7 @@ router.get('/filter', async (req, res, next) => {
         const title = await games.find({ name: { $regex: keyword } }).toArray();
         const top10 = await games.find().sort({ rating: -1 }).limit(10).toArray();
         const status = req.isAuthenticated();
-        let profileImg = 'static/img/profile_placeholder.png';
-        if (status) {
-            const { _json } = req.user;
-            profileImg = _json.profile_image || profileImg;
-        }
+        const profileImg = (0, load_profile_1.loadProfileImg)(status, req);
         res.render('title', { top10, title, status, profileImg });
     }
     catch (error) {
@@ -55,14 +48,14 @@ router.get('/:id', async (req, res, next) => {
         const comments = await (0, mongo_1.connectCollection)('comments');
         const title = await games.findOne({ name: id });
         const comment = await comments.find({ game_id: id }).toArray();
+        const status = req.isAuthenticated();
         if (!title) {
             res.status(404).send({
                 message: 'There is no title with the id or DB disconnected :(',
             });
         }
-        if (req.isAuthenticated()) {
-            const { _json } = req.user;
-            const profileImg = _json.profile_image || 'static/img/profile_placeholder.png';
+        if (status) {
+            const profileImg = (0, load_profile_1.loadProfileImg)(status, req);
             res.render('title_info_login', { title, comment, profileImg });
         }
         else {

@@ -37,4 +37,8 @@ namespace Types {
       id: string
     }
   }
+
+  export interface Request {
+    user: NaverProfile
+  }
 }

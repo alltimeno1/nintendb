@@ -3,6 +3,7 @@ const express = require("express");
 const mongo_1 = require("../utils/mongo");
 const regular_expressions_1 = require("../utils/regular_expressions");
 const express_1 = require("../utils/express");
+const load_profile_1 = require("../utils/load_profile");
 const router = express.Router();
 router.get('/', (req, res) => res.redirect('/home'));
 router.get('/:page', async (req, res, next) => {
@@ -10,11 +11,7 @@ router.get('/:page', async (req, res, next) => {
         const { page } = req.params;
         const games = await (0, mongo_1.connectCollection)('games');
         const status = req.isAuthenticated();
-        let profileImg = 'static/img/profile_placeholder.png';
-        if (status) {
-            const { _json } = req.user;
-            profileImg = _json.profile_image || profileImg;
-        }
+        const profileImg = (0, load_profile_1.loadProfileImg)(status, req);
         if (page === 'home') {
             const best = await games.find().sort({ rating: -1 }).limit(4).toArray();
             const recent = await games.find().sort({ date: -1 }).limit(4).toArray();
@@ -22,11 +19,7 @@ router.get('/:page', async (req, res, next) => {
             res.render('index', { best, recent, sale, status, profileImg });
         }
         else if (page === 'etc') {
-            let email = '';
-            if (status) {
-                const { _json } = req.user;
-                email = _json.email;
-            }
+            const email = (0, load_profile_1.loadProfileEmail)(status, req);
             res.render(page, { status, email, profileImg });
         }
         else {

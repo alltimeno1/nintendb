@@ -4,6 +4,7 @@ const requestIp = require("request-ip");
 const mongo_1 = require("../utils/mongo");
 const regular_expressions_1 = require("../utils/regular_expressions");
 const express_1 = require("../utils/express");
+const load_profile_1 = require("../utils/load_profile");
 const router = express.Router();
 // 게시판 조회
 router.get('/', async (req, res, next) => {
@@ -11,11 +12,7 @@ router.get('/', async (req, res, next) => {
         const board = await (0, mongo_1.connectCollection)('board');
         const post = await board.find().sort({ id: -1 }).toArray();
         const status = req.isAuthenticated();
-        let profileImg = 'static/img/profile_placeholder.png';
-        if (status) {
-            const { _json } = req.user;
-            profileImg = _json.profile_image || profileImg;
-        }
+        const profileImg = (0, load_profile_1.loadProfileImg)(status, req);
         res.render('forum', { post, status, profileImg });
     }
     catch (error) {
@@ -26,11 +23,7 @@ router.get('/', async (req, res, next) => {
 router.get('/post', async (req, res, next) => {
     try {
         const status = req.isAuthenticated();
-        let profileImg = 'static/img/profile_placeholder.png';
-        if (status) {
-            const { _json } = req.user;
-            profileImg = _json.profile_image || profileImg;
-        }
+        const profileImg = (0, load_profile_1.loadProfileImg)(status, req);
         res.render('form', { status, profileImg });
     }
     catch (error) {
@@ -45,11 +38,7 @@ router.get('/update/:id', async (req, res, next) => {
         const post = await board.findOne({ id: parseInt(id) });
         const status = req.isAuthenticated();
         const checkMyPost = req.user && post ? req.user.id === post.user_id : false;
-        let profileImg = 'static/img/profile_placeholder.png';
-        if (status) {
-            const { _json } = req.user;
-            profileImg = _json.profile_image || profileImg;
-        }
+        const profileImg = (0, load_profile_1.loadProfileImg)(status, req);
         res.render('update_form', { post, status, checkMyPost, profileImg });
     }
     catch (error) {
@@ -65,11 +54,7 @@ router.get('/:id', async (req, res, next) => {
         const post = await board.findOne({ id: parseInt(id) });
         const status = req.isAuthenticated();
         const checkMyPost = req.user && post ? req.user.id === post.user_id : false;
-        let profileImg = 'static/img/profile_placeholder.png';
-        if (status) {
-            const { _json } = req.user;
-            profileImg = _json.profile_image || profileImg;
-        }
+        const profileImg = (0, load_profile_1.loadProfileImg)(status, req);
         if (!post) {
             res.status(404).send({
                 message: 'There is no post with the id or DB disconnected :(',

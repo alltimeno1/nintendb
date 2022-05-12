@@ -3,6 +3,7 @@ const express = require("express");
 const mongo_1 = require("../utils/mongo");
 const requestIp = require("request-ip");
 const express_1 = require("../utils/express");
+const load_profile_1 = require("../utils/load_profile");
 const router = express.Router();
 // MY 페이지 조회
 router.get('/', async (req, res, next) => {
@@ -11,12 +12,10 @@ router.get('/', async (req, res, next) => {
         const buckets = await (0, mongo_1.connectCollection)('buckets');
         const status = req.isAuthenticated();
         let myBucket;
-        let profileImg = 'static/img/profile_placeholder.png';
+        const profileImg = (0, load_profile_1.loadProfileImg)(status, req);
         let nickname = '익명';
         if (status) {
             const { id: user_id, displayName } = req.user;
-            const { _json } = req.user;
-            profileImg = _json.profile_image || profileImg;
             myBucket = await buckets.findOne({ user_id });
             nickname = displayName;
         }

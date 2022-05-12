@@ -2,6 +2,7 @@ import * as express from 'express'
 import { connectCollection } from '../utils/mongo'
 import { boardRegExp } from '../utils/regular_expressions'
 import errorType from '../utils/express'
+import { loadProfileImg, loadProfileEmail } from '../utils/load_profile'
 
 const router = express.Router()
 
@@ -12,12 +13,7 @@ router.get('/:page', async (req, res, next) => {
     const { page } = req.params
     const games = await connectCollection('games')
     const status = req.isAuthenticated()
-    let profileImg = 'static/img/profile_placeholder.png'
-
-    if (status) {
-      const { _json } = req.user as Types.NaverProfile
-      profileImg = _json.profile_image || profileImg
-    }
+    const profileImg = loadProfileImg(status, req)
 
     if (page === 'home') {
       const best = await games.find().sort({ rating: -1 }).limit(4).toArray()
@@ -26,12 +22,7 @@ router.get('/:page', async (req, res, next) => {
 
       res.render('index', { best, recent, sale, status, profileImg })
     } else if (page === 'etc') {
-      let email: string = ''
-
-      if (status) {
-        const { _json } = req.user as Types.NaverProfile
-        email = _json.email
-      }
+      const email = loadProfileEmail(status, req)
 
       res.render(page, { status, email, profileImg })
     } else {

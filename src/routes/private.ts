@@ -4,6 +4,7 @@ import * as requestIp from 'request-ip'
 import errorType from '../utils/express'
 import { MyBucket } from '../models/bucket'
 import { Profile } from 'passport'
+import { loadProfileImg } from '../utils/load_profile'
 
 const router = express.Router()
 
@@ -15,13 +16,11 @@ router.get('/', async (req, res, next) => {
     const status = req.isAuthenticated()
 
     let myBucket: MyBucket | null
-    let profileImg: string = 'static/img/profile_placeholder.png'
-    let nickname: string = '익명'
+    const profileImg = loadProfileImg(status, req)
+    let nickname = '익명'
 
     if (status) {
       const { id: user_id, displayName } = req.user as Profile
-      const { _json } = req.user as Types.NaverProfile
-      profileImg = _json.profile_image || profileImg
       myBucket = await buckets.findOne({ user_id })
       nickname = displayName
     } else {
