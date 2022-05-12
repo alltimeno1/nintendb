@@ -16,10 +16,6 @@ http://nintendb.shop
   <img src="https://img.shields.io/badge/express-000000?style=for-the-badge&logo=express&logoColor=white">
   <img src="https://img.shields.io/badge/passport-34E27A?style=for-the-badge&logo=passport&logoColor=white">
   <img src="https://img.shields.io/badge/puppeteer-40B5A4?style=for-the-badge&logo=puppeteer&logoColor=white">
-  <img src="https://img.shields.io/badge/cheerio-000000?style=for-the-badge&logo=cheerio&logoColor=white">
-  <img src="https://img.shields.io/badge/axios-000000?style=for-the-badge&logo=axios&logoColor=white">
-  </p>
-  <p>
   <img src="https://img.shields.io/badge/mongoDB-47A248?style=for-the-badge&logo=MongoDB&logoColor=white">
   <img src="https://img.shields.io/badge/amazonaws-232F3E?style=for-the-badge&logo=amazonaws&logoColor=white">
   </p>
