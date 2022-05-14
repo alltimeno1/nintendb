@@ -72,17 +72,17 @@ router.post('/bucket', async (req, res, next) => {
         const { game_id } = req.body;
         const buckets = await (0, mongo_1.connectCollection)('buckets');
         if (req.isAuthenticated()) {
-            const { id: user_id } = req.user;
-            const bucket = await buckets.findOneAndUpdate({ user_id }, { $addToSet: { list: game_id } });
+            const { id: userId } = req.user;
+            const bucket = await buckets.findOneAndUpdate({ id: userId }, { $addToSet: { list: game_id } });
             if (!bucket.value) {
-                await buckets.insertOne({ user_id, list: [game_id] });
+                await buckets.insertOne({ id: userId, list: [game_id] });
             }
         }
         else {
             const ip = requestIp.getClientIp(req);
-            const bucket = await buckets.findOneAndUpdate({ address: ip }, { $addToSet: { list: game_id } });
+            const bucket = await buckets.findOneAndUpdate({ id: ip }, { $addToSet: { list: game_id } });
             if (!bucket.value) {
-                await buckets.insertOne({ address: ip, list: [game_id] });
+                await buckets.insertOne({ id: ip, list: [game_id] });
             }
         }
         res.send(`<script>alert('관심 목록에 ${game_id}가 추가되었습니다!');location.href='/title/${game_id}';</script>`);

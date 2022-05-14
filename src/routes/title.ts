@@ -79,21 +79,21 @@ router.post('/bucket', async (req, res, next) => {
     const buckets = await connectCollection('buckets')
 
     if (req.isAuthenticated()) {
-      const { id: user_id } = req.user as Profile
-      const bucket = await buckets.findOneAndUpdate({ user_id }, { $addToSet: { list: game_id } })
-
-      if (!bucket.value) {
-        await buckets.insertOne({ user_id, list: [game_id] })
-      }
-    } else {
-      const ip = requestIp.getClientIp(req)
+      const { id: userId } = req.user as Profile
       const bucket = await buckets.findOneAndUpdate(
-        { address: ip },
+        { id: userId },
         { $addToSet: { list: game_id } }
       )
 
       if (!bucket.value) {
-        await buckets.insertOne({ address: ip, list: [game_id] })
+        await buckets.insertOne({ id: userId, list: [game_id] })
+      }
+    } else {
+      const ip = requestIp.getClientIp(req)
+      const bucket = await buckets.findOneAndUpdate({ id: ip }, { $addToSet: { list: game_id } })
+
+      if (!bucket.value) {
+        await buckets.insertOne({ id: ip, list: [game_id] })
       }
     }
 
