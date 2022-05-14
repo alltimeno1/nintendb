@@ -1,19 +1,20 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.postInquery = exports.etc = exports.domain = void 0;
+exports.createInquery = exports.readEtc = exports.readDomain = void 0;
 const etc_service_1 = require("../services/etc.service");
 const load_profile_1 = require("../utils/load_profile");
 const regular_expressions_1 = require("../utils/regular_expressions");
 const express_1 = require("../utils/express");
-const domain = async (req, res) => res.redirect('/home');
-exports.domain = domain;
-const etc = async (req, res, next) => {
+const readDomain = async (req, res) => res.redirect('/home');
+exports.readDomain = readDomain;
+// 페이지 조회
+const readEtc = async (req, res, next) => {
     try {
         const { page } = req.params;
         const status = req.isAuthenticated();
         const profileImg = (0, load_profile_1.loadProfileImg)(status, req);
         if (page === 'home') {
-            const [best, recent, sale] = await (0, etc_service_1.getSortedList)();
+            const [best, recent, sale] = await (0, etc_service_1.findSortedList)();
             res.render('index', { best, recent, sale, status, profileImg });
         }
         else if (page === 'etc') {
@@ -28,13 +29,14 @@ const etc = async (req, res, next) => {
         return next((0, express_1.default)(error));
     }
 };
-exports.etc = etc;
-const postInquery = async (req, res, next) => {
+exports.readEtc = readEtc;
+// 문의하기
+const createInquery = async (req, res, next) => {
     try {
         const { name, email, message } = req.body;
         const validationMsg = (0, regular_expressions_1.boardRegExp)('', message, name, '', email);
         if (!validationMsg) {
-            await (0, etc_service_1.sendEmail)(name, email, message);
+            await (0, etc_service_1.insertInquery)(name, email, message);
             res.send(`<script>alert('감사합니다!');location.href='/etc';</script>`);
         }
         else {
@@ -45,4 +47,4 @@ const postInquery = async (req, res, next) => {
         return next((0, express_1.default)(error));
     }
 };
-exports.postInquery = postInquery;
+exports.createInquery = createInquery;

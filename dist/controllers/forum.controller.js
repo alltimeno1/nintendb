@@ -1,16 +1,15 @@
 "use strict";
-const express = require("express");
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.updateRecommend = exports.updatePost = exports.deletePost = exports.createPost = exports.readPost = exports.readUpdate = exports.readForm = exports.readForum = void 0;
 const requestIp = require("request-ip");
-const mongo_1 = require("../utils/mongo");
 const regular_expressions_1 = require("../utils/regular_expressions");
 const express_1 = require("../utils/express");
 const load_profile_1 = require("../utils/load_profile");
-const router = express.Router();
+const Forum = require("../services/forum.service");
 // 게시판 조회
-router.get('/', async (req, res, next) => {
+const readForum = async (req, res, next) => {
     try {
-        const board = await (0, mongo_1.connectCollection)('board');
-        const post = await board.find().sort({ id: -1 }).toArray();
+        const post = await Forum.findBoard();
         const status = req.isAuthenticated();
         const profileImg = (0, load_profile_1.loadProfileImg)(status, req);
         res.render('forum', { post, status, profileImg });
@@ -18,9 +17,10 @@ router.get('/', async (req, res, next) => {
     catch (error) {
         return next((0, express_1.default)(error));
     }
-});
+};
+exports.readForum = readForum;
 // 게시글 등록 페이지 조회
-router.get('/post', async (req, res, next) => {
+const readForm = async (req, res, next) => {
     try {
         const status = req.isAuthenticated();
         const profileImg = (0, load_profile_1.loadProfileImg)(status, req);
@@ -29,13 +29,13 @@ router.get('/post', async (req, res, next) => {
     catch (error) {
         return next((0, express_1.default)(error));
     }
-});
+};
+exports.readForm = readForm;
 // 게시글 수정 페이지 조회
-router.get('/update/:id', async (req, res, next) => {
+const readUpdate = async (req, res, next) => {
     try {
         const { id } = req.params;
-        const board = await (0, mongo_1.connectCollection)('board');
-        const post = await board.findOne({ id: parseInt(id) });
+        const post = await Forum.findPostLog(id);
         const status = req.isAuthenticated();
         const checkMyPost = req.user && post ? req.user.id === post.user_id : false;
         const profileImg = (0, load_profile_1.loadProfileImg)(status, req);
@@ -44,14 +44,13 @@ router.get('/update/:id', async (req, res, next) => {
     catch (error) {
         return next((0, express_1.default)(error));
     }
-});
+};
+exports.readUpdate = readUpdate;
 // 게시글 조회
-router.get('/:id', async (req, res, next) => {
+const readPost = async (req, res, next) => {
     try {
         const { id } = req.params;
-        const board = await (0, mongo_1.connectCollection)('board');
-        await board.updateOne({ id: parseInt(id) }, { $inc: { viewCount: 1 } });
-        const post = await board.findOne({ id: parseInt(id) });
+        const post = await Forum.updateAndFindPost(id);
         const status = req.isAuthenticated();
         const checkMyPost = req.user && post ? req.user.id === post.user_id : false;
         const profileImg = (0, load_profile_1.loadProfileImg)(status, req);
@@ -65,42 +64,22 @@ router.get('/:id', async (req, res, next) => {
     catch (error) {
         return next((0, express_1.default)(error));
     }
-});
+};
+exports.readPost = readPost;
 // 게시글 등록
-router.post('/', async (req, res, next) => {
+const createPost = async (req, res, next) => {
     try {
         const { title, text } = req.body;
-        const board = await (0, mongo_1.connectCollection)('board');
-        const counts = await (0, mongo_1.connectCollection)('counts');
-        const postNum = await counts.findOneAndUpdate({ name: 'board' }, { $inc: { count: 1 } });
         if (req.isAuthenticated()) {
-            const { displayName, id: user_id } = req.user;
-            await board.insertOne({
-                id: postNum.value?.count,
-                title,
-                nickname: displayName,
-                user_id,
-                text: text.replace(/\n/g, '<br>'),
-                date: new Date(),
-                viewCount: 0,
-                recommend: [],
-            });
+            const { displayName, id: userId } = req.user;
+            await Forum.insertLoginPost(title, displayName, userId, text);
             res.redirect('forum');
         }
         else {
             const { nickname, password } = req.body;
             const message = (0, regular_expressions_1.boardRegExp)(title, '', nickname, password, '');
             if (!message && text) {
-                await board.insertOne({
-                    id: postNum.value?.count,
-                    title,
-                    nickname,
-                    password,
-                    text: text.replace(/\n/g, '<br>'),
-                    date: new Date(),
-                    viewCount: 0,
-                    recommend: [],
-                });
+                await Forum.insertLogoutPost(title, nickname, password, text);
                 res.redirect('forum');
             }
             else {
@@ -111,25 +90,19 @@ router.post('/', async (req, res, next) => {
     catch (error) {
         return next((0, express_1.default)(error));
     }
-});
+};
+exports.createPost = createPost;
 // 게시글 삭제
-router.post('/:id', async (req, res, next) => {
+const deletePost = async (req, res, next) => {
     try {
         const { id } = req.params;
-        const { post_id, user_id, password } = req.body;
-        const board = await (0, mongo_1.connectCollection)('board');
-        if (user_id) {
-            await board.deleteOne({
-                id: parseInt(post_id),
-                user_id,
-            });
+        const { post_id: postId, user_id: userId, password } = req.body;
+        if (userId) {
+            await Forum.deleteLoginPost(postId, userId);
             res.redirect('/forum');
         }
         else {
-            const result = await board.deleteOne({
-                id: parseInt(post_id),
-                password: password,
-            });
+            const result = await Forum.deleteLogoutPost(postId, password);
             if (result.deletedCount) {
                 res.redirect('/forum');
             }
@@ -141,20 +114,20 @@ router.post('/:id', async (req, res, next) => {
     catch (error) {
         return next((0, express_1.default)(error));
     }
-});
+};
+exports.deletePost = deletePost;
 // 게시글 수정
-router.post('/update/:id', async (req, res, next) => {
+const updatePost = async (req, res, next) => {
     try {
         const { id } = req.params;
-        const board = await (0, mongo_1.connectCollection)('board');
         if (req.body.user_id) {
-            const { title, user_id, text } = req.body;
-            await board.updateOne({ id: parseInt(id), user_id }, { $set: { title, text } });
+            const { title, user_id: userId, text } = req.body;
+            await Forum.updateLoginPost(id, userId, title, text);
             res.redirect(`/forum/${id}`);
         }
         else {
             const { title, nickname, password, text } = req.body;
-            const result = await board.findOneAndUpdate({ id: parseInt(id), password }, { $set: { title, nickname, text } });
+            const result = await Forum.updateLogoutPost(id, password, title, nickname, text);
             if (result.value) {
                 res.redirect(`/forum/${id}`);
             }
@@ -166,24 +139,24 @@ router.post('/update/:id', async (req, res, next) => {
     catch (error) {
         return next((0, express_1.default)(error));
     }
-});
+};
+exports.updatePost = updatePost;
 // 게시글 추천
-router.post('/:id/recommend', async (req, res, next) => {
+const updateRecommend = async (req, res, next) => {
     try {
         const { id } = req.params;
-        const { post_id, user_id } = req.body;
-        const board = await (0, mongo_1.connectCollection)('board');
-        if (user_id) {
-            await board.updateOne({ id: parseInt(post_id) }, { $addToSet: { recommend: user_id } });
+        const { post_id: postId, user_id: userId } = req.body;
+        if (userId) {
+            await Forum.updateRecommend(postId, userId);
         }
         else {
             const ip = requestIp.getClientIp(req);
-            await board.updateOne({ id: parseInt(post_id) }, { $addToSet: { recommend: ip } });
+            await Forum.updateRecommend(postId, ip);
         }
         res.redirect(`/forum/${id}`);
     }
     catch (error) {
         return next((0, express_1.default)(error));
     }
-});
-module.exports = router;
+};
+exports.updateRecommend = updateRecommend;

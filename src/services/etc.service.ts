@@ -1,6 +1,6 @@
 import { connectCollection } from '../utils/mongo'
 
-async function getSortedList() {
+async function findSortedList() {
   const games = await connectCollection('games')
 
   const best = await games.find().sort({ rating: -1 }).limit(4).toArray()
@@ -10,7 +10,7 @@ async function getSortedList() {
   return [best, recent, sale]
 }
 
-async function sendEmail(name: string, email: string, message: string) {
+async function insertInquery(name: string, email: string, message: string) {
   const inquery = await connectCollection('inquery')
 
   await inquery.insertOne({
@@ -20,4 +20,4 @@ async function sendEmail(name: string, email: string, message: string) {
   })
 }
 
-export { getSortedList, sendEmail }
+export { findSortedList, insertInquery }

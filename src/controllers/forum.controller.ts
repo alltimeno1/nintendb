@@ -1,18 +1,15 @@
-import * as express from 'express'
+import { Request, Response, NextFunction } from 'express'
 import * as requestIp from 'request-ip'
-import { connectCollection } from '../utils/mongo'
 import { boardRegExp } from '../utils/regular_expressions'
 import errorType from '../utils/express'
 import { Profile } from 'passport'
 import { loadProfileImg } from '../utils/load_profile'
-
-const router = express.Router()
+import * as Forum from '../services/forum.service'
 
 // 게시판 조회
-router.get('/', async (req, res, next) => {
+export const readForum = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const board = await connectCollection('board')
-    const post = await board.find().sort({ id: -1 }).toArray()
+    const post = await Forum.findBoard()
     const status = req.isAuthenticated()
     const profileImg = loadProfileImg(status, req)
 
@@ -20,10 +17,10 @@ router.get('/', async (req, res, next) => {
   } catch (error) {
     return next(errorType(error))
   }
-})
+}
 
 // 게시글 등록 페이지 조회
-router.get('/post', async (req, res, next) => {
+export const readForm = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const status = req.isAuthenticated()
     const profileImg = loadProfileImg(status, req)
@@ -32,14 +29,13 @@ router.get('/post', async (req, res, next) => {
   } catch (error) {
     return next(errorType(error))
   }
-})
+}
 
 // 게시글 수정 페이지 조회
-router.get('/update/:id', async (req, res, next) => {
+export const readUpdate = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params
-    const board = await connectCollection('board')
-    const post = await board.findOne({ id: parseInt(id) })
+    const post = await Forum.findPostLog(id)
     const status = req.isAuthenticated()
     const checkMyPost = req.user && post ? (req.user as Profile).id === post.user_id : false
     const profileImg = loadProfileImg(status, req)
@@ -48,17 +44,13 @@ router.get('/update/:id', async (req, res, next) => {
   } catch (error: any) {
     return next(errorType(error))
   }
-})
+}
 
 // 게시글 조회
-router.get('/:id', async (req, res, next) => {
+export const readPost = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params
-    const board = await connectCollection('board')
-
-    await board.updateOne({ id: parseInt(id) }, { $inc: { viewCount: 1 } })
-
-    const post = await board.findOne({ id: parseInt(id) })
+    const post = await Forum.updateAndFindPost(id)
     const status = req.isAuthenticated()
     const checkMyPost = req.user && post ? (req.user as Profile).id === post.user_id : false
     const profileImg = loadProfileImg(status, req)
@@ -73,29 +65,17 @@ router.get('/:id', async (req, res, next) => {
   } catch (error) {
     return next(errorType(error))
   }
-})
+}
 
 // 게시글 등록
-router.post('/', async (req, res, next) => {
+export const createPost = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { title, text } = req.body
-    const board = await connectCollection('board')
-    const counts = await connectCollection('counts')
-    const postNum = await counts.findOneAndUpdate({ name: 'board' }, { $inc: { count: 1 } })
 
     if (req.isAuthenticated()) {
-      const { displayName, id: user_id } = req.user as Profile
+      const { displayName, id: userId } = req.user as Profile
 
-      await board.insertOne({
-        id: postNum.value?.count,
-        title,
-        nickname: displayName,
-        user_id,
-        text: text.replace(/\n/g, '<br>'),
-        date: new Date(),
-        viewCount: 0,
-        recommend: [],
-      })
+      await Forum.insertLoginPost(title, displayName, userId, text)
 
       res.redirect('forum')
     } else {
@@ -103,16 +83,7 @@ router.post('/', async (req, res, next) => {
       const message = boardRegExp(title, '', nickname, password, '')
 
       if (!message && text) {
-        await board.insertOne({
-          id: postNum.value?.count,
-          title,
-          nickname,
-          password,
-          text: text.replace(/\n/g, '<br>'),
-          date: new Date(),
-          viewCount: 0,
-          recommend: [],
-        })
+        await Forum.insertLogoutPost(title, nickname, password, text)
 
         res.redirect('forum')
       } else {
@@ -122,27 +93,20 @@ router.post('/', async (req, res, next) => {
   } catch (error: any) {
     return next(errorType(error))
   }
-})
+}
 
 // 게시글 삭제
-router.post('/:id', async (req, res, next) => {
+export const deletePost = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params
-    const { post_id, user_id, password } = req.body
-    const board = await connectCollection('board')
+    const { post_id: postId, user_id: userId, password } = req.body
 
-    if (user_id) {
-      await board.deleteOne({
-        id: parseInt(post_id),
-        user_id,
-      })
+    if (userId) {
+      await Forum.deleteLoginPost(postId, userId)
 
       res.redirect('/forum')
     } else {
-      const result = await board.deleteOne({
-        id: parseInt(post_id),
-        password: password,
-      })
+      const result = await Forum.deleteLogoutPost(postId, password)
 
       if (result.deletedCount) {
         res.redirect('/forum')
@@ -155,26 +119,22 @@ router.post('/:id', async (req, res, next) => {
   } catch (error) {
     return next(errorType(error))
   }
-})
+}
 
 // 게시글 수정
-router.post('/update/:id', async (req, res, next) => {
+export const updatePost = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params
-    const board = await connectCollection('board')
 
     if (req.body.user_id) {
-      const { title, user_id, text } = req.body
+      const { title, user_id: userId, text } = req.body
 
-      await board.updateOne({ id: parseInt(id), user_id }, { $set: { title, text } })
+      await Forum.updateLoginPost(id, userId, title, text)
 
       res.redirect(`/forum/${id}`)
     } else {
       const { title, nickname, password, text } = req.body
-      const result = await board.findOneAndUpdate(
-        { id: parseInt(id), password },
-        { $set: { title, nickname, text } }
-      )
+      const result = await Forum.updateLogoutPost(id, password, title, nickname, text)
 
       if (result.value) {
         res.redirect(`/forum/${id}`)
@@ -187,26 +147,23 @@ router.post('/update/:id', async (req, res, next) => {
   } catch (error) {
     return next(errorType(error))
   }
-})
+}
 
 // 게시글 추천
-router.post('/:id/recommend', async (req, res, next) => {
+export const updateRecommend = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params
-    const { post_id, user_id } = req.body
-    const board = await connectCollection('board')
+    const { post_id: postId, user_id: userId } = req.body
 
-    if (user_id) {
-      await board.updateOne({ id: parseInt(post_id) }, { $addToSet: { recommend: user_id } })
+    if (userId) {
+      await Forum.updateRecommend(postId, userId)
     } else {
-      const ip = requestIp.getClientIp(req)
+      const ip = <string>requestIp.getClientIp(req)
 
-      await board.updateOne({ id: parseInt(post_id) }, { $addToSet: { recommend: ip } })
+      await Forum.updateRecommend(postId, ip)
     }
     res.redirect(`/forum/${id}`)
   } catch (error) {
     return next(errorType(error))
   }
-})
-
-export = router
+}

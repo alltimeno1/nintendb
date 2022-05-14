@@ -38,7 +38,5 @@ namespace Types {
     }
   }
 
-  export interface Request {
-    user: NaverProfile
-  }
+  export type UpdateLoginPost<T> = (id: T, userId: T, title: T, text: T) => void
 }

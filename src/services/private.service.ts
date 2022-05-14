@@ -7,7 +7,7 @@ async function findMyBucket(id: string) {
   return await buckets.findOne({ id })
 }
 
-async function showMyBucket(bucket: MyBucket | null) {
+async function findBucketList(bucket: MyBucket | null) {
   const games = await connectCollection('games')
 
   return await games.find({ name: { $in: bucket?.list || [] } }).toArray()
@@ -25,4 +25,4 @@ async function updateItems(id: string) {
   return await buckets.updateOne({ id }, { $set: { list: [] } })
 }
 
-export { findMyBucket, showMyBucket, updateItem, updateItems }
+export { findMyBucket, findBucketList, updateItem, updateItems }

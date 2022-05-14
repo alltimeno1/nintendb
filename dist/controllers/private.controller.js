@@ -1,11 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.resetBucket = exports.deleteItem = exports.getPrivate = void 0;
+exports.deleteBucket = exports.deleteItem = exports.readPrivate = void 0;
 const requestIp = require("request-ip");
 const express_1 = require("../utils/express");
 const load_profile_1 = require("../utils/load_profile");
 const private_service_1 = require("../services/private.service");
-const getPrivate = async (req, res, next) => {
+// MY 페이지 조회
+const readPrivate = async (req, res, next) => {
     try {
         const status = req.isAuthenticated();
         const profileImg = (0, load_profile_1.loadProfileImg)(status, req);
@@ -20,14 +21,15 @@ const getPrivate = async (req, res, next) => {
             const ip = requestIp.getClientIp(req);
             myBucket = await (0, private_service_1.findMyBucket)(ip);
         }
-        const result = await (0, private_service_1.showMyBucket)(myBucket);
+        const result = await (0, private_service_1.findBucketList)(myBucket);
         res.render('private', { result, status, profileImg, nickname });
     }
     catch (error) {
         return next((0, express_1.default)(error));
     }
 };
-exports.getPrivate = getPrivate;
+exports.readPrivate = readPrivate;
+// MY 페이지 아이템 삭제
 const deleteItem = async (req, res, next) => {
     try {
         const { titleName } = req.body;
@@ -47,7 +49,8 @@ const deleteItem = async (req, res, next) => {
     }
 };
 exports.deleteItem = deleteItem;
-const resetBucket = async (req, res, next) => {
+// MY 페이지 아이템 리셋
+const deleteBucket = async (req, res, next) => {
     try {
         const status = req.isAuthenticated();
         if (status) {
@@ -64,4 +67,4 @@ const resetBucket = async (req, res, next) => {
         return next((0, express_1.default)(error));
     }
 };
-exports.resetBucket = resetBucket;
+exports.deleteBucket = deleteBucket;

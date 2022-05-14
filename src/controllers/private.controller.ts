@@ -4,9 +4,10 @@ import errorType from '../utils/express'
 import { MyBucket } from '../models/bucket'
 import { Profile } from 'passport'
 import { loadProfileImg } from '../utils/load_profile'
-import { findMyBucket, showMyBucket, updateItem, updateItems } from '../services/private.service'
+import { findMyBucket, findBucketList, updateItem, updateItems } from '../services/private.service'
 
-const getPrivate = async (req: Request, res: Response, next: NextFunction) => {
+// MY 페이지 조회
+const readPrivate = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const status = req.isAuthenticated()
     const profileImg = loadProfileImg(status, req)
@@ -24,7 +25,7 @@ const getPrivate = async (req: Request, res: Response, next: NextFunction) => {
       myBucket = await findMyBucket(ip)
     }
 
-    const result = await showMyBucket(myBucket)
+    const result = await findBucketList(myBucket)
 
     res.render('private', { result, status, profileImg, nickname })
   } catch (error) {
@@ -32,6 +33,7 @@ const getPrivate = async (req: Request, res: Response, next: NextFunction) => {
   }
 }
 
+// MY 페이지 아이템 삭제
 const deleteItem = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { titleName } = req.body
@@ -53,7 +55,8 @@ const deleteItem = async (req: Request, res: Response, next: NextFunction) => {
   }
 }
 
-const resetBucket = async (req: Request, res: Response, next: NextFunction) => {
+// MY 페이지 아이템 리셋
+const deleteBucket = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const status = req.isAuthenticated()
 
@@ -73,4 +76,4 @@ const resetBucket = async (req: Request, res: Response, next: NextFunction) => {
   }
 }
 
-export { getPrivate, deleteItem, resetBucket }
+export { readPrivate, deleteItem, deleteBucket }
