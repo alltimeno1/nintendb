@@ -16,19 +16,6 @@ namespace Types {
     timeout: number
   }
 
-  export interface Game {
-    name: string
-    image: string
-    date: string
-    rating: number
-    price: number
-    bargainPrice: number
-    discountRate: number
-    tag: string
-    serialNum: string
-    description: string
-  }
-
   export interface NaverProfile {
     _json: {
       email: string
@@ -36,6 +23,13 @@ namespace Types {
       profile_image: string
       id: string
     }
+  }
+
+  export interface MyBucket {
+    _id?: Object
+    list?: string[]
+    user_id?: string
+    address?: string
   }
 
   export type UpdateLoginPost<T> = (id: T, userId: T, title: T, text: T) => void

@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import * as requestIp from 'request-ip'
 import errorType from '../utils/express'
-import { MyBucket } from '../models/bucket'
 import { Profile } from 'passport'
 import { loadProfileImg } from '../utils/load_profile'
 import { findMyBucket, findBucketList, updateItem, updateItems } from '../services/private.service'
@@ -11,7 +10,7 @@ const readPrivate = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const status = req.isAuthenticated()
     const profileImg = loadProfileImg(status, req)
-    let myBucket: MyBucket | null
+    let myBucket: Types.MyBucket | null
     let nickname = '익명'
 
     if (status) {

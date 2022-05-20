@@ -4,7 +4,7 @@ import scrapMeta from './scrap_meta'
 import scrapDesc from './scrap_description'
 
 let href: string[] = []
-let gameList: Types.Game[] = []
+let gameList: Models.Game[] = []
 
 async function scrapTitlesUrl(URI: string): Promise<void> {
   try {
@@ -20,7 +20,7 @@ async function scrapTitlesUrl(URI: string): Promise<void> {
   }
 }
 
-export default async function scrapTitleInfo(URI: string): Promise<Types.Game[] | void> {
+export default async function scrapTitleInfo(URI: string): Promise<Models.Game[] | void> {
   try {
     await scrapTitlesUrl(URI)
 
@@ -70,7 +70,7 @@ export default async function scrapTitleInfo(URI: string): Promise<Types.Game[] 
         : `${language}, ${playerNum}`
       const description: string = await scrapDesc($)
 
-      const game: Types.Game = {
+      const game: Models.Game = {
         name,
         image,
         date,

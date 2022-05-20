@@ -1,42 +1,36 @@
-import { connectCollection } from '../utils/mongo'
+import { Game } from '../models/title.model'
+import { Comment } from '../models/comment.model'
+import { Bucket } from '../models/bucket.model'
 import { ObjectId } from 'mongodb'
 
 export async function findTitles(sort: string) {
-  const games = await connectCollection('games')
-  const title = await games
-    .find()
-    .sort({ [sort]: -1 })
-    .toArray()
-  const top10 = await games.find().sort({ rating: -1 }).limit(10).toArray()
+  const title = await Game.find().sort({ [sort]: -1 })
+  const top10 = await Game.find().sort({ rating: -1 }).limit(10)
 
   return [title, top10]
 }
 
 export async function findByQuery(keyword: string) {
-  const games = await connectCollection('games')
-  const title = await games.find({ name: { $regex: keyword } }).toArray()
-  const top10 = await games.find().sort({ rating: -1 }).limit(10).toArray()
+  const title = await Game.find({ name: { $regex: keyword } })
+  const top10 = await Game.find().sort({ rating: -1 }).limit(10)
 
   return [title, top10]
 }
 
 export async function findTitleDetails(id: string) {
-  const games = await connectCollection('games')
-  const comments = await connectCollection('comments')
-  const title = await games.findOne({ name: id })
-  const comment = await comments.find({ game_id: id }).toArray()
+  const title = await Game.findOne({ name: id })
+  const comment = await Comment.find({ game_id: id })
 
   return [title, comment]
 }
 
 export async function updateWishItem(id: string, gameId: string) {
-  const buckets = await connectCollection('buckets')
-  const bucket = await buckets.findOne({ id: id })
+  const bucket = await Bucket.findOne({ id })
 
   if (bucket) {
-    await buckets.updateOne({ id: id }, { $addToSet: { list: gameId } })
+    await Bucket.updateOne({ id: id }, { $addToSet: { list: gameId } })
   } else {
-    await buckets.insertOne({ id: id, list: [gameId] })
+    await Bucket.create({ id: id, list: [gameId] })
   }
 }
 
@@ -46,9 +40,7 @@ export async function updateLoginComment(
   displayName: string,
   text: string
 ) {
-  const comments = await connectCollection('comments')
-
-  await comments.insertOne({
+  await Comment.create({
     game_id: decodeURI(gameId),
     id: userId,
     name: displayName,
@@ -62,9 +54,7 @@ export async function updateLogoutComment(
   password: string,
   text: string
 ) {
-  const comments = await connectCollection('comments')
-
-  await comments.insertOne({
+  await Comment.create({
     game_id: decodeURI(gameId),
     name: userName,
     password,
@@ -73,17 +63,14 @@ export async function updateLogoutComment(
 }
 
 export async function deleteLoginComment(userId: string, commentId: string) {
-  const comments = await connectCollection('comments')
-
-  await comments.deleteOne({
+  await Comment.deleteOne({
     _id: new ObjectId(commentId),
     id: userId,
   })
 }
 
 export async function deleteLogoutComment(commentId: string, password: string) {
-  const comments = await connectCollection('comments')
-  const result = await comments.findOneAndDelete({
+  const result = await Comment.findOneAndDelete({
     _id: new ObjectId(commentId),
     password: password,
   })

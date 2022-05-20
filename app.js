@@ -1,10 +1,15 @@
 const express = require('express')
 const app = express()
+const { connect } = require('./dist/utils/mongo')
+const PORT = 3000
+
 const login = require('./dist/routes/login')
 const title = require('./dist/routes/title.route')
 const forum = require('./dist/routes/forum.route')
 const private = require('./dist/routes/private.route')
 const etc = require('./dist/routes/etc.route')
+
+connect()
 
 app.use(express.json())
 app.use(express.static(__dirname))
@@ -19,8 +24,8 @@ app.use('/forum', forum)
 app.use('/private', private)
 app.use('/', etc)
 
-app.listen(3000, () => {
-  console.log('Server is listening...')
+app.listen(PORT, () => {
+  console.log(`Server is listening at port ${PORT}`)
 })
 
 module.exports = app

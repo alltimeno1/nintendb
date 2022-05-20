@@ -114,7 +114,7 @@ const deleteComment = async (req, res, next) => {
         }
         else {
             const result = await Title.deleteLogoutComment(commentId, password);
-            if (!result.value) {
+            if (!result) {
                 return res.send(`<script>alert('비밀번호를 정확히 입력해주세요!');location.href='/title/${id}';</script>`);
             }
         }

@@ -1,19 +1,16 @@
-import { connectCollection } from '../utils/mongo'
+import { Inquery } from '../models/inquery.model'
+import { Game } from '../models/title.model'
 
 async function findSortedList() {
-  const games = await connectCollection('games')
-
-  const best = await games.find().sort({ rating: -1 }).limit(4).toArray()
-  const recent = await games.find().sort({ date: -1 }).limit(4).toArray()
-  const sale = await games.find().sort({ discountRate: -1 }).limit(4).toArray()
+  const best = await Game.find().sort({ rating: -1 }).limit(4)
+  const recent = await Game.find().sort({ date: -1 }).limit(4)
+  const sale = await Game.find().sort({ discountRate: -1 }).limit(4)
 
   return [best, recent, sale]
 }
 
 async function insertInquery(name: string, email: string, message: string) {
-  const inquery = await connectCollection('inquery')
-
-  await inquery.insertOne({
+  await Inquery.create({
     name,
     email,
     message,
