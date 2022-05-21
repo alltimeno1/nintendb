@@ -1,17 +1,20 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const { client, connectCollection } = require('./mongo');
 const scraping_1 = require("./scraping");
+const title_model_1 = require("../models/title.model");
+const { connect, disconnect } = require('./mongo');
 async function main(URI, reset) {
     try {
-        const games = await connectCollection('games');
         const gameList = await (0, scraping_1.default)(URI);
+        connect();
         if (reset === 'y') {
-            await games.deleteMany({});
+            await title_model_1.Game.deleteMany({});
         }
-        await games.insertMany(gameList);
-        await client.close();
-        console.log('Database updated!!');
+        if (gameList) {
+            await title_model_1.Game.insertMany(gameList);
+            console.log('Database updated!!');
+        }
+        disconnect();
     }
     catch (error) {
         console.log(error);

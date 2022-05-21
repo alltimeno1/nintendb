@@ -1,23 +1,18 @@
-import { connectCollection } from '../utils/mongo'
+import { Board } from '../models/board.model'
+import { Count } from '../models/count.model'
 
 export async function findBoard() {
-  const board = await connectCollection('board')
-
-  return await board.find().sort({ id: -1 }).toArray()
+  return await Board.find().sort({ id: -1 })
 }
 
 export async function findPostLog(id: string) {
-  const board = await connectCollection('board')
-
-  return await board.findOne({ id: parseInt(id) })
+  return await Board.findOne({ id: parseInt(id) })
 }
 
 export async function updateAndFindPost(id: string) {
-  const board = await connectCollection('board')
+  await Board.updateOne({ id: parseInt(id) }, { $inc: { viewCount: 1 } })
 
-  await board.updateOne({ id: parseInt(id) }, { $inc: { viewCount: 1 } })
-
-  return await board.findOne({ id: parseInt(id) })
+  return await Board.findOne({ id: parseInt(id) })
 }
 
 export async function insertLoginPost(
@@ -26,12 +21,10 @@ export async function insertLoginPost(
   userId: string,
   text: string
 ) {
-  const board = await connectCollection('board')
-  const counts = await connectCollection('counts')
-  const postNum = await counts.findOneAndUpdate({ name: 'board' }, { $inc: { count: 1 } })
+  const postNum = await Count.findOneAndUpdate({ name: 'board' }, { $inc: { count: 1 } })
 
-  await board.insertOne({
-    id: postNum.value?.count,
+  await Board.create({
+    id: postNum?.count,
     title,
     nickname: displayName,
     user_id: userId,
@@ -48,12 +41,10 @@ export async function insertLogoutPost(
   password: string,
   text: string
 ) {
-  const board = await connectCollection('board')
-  const counts = await connectCollection('counts')
-  const postNum = await counts.findOneAndUpdate({ name: 'board' }, { $inc: { count: 1 } })
+  const postNum = await Count.findOneAndUpdate({ name: 'board' }, { $inc: { count: 1 } })
 
-  await board.insertOne({
-    id: postNum.value?.count,
+  await Board.create({
+    id: postNum?.count,
     title,
     nickname,
     password,
@@ -65,18 +56,14 @@ export async function insertLogoutPost(
 }
 
 export async function deleteLoginPost(postId: string, userId: string) {
-  const board = await connectCollection('board')
-
-  await board.deleteOne({
+  await Board.deleteOne({
     id: parseInt(postId),
     user_id: userId,
   })
 }
 
 export async function deleteLogoutPost(postId: string, password: string) {
-  const board = await connectCollection('board')
-
-  const result = await board.deleteOne({
+  const result = await Board.deleteOne({
     id: parseInt(postId),
     password: password,
   })
@@ -85,9 +72,7 @@ export async function deleteLogoutPost(postId: string, password: string) {
 }
 
 export const updateLoginPost: Types.UpdateLoginPost<string> = async (id, userId, title, text) => {
-  const board = await connectCollection('board')
-
-  await board.updateOne({ id: parseInt(id), user_id: userId }, { $set: { title, text } })
+  await Board.updateOne({ id: parseInt(id), user_id: userId }, { $set: { title, text } })
 }
 
 export async function updateLogoutPost(
@@ -97,9 +82,7 @@ export async function updateLogoutPost(
   nickname: string,
   text: string
 ) {
-  const board = await connectCollection('board')
-
-  const result = await board.findOneAndUpdate(
+  const result = await Board.findOneAndUpdate(
     { id: parseInt(id), password },
     { $set: { title, nickname, text } }
   )
@@ -108,7 +91,5 @@ export async function updateLogoutPost(
 }
 
 export async function updateRecommend(postId: string, id: string) {
-  const board = await connectCollection('board')
-
-  await board.updateOne({ id: parseInt(postId) }, { $addToSet: { recommend: id } })
+  await Board.updateOne({ id: parseInt(postId) }, { $addToSet: { recommend: id } })
 }

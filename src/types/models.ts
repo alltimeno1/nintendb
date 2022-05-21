@@ -8,7 +8,6 @@ namespace Models {
     bargainPrice: number
     discountRate: number
     tag: string
-    serialNum: string
     description: string
   }
 
@@ -29,5 +28,22 @@ namespace Models {
   export interface Bucket {
     id: string
     list: string[]
+  }
+
+  export interface Board {
+    id: number
+    title: string
+    nickname: string
+    password: string
+    user_id: string
+    text: string
+    date: Date
+    viewCount: number
+    recommend: string[]
+  }
+
+  export interface Count {
+    count: number
+    name: string
   }
 }

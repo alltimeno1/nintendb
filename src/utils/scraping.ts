@@ -44,9 +44,10 @@ export default async function scrapTitleInfo(URI: string): Promise<Models.Game[]
 
       const date: string = $('.release_date .product-attribute-val').text().replace(/(\s*)/g, '')
 
+      const tagName = '.product-page-info-form'
       const priceText: string =
-        $('.old-price .price').text() || $('.product-page-info-form .price').text() || ''
-      const bargainPriceText: string = $('.special-price .price').text() || priceText || ''
+        $(`${tagName} .old-price .price`).text() || $(`${tagName} .price`).text() || ''
+      const bargainPriceText: string = $(`${tagName} .special-price .price`).text() || priceText
       const price: number = parseInt(priceText.replace(/[₩,]/g, '')) || 0
       const bargainPrice: number = parseInt(bargainPriceText.replace(/[₩,]/g, '')) || 0
       const discountRate: number = price ? Math.round(((price - bargainPrice) / price) * 100) : 0
@@ -64,7 +65,13 @@ export default async function scrapTitleInfo(URI: string): Promise<Models.Game[]
       const idx: number = serialNumText.indexOf('GC-')
       const serialNum: string = idx !== -1 ? serialNumText.substr(idx, 19) : ''
 
-      const rating: number = (await scrapMeta(serialNum)) || 0
+      let rating = 0
+      const re = /[a-zA-z]{2}-[a-zA-z]{2}-[a-zA-z]{2}-[0-9]{6}-[0-9]{3}/
+
+      if (re.test(serialNum)) {
+        rating = (await scrapMeta(serialNum)) || rating
+      }
+
       const tag: string = genre
         ? `${language}, ${playerNum}, ${genre}`
         : `${language}, ${playerNum}`
@@ -79,7 +86,6 @@ export default async function scrapTitleInfo(URI: string): Promise<Models.Game[]
         bargainPrice,
         discountRate,
         tag,
-        serialNum,
         description,
       }
 

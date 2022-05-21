@@ -5,8 +5,9 @@ const cheerio = require("cheerio");
 const scrap_english_1 = require("./scrap_english");
 async function scrapMeta(serialNum) {
     try {
-        let engName = serialNum ? (await (0, scrap_english_1.default)(serialNum)) || '' : '';
-        if (!engName) {
+        let engName = (await (0, scrap_english_1.default)(serialNum)) || '';
+        const re = /[ぁ-ゔ]+|[ァ-ヴー]+[々〆〤]/;
+        if (!engName || engName.match(re)) {
             return 0;
         }
         const keyword = engName.toLowerCase().replace('ns ', '');

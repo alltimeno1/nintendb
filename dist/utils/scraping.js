@@ -35,8 +35,9 @@ async function scrapTitleInfo(URI) {
                 }
             });
             const date = $('.release_date .product-attribute-val').text().replace(/(\s*)/g, '');
-            const priceText = $('.old-price .price').text() || $('.product-page-info-form .price').text() || '';
-            const bargainPriceText = $('.special-price .price').text() || priceText || '';
+            const tagName = '.product-page-info-form';
+            const priceText = $(`${tagName} .old-price .price`).text() || $(`${tagName} .price`).text() || '';
+            const bargainPriceText = $(`${tagName} .special-price .price`).text() || priceText;
             const price = parseInt(priceText.replace(/[₩,]/g, '')) || 0;
             const bargainPrice = parseInt(bargainPriceText.replace(/[₩,]/g, '')) || 0;
             const discountRate = price ? Math.round(((price - bargainPrice) / price) * 100) : 0;
@@ -49,7 +50,11 @@ async function scrapTitleInfo(URI) {
             const serialNumText = $('.attribute-group-disclaimer .product-attribute-val').text() || '';
             const idx = serialNumText.indexOf('GC-');
             const serialNum = idx !== -1 ? serialNumText.substr(idx, 19) : '';
-            const rating = (await (0, scrap_meta_1.default)(serialNum)) || 0;
+            let rating = 0;
+            const re = /[a-zA-z]{2}-[a-zA-z]{2}-[a-zA-z]{2}-[0-9]{6}-[0-9]{3}/;
+            if (re.test(serialNum)) {
+                rating = (await (0, scrap_meta_1.default)(serialNum)) || rating;
+            }
             const tag = genre
                 ? `${language}, ${playerNum}, ${genre}`
                 : `${language}, ${playerNum}`;
@@ -63,7 +68,6 @@ async function scrapTitleInfo(URI) {
                 bargainPrice,
                 discountRate,
                 tag,
-                serialNum,
                 description,
             };
             gameList.push(game);

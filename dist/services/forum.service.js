@@ -1,29 +1,25 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateRecommend = exports.updateLogoutPost = exports.updateLoginPost = exports.deleteLogoutPost = exports.deleteLoginPost = exports.insertLogoutPost = exports.insertLoginPost = exports.updateAndFindPost = exports.findPostLog = exports.findBoard = void 0;
-const mongo_1 = require("../utils/mongo");
+const board_model_1 = require("../models/board.model");
+const count_model_1 = require("../models/count.model");
 async function findBoard() {
-    const board = await (0, mongo_1.connectCollection)('board');
-    return await board.find().sort({ id: -1 }).toArray();
+    return await board_model_1.Board.find().sort({ id: -1 });
 }
 exports.findBoard = findBoard;
 async function findPostLog(id) {
-    const board = await (0, mongo_1.connectCollection)('board');
-    return await board.findOne({ id: parseInt(id) });
+    return await board_model_1.Board.findOne({ id: parseInt(id) });
 }
 exports.findPostLog = findPostLog;
 async function updateAndFindPost(id) {
-    const board = await (0, mongo_1.connectCollection)('board');
-    await board.updateOne({ id: parseInt(id) }, { $inc: { viewCount: 1 } });
-    return await board.findOne({ id: parseInt(id) });
+    await board_model_1.Board.updateOne({ id: parseInt(id) }, { $inc: { viewCount: 1 } });
+    return await board_model_1.Board.findOne({ id: parseInt(id) });
 }
 exports.updateAndFindPost = updateAndFindPost;
 async function insertLoginPost(title, displayName, userId, text) {
-    const board = await (0, mongo_1.connectCollection)('board');
-    const counts = await (0, mongo_1.connectCollection)('counts');
-    const postNum = await counts.findOneAndUpdate({ name: 'board' }, { $inc: { count: 1 } });
-    await board.insertOne({
-        id: postNum.value?.count,
+    const postNum = await count_model_1.Count.findOneAndUpdate({ name: 'board' }, { $inc: { count: 1 } });
+    await board_model_1.Board.create({
+        id: postNum?.count,
         title,
         nickname: displayName,
         user_id: userId,
@@ -35,11 +31,9 @@ async function insertLoginPost(title, displayName, userId, text) {
 }
 exports.insertLoginPost = insertLoginPost;
 async function insertLogoutPost(title, nickname, password, text) {
-    const board = await (0, mongo_1.connectCollection)('board');
-    const counts = await (0, mongo_1.connectCollection)('counts');
-    const postNum = await counts.findOneAndUpdate({ name: 'board' }, { $inc: { count: 1 } });
-    await board.insertOne({
-        id: postNum.value?.count,
+    const postNum = await count_model_1.Count.findOneAndUpdate({ name: 'board' }, { $inc: { count: 1 } });
+    await board_model_1.Board.create({
+        id: postNum?.count,
         title,
         nickname,
         password,
@@ -51,16 +45,14 @@ async function insertLogoutPost(title, nickname, password, text) {
 }
 exports.insertLogoutPost = insertLogoutPost;
 async function deleteLoginPost(postId, userId) {
-    const board = await (0, mongo_1.connectCollection)('board');
-    await board.deleteOne({
+    await board_model_1.Board.deleteOne({
         id: parseInt(postId),
         user_id: userId,
     });
 }
 exports.deleteLoginPost = deleteLoginPost;
 async function deleteLogoutPost(postId, password) {
-    const board = await (0, mongo_1.connectCollection)('board');
-    const result = await board.deleteOne({
+    const result = await board_model_1.Board.deleteOne({
         id: parseInt(postId),
         password: password,
     });
@@ -68,18 +60,15 @@ async function deleteLogoutPost(postId, password) {
 }
 exports.deleteLogoutPost = deleteLogoutPost;
 const updateLoginPost = async (id, userId, title, text) => {
-    const board = await (0, mongo_1.connectCollection)('board');
-    await board.updateOne({ id: parseInt(id), user_id: userId }, { $set: { title, text } });
+    await board_model_1.Board.updateOne({ id: parseInt(id), user_id: userId }, { $set: { title, text } });
 };
 exports.updateLoginPost = updateLoginPost;
 async function updateLogoutPost(id, password, title, nickname, text) {
-    const board = await (0, mongo_1.connectCollection)('board');
-    const result = await board.findOneAndUpdate({ id: parseInt(id), password }, { $set: { title, nickname, text } });
+    const result = await board_model_1.Board.findOneAndUpdate({ id: parseInt(id), password }, { $set: { title, nickname, text } });
     return result;
 }
 exports.updateLogoutPost = updateLogoutPost;
 async function updateRecommend(postId, id) {
-    const board = await (0, mongo_1.connectCollection)('board');
-    await board.updateOne({ id: parseInt(postId) }, { $addToSet: { recommend: id } });
+    await board_model_1.Board.updateOne({ id: parseInt(postId) }, { $addToSet: { recommend: id } });
 }
 exports.updateRecommend = updateRecommend;

@@ -4,9 +4,10 @@ import getEngName from './scrap_english'
 
 export default async function scrapMeta(serialNum: string): Promise<number | void> {
   try {
-    let engName: string = serialNum ? (await getEngName(serialNum)) || '' : ''
+    let engName: string = (await getEngName(serialNum)) || ''
+    const re = /[ぁ-ゔ]+|[ァ-ヴー]+[々〆〤]/
 
-    if (!engName) {
+    if (!engName || engName.match(re)) {
       return 0
     }
 

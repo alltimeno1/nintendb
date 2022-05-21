@@ -10,7 +10,6 @@ const schema = new Schema<Models.Game>(
     bargainPrice: { type: Number, required: true },
     discountRate: { type: Number, required: true },
     tag: { type: String, required: true },
-    serialNum: { type: String, required: true },
     description: { type: String, required: true },
   },
   {

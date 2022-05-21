@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Bucket = void 0;
+exports.Count = void 0;
 const mongoose_1 = require("mongoose");
 const schema = new mongoose_1.Schema({
-    id: { type: String, required: true, unique: true },
-    list: { type: [String], required: true },
+    count: { type: Number, required: true },
+    name: { type: String, required: true, unique: true },
 }, {
     versionKey: false,
 });
-exports.Bucket = (0, mongoose_1.model)('bucket', schema);
+exports.Count = (0, mongoose_1.model)('count', schema);

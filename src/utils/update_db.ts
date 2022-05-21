@@ -1,21 +1,24 @@
-const { client, connectCollection } = require('./mongo')
 import scrapTitleInfo from './scraping'
+import { Game } from '../models/title.model'
+const { connect, disconnect } = require('./mongo')
 
 async function main(URI: string, reset: string) {
   try {
-    const games = await connectCollection('games')
-
     const gameList = await scrapTitleInfo(URI)
 
+    connect()
+
     if (reset === 'y') {
-      await games.deleteMany({})
+      await Game.deleteMany({})
     }
 
-    await games.insertMany(gameList)
+    if (gameList) {
+      await Game.insertMany(gameList)
 
-    await client.close()
+      console.log('Database updated!!')
+    }
 
-    console.log('Database updated!!')
+    disconnect()
   } catch (error) {
     console.log(error)
   }

@@ -22,7 +22,7 @@ passport.use(
     },
     function (accessToken, refreshToken, profile, done) {
       process.nextTick(function () {
-        console.log('profile=')
+        console.log('profile =')
         console.log(profile)
         // data to be saved in DB
         user = {
@@ -32,7 +32,7 @@ passport.use(
           provider: 'naver',
           naver: profile._json,
         }
-        console.log('user=')
+        console.log('user =')
         console.log(user)
         return done(null, profile)
       })
@@ -40,9 +40,7 @@ passport.use(
   )
 )
 
-router.use(
-  session({ secret: 'keyboard cat', resave: false, saveUninitialized: false })
-)
+router.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: false }))
 router.use(passport.initialize())
 router.use(passport.session())
 

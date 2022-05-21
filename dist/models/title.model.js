@@ -11,7 +11,6 @@ const schema = new mongoose_1.Schema({
     bargainPrice: { type: Number, required: true },
     discountRate: { type: Number, required: true },
     tag: { type: String, required: true },
-    serialNum: { type: String, required: true },
     description: { type: String, required: true },
 }, {
     versionKey: false,

@@ -136,7 +136,7 @@ export const updatePost = async (req: Request, res: Response, next: NextFunction
       const { title, nickname, password, text } = req.body
       const result = await Forum.updateLogoutPost(id, password, title, nickname, text)
 
-      if (result.value) {
+      if (result) {
         res.redirect(`/forum/${id}`)
       } else {
         res.send(
