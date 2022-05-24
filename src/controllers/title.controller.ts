@@ -62,7 +62,7 @@ const readDetails = async (req: Request, res: Response, next: NextFunction) => {
 // 찜하기
 const updateWishItem = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { game_id: gameId } = req.body
+    const { gameId } = req.body
 
     if (req.isAuthenticated()) {
       const { id: userId } = req.user as Profile
@@ -85,7 +85,7 @@ const updateWishItem = async (req: Request, res: Response, next: NextFunction) =
 // 댓글 등록
 const createComment = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { game_id: gameId, text } = req.body
+    const { gameId, text } = req.body
 
     if (req.isAuthenticated()) {
       const { displayName, id: userId } = req.user as Profile
@@ -114,7 +114,7 @@ const createComment = async (req: Request, res: Response, next: NextFunction) =>
 const deleteComment = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params
-    const { comment_id: commentId, password, title_id: titleId } = req.body
+    const { commentId, password, titleId } = req.body
 
     if (req.isAuthenticated()) {
       const { id: userId } = req.user as Profile

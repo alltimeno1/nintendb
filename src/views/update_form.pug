@@ -39,7 +39,7 @@ html(lang='en')
         form(action=`/forum/update/${post.id}` name='posting' method='post')
           input(type='text' name='title' placeholder='제목' value=post.title)
           if status && checkMyPost 
-            input(type='hidden' name='user_id' value=post.user_id)
+            input(type='hidden' name='userId' value=post.user_id)
           else 
             input(type='text' name='nickname' placeholder='아이디' value=post.nickname)
             input(type='password' name='password' placeholder='비밀번호')

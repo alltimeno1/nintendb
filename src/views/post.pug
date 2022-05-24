@@ -45,14 +45,14 @@ html(lang='en')
           .text
             p=post.text.replace(/<br>/g, '\n')
           form(action=`/forum/${post.id}/recommend` name='recommend' method='post') 
-              input(type='hidden' name='post_id' value=post.id)
+              input(type='hidden' name='postId' value=post.id)
               if status
-                input(type='hidden' name='user_id' value=userId)
+                input(type='hidden' name='userId' value=post.user_id)
               button.recommend 추천
         form(action=`/forum/${post.id}` name='deleting' method='post')
-          input(type='hidden' name='post_id' value=post.id)
+          input(type='hidden' name='postId' value=post.id)
           if status && checkMyPost
-            input(type='hidden' name='post_id' value=post.user_id)
+            input(type='hidden' name='userId' value=post.user_id)
             button.delete(style='margin-left: 150px') 삭제
           else
             input(type='password' name='password' placeholder='비밀번호')

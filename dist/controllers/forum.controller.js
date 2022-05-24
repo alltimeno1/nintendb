@@ -96,7 +96,7 @@ exports.createPost = createPost;
 const deletePost = async (req, res, next) => {
     try {
         const { id } = req.params;
-        const { post_id: postId, user_id: userId, password } = req.body;
+        const { postId, userId, password } = req.body;
         if (userId) {
             await Forum.deleteLoginPost(postId, userId);
             res.redirect('/forum');
@@ -121,7 +121,7 @@ const updatePost = async (req, res, next) => {
     try {
         const { id } = req.params;
         if (req.body.user_id) {
-            const { title, user_id: userId, text } = req.body;
+            const { title, userId, text } = req.body;
             await Forum.updateLoginPost(id, userId, title, text);
             res.redirect(`/forum/${id}`);
         }
@@ -145,7 +145,7 @@ exports.updatePost = updatePost;
 const updateRecommend = async (req, res, next) => {
     try {
         const { id } = req.params;
-        const { post_id: postId, user_id: userId } = req.body;
+        const { postId, userId } = req.body;
         if (userId) {
             await Forum.updateRecommend(postId, userId);
         }

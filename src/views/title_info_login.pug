@@ -47,12 +47,12 @@ html(lang='en')
             each tag in title.tag.split(',')
               button=tag
           form(action=`bucket` name='bucket' method='post')
-            input(type='hidden' name='game_id' value=title.name)
+            input(type='hidden' name='gameId' value=title.name)
             button 찜하기
       #commentbox.login
         h4 한줄평 남기기
         form(name='comment' method='post')
-          input(type='hidden' name='game_id')
+          input(type='hidden' name='gameId')
           textarea(name='text' placeholder='착한 댓글 부탁드립니다 :)')
           button.submit 등록
         ul.comments
@@ -70,8 +70,8 @@ html(lang='en')
               div=item.name 
               div=item.text.replace(/<br>/g, '\n')
               form.delete(action=`/title/${decodeURI(title.name)}/delete` method='post')
-                input(type='hidden' name='comment_id' value=item._id)
-                input(type='hidden' name='title_id' value=title.name)
+                input(type='hidden' name='commentId' value=item._id)
+                input(type='hidden' name='titleId' value=title.name)
                 button ✖️
     #to-top
       | 🔝

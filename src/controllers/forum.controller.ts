@@ -99,7 +99,7 @@ export const createPost = async (req: Request, res: Response, next: NextFunction
 export const deletePost = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params
-    const { post_id: postId, user_id: userId, password } = req.body
+    const { postId, userId, password } = req.body
 
     if (userId) {
       await Forum.deleteLoginPost(postId, userId)
@@ -127,7 +127,7 @@ export const updatePost = async (req: Request, res: Response, next: NextFunction
     const { id } = req.params
 
     if (req.body.user_id) {
-      const { title, user_id: userId, text } = req.body
+      const { title, userId, text } = req.body
 
       await Forum.updateLoginPost(id, userId, title, text)
 
@@ -153,7 +153,7 @@ export const updatePost = async (req: Request, res: Response, next: NextFunction
 export const updateRecommend = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params
-    const { post_id: postId, user_id: userId } = req.body
+    const { postId, userId } = req.body
 
     if (userId) {
       await Forum.updateRecommend(postId, userId)

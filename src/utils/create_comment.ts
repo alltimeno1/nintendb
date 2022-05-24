@@ -2,13 +2,13 @@ const hiddenInput = <HTMLInputElement>document.querySelector('#commentbox input[
 const form = <HTMLFormElement>document.querySelector('#commentbox form')
 const button = <HTMLElement>document.querySelector('#commentbox .submit')
 const text = <HTMLElement>document.querySelector('#commentbox textarea')
-const game_id = window.location.pathname.split('/')[2]
+const gameId = window.location.pathname.split('/')[2]
 
 button.addEventListener('click', window.location.reload)
 text.addEventListener('keydown', postCommentByKey)
 
-hiddenInput.value = game_id
-form.action = `/title/${game_id}`
+hiddenInput.value = gameId
+form.action = `/title/${gameId}`
 
 function postCommentByKey(e: KeyboardEvent): void {
   if (e.key === 'Enter' && !e.shiftKey) {
