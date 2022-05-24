@@ -44,7 +44,7 @@ html(lang='en')
             span=`추천 : ${post.recommend.length}`
           .text
             p=post.text.replace(/<br>/g, '\n')
-          form(action=`/forum/${post.id}/recommend` name='recommend' method='post') 
+          form(action=`/forum/${post.id}/likes` name='likes' method='post')
               input(type='hidden' name='postId' value=post.id)
               if status
                 input(type='hidden' name='userId' value=post.user_id)
@@ -57,7 +57,7 @@ html(lang='en')
           else
             input(type='password' name='password' placeholder='비밀번호')
             button.delete 삭제
-        button.update(onclick=`location.href='/forum/update/${post.id}'`) 수정
+        button.update(onclick=`location.href='/forum/${post.id}/update'`) 수정
     #to-top
       | 🔝
     script(type='module' src='/dist/utils/scroll.js')

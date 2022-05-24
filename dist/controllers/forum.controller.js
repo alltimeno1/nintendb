@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateRecommend = exports.updatePost = exports.deletePost = exports.createPost = exports.readPost = exports.readUpdate = exports.readForm = exports.readForum = void 0;
+exports.updateLikes = exports.updatePost = exports.deletePost = exports.createPost = exports.readPost = exports.readUpdate = exports.readForm = exports.readForum = void 0;
 const requestIp = require("request-ip");
 const regular_expressions_1 = require("../utils/regular_expressions");
 const express_1 = require("../utils/express");
@@ -142,7 +142,7 @@ const updatePost = async (req, res, next) => {
 };
 exports.updatePost = updatePost;
 // 게시글 추천
-const updateRecommend = async (req, res, next) => {
+const updateLikes = async (req, res, next) => {
     try {
         const { id } = req.params;
         const { postId, userId } = req.body;
@@ -159,4 +159,4 @@ const updateRecommend = async (req, res, next) => {
         return next((0, express_1.default)(error));
     }
 };
-exports.updateRecommend = updateRecommend;
+exports.updateLikes = updateLikes;

@@ -150,7 +150,7 @@ export const updatePost = async (req: Request, res: Response, next: NextFunction
 }
 
 // 게시글 추천
-export const updateRecommend = async (req: Request, res: Response, next: NextFunction) => {
+export const updateLikes = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params
     const { postId, userId } = req.body

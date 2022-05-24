@@ -6,7 +6,7 @@ router.get('/', Forum.readForum)
 
 router.get('/post', Forum.readForm)
 
-router.get('/update/:id', Forum.readUpdate)
+router.get('/:id/update', Forum.readUpdate)
 
 router.get('/:id', Forum.readPost)
 
@@ -14,8 +14,8 @@ router.post('/', Forum.createPost)
 
 router.post('/:id', Forum.deletePost)
 
-router.post('/update/:id', Forum.updatePost)
+router.post('/:id/update', Forum.updatePost)
 
-router.post('/:id/recommend', Forum.updateRecommend)
+router.post('/:id/likes', Forum.updateLikes)
 
 export = router

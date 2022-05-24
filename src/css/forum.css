@@ -152,7 +152,7 @@ form[name='deleting'] {
   line-height: 2em;
 }
 
-#post form[name='recommend'] button {
+#post form[name='likes'] button {
   margin: 0;
   background-color: steelblue;
 }
