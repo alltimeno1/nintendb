@@ -13,8 +13,8 @@ async function updateItem(id: string, titleName: string) {
   return await Bucket.updateOne({ id }, { $pull: { list: titleName } })
 }
 
-async function updateItems(id: string) {
-  return await Bucket.updateOne({ id }, { $set: { list: [] } })
+async function deleteItems(id: string) {
+  return await Bucket.deleteOne({ id })
 }
 
-export { findMyBucket, findBucketList, updateItem, updateItems }
+export { findMyBucket, findBucketList, updateItem, deleteItems }

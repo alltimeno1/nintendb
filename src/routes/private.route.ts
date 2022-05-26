@@ -1,12 +1,12 @@
 import * as express from 'express'
-import { readPrivate, deleteItem, deleteBucket } from '../controllers/private.controller'
+import { readPrivate, updateBucket, deleteBucket } from '../controllers/private.controller'
 
 const router = express.Router()
 
 router.get('/', readPrivate)
 
-router.post('/delete', deleteItem)
+router.put('/', updateBucket)
 
-router.post('/reset', deleteBucket)
+router.delete('/', deleteBucket)
 
 export = router

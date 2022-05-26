@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateItems = exports.updateItem = exports.findBucketList = exports.findMyBucket = void 0;
+exports.deleteItems = exports.updateItem = exports.findBucketList = exports.findMyBucket = void 0;
 const title_model_1 = require("../models/title.model");
 const bucket_model_1 = require("../models/bucket.model");
 async function findMyBucket(id) {
@@ -15,7 +15,7 @@ async function updateItem(id, titleName) {
     return await bucket_model_1.Bucket.updateOne({ id }, { $pull: { list: titleName } });
 }
 exports.updateItem = updateItem;
-async function updateItems(id) {
-    return await bucket_model_1.Bucket.updateOne({ id }, { $set: { list: [] } });
+async function deleteItems(id) {
+    return await bucket_model_1.Bucket.deleteOne({ id });
 }
-exports.updateItems = updateItems;
+exports.deleteItems = deleteItems;

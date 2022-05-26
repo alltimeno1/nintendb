@@ -63,9 +63,9 @@ html(lang='en')
                 td=item.price.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' })
                 td=item.rating || 'TBD'
                 td.delete ✖️
-        form(action='/private/reset' name='reset' method='post')
-          button.reset 비우기
+        button.reset 비우기
     #to-top
       | 🔝
     script(type='module' src='dist/utils/scroll.js')
+    script(type='module' src='dist/utils/update_bucket.js')
     script(type='module' src='dist/utils/delete_bucket.js')

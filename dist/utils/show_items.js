@@ -2,9 +2,6 @@
 const more = document.querySelector('.more');
 const gamelists = document.querySelectorAll('.gamelists > ul > li');
 let count = 0;
-// for (let i = 0; i < 10; i++) {
-//   gamelists[i]?.classList.remove('hide')
-// }
 window.addEventListener('load', showItems);
 more.addEventListener('click', showItems);
 function showItems() {

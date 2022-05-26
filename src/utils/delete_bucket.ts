@@ -1,16 +1,10 @@
-const buttons = document.querySelectorAll('.delete')
+const reset = <HTMLButtonElement>document.querySelector('.reset')
 
-buttons.forEach((button) => button.addEventListener('click', deleteBucket))
+reset.addEventListener('click', deleteBucket)
 
 function deleteBucket(e: any) {
-  fetch('/private/delete', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      titleName: e.target.parentElement.querySelector('a').text,
-    }),
+  fetch('/private', {
+    method: 'DELETE',
   }).catch(console.log)
 
   window.location.reload()

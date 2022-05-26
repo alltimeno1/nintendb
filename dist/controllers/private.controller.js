@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteBucket = exports.deleteItem = exports.readPrivate = void 0;
+exports.deleteBucket = exports.updateBucket = exports.readPrivate = void 0;
 const requestIp = require("request-ip");
 const express_1 = require("../utils/express");
 const load_profile_1 = require("../utils/load_profile");
@@ -30,7 +30,7 @@ const readPrivate = async (req, res, next) => {
 };
 exports.readPrivate = readPrivate;
 // MY 페이지 아이템 삭제
-const deleteItem = async (req, res, next) => {
+const updateBucket = async (req, res, next) => {
     try {
         const { titleName } = req.body;
         const status = req.isAuthenticated();
@@ -48,18 +48,18 @@ const deleteItem = async (req, res, next) => {
         return next((0, express_1.default)(error));
     }
 };
-exports.deleteItem = deleteItem;
+exports.updateBucket = updateBucket;
 // MY 페이지 아이템 리셋
 const deleteBucket = async (req, res, next) => {
     try {
         const status = req.isAuthenticated();
         if (status) {
             const { id: userId } = req.user;
-            await (0, private_service_1.updateItems)(userId);
+            await (0, private_service_1.deleteItems)(userId);
         }
         else {
             const address = requestIp.getClientIp(req);
-            await (0, private_service_1.updateItems)(address);
+            await (0, private_service_1.deleteItems)(address);
         }
         res.redirect('/private');
     }

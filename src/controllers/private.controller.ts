@@ -3,7 +3,7 @@ import * as requestIp from 'request-ip'
 import errorType from '../utils/express'
 import { Profile } from 'passport'
 import { loadProfileImg } from '../utils/load_profile'
-import { findMyBucket, findBucketList, updateItem, updateItems } from '../services/private.service'
+import { findMyBucket, findBucketList, updateItem, deleteItems } from '../services/private.service'
 
 // MY 페이지 조회
 const readPrivate = async (req: Request, res: Response, next: NextFunction) => {
@@ -33,7 +33,7 @@ const readPrivate = async (req: Request, res: Response, next: NextFunction) => {
 }
 
 // MY 페이지 아이템 삭제
-const deleteItem = async (req: Request, res: Response, next: NextFunction) => {
+const updateBucket = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { titleName } = req.body
     const status = req.isAuthenticated()
@@ -62,11 +62,11 @@ const deleteBucket = async (req: Request, res: Response, next: NextFunction) => 
     if (status) {
       const { id: userId } = req.user as Profile
 
-      await updateItems(userId)
+      await deleteItems(userId)
     } else {
       const address = <string>requestIp.getClientIp(req)
 
-      await updateItems(address)
+      await deleteItems(address)
     }
 
     res.redirect('/private')
@@ -75,4 +75,4 @@ const deleteBucket = async (req: Request, res: Response, next: NextFunction) => 
   }
 }
 
-export { readPrivate, deleteItem, deleteBucket }
+export { readPrivate, updateBucket, deleteBucket }

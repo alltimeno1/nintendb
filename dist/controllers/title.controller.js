@@ -114,7 +114,7 @@ exports.createComment = createComment;
 const deleteComment = async (req, res, next) => {
     try {
         const { id } = req.params;
-        const { commentId, password, titleId } = req.body;
+        const { commentId, password } = req.body;
         if (req.isAuthenticated()) {
             const { id: userId } = req.user;
             await Title.deleteLoginComment(userId, commentId);
@@ -125,7 +125,7 @@ const deleteComment = async (req, res, next) => {
                 return res.send(`<script>alert('비밀번호를 정확히 입력해주세요!');location.href='/title/${id}';</script>`);
             }
         }
-        res.redirect(`/title/${titleId}`);
+        res.redirect(`/title/${id}`);
     }
     catch (error) {
         return next((0, express_1.default)(error));

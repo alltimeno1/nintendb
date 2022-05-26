@@ -125,7 +125,7 @@ const createComment = async (req: Request, res: Response, next: NextFunction) =>
 const deleteComment = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params
-    const { commentId, password, titleId } = req.body
+    const { commentId, password } = req.body
 
     if (req.isAuthenticated()) {
       const { id: userId } = req.user as Profile
@@ -141,7 +141,7 @@ const deleteComment = async (req: Request, res: Response, next: NextFunction) =>
       }
     }
 
-    res.redirect(`/title/${titleId}`)
+    res.redirect(`/title/${id}`)
   } catch (error) {
     return next(errorType(error))
   }
