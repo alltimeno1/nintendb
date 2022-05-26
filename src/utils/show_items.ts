@@ -1,20 +1,18 @@
 const more = <Element>document.querySelector('.more')
-const gamelists = <Types.CSSInterface>document.querySelector('.gamelists ul')
-let count = 1
+const gamelists = document.querySelectorAll('.gamelists > ul > li')
+let count = 0
 
-hideItems()
+window.addEventListener('load', showItems)
+more.addEventListener('click', showItems)
 
-more.addEventListener('click', extendHeight)
+function showItems() {
+  for (let i = count; i < count + 10; i++) {
+    gamelists[i]?.classList.remove('hide')
+  }
 
-function extendHeight() {
-  count += 1
-  gamelists.style['max-height'] = `${2620 * count}px`
+  count += 10
 
-  hideItems()
-}
-
-function hideItems() {
-  if (document.body.scrollHeight < 2620 * count + 765) {
-    more.setAttribute('style', 'display:none;')
+  if (count >= gamelists.length) {
+    more.classList.add('hide')
   }
 }

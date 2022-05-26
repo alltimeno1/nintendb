@@ -172,7 +172,6 @@
   list-style: none;
   padding: 0;
   margin: 0;
-  max-height: 2620px;
   overflow: hidden;
 }
 
@@ -306,4 +305,8 @@
 
 .more:hover {
   font-weight: bold;
+}
+
+.hide {
+  display: none;
 }

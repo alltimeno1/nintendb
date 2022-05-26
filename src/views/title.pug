@@ -91,7 +91,7 @@ html(lang='en')
         .gamelists
           ul
             each item in title
-              li.gamelist
+              li.gamelist.hide
                 div
                   a(href=`/title/${item.name}`)
                     img.gl-img(src=item.image)
