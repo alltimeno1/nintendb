@@ -35,14 +35,19 @@ html(lang='en')
     img#banner(src='../../static/img/banner.jpg' width='100%')
     #container
       #container2
-        .filter
-          .checkboxes
+        .filter(id=tags)
+          form.checkboxes(action='/title/filter' method='get')
             .checkbox.lang
               p.checkbox_tit 대응 언어
               ul.clearfix
                 each item in [['한국어', 'langKR'], ['영어', 'langUS'], ['일본어', 'langJP']]
                   li
-                    input.input_chk(type='checkbox' name= item[1] value=item[0] id=item[1])
+                    if typeof tags === 'object' && tags.includes(item[0])
+                      input.input_chk(type='checkbox' name='tags' value=item[0] id=item[1] checked)
+                    else if typeof tags === 'string' && tags === item[0]
+                      input.input_chk(type='checkbox' name='tags' value=item[0] id=item[1] checked)
+                    else 
+                      input.input_chk(type='checkbox' name='tags' value=item[0] id=item[1])
                     label(for=item[1])
                       span.input_box
                       = ' ' + item[0]
@@ -51,7 +56,12 @@ html(lang='en')
               ul.clearfix
                 each item in [['싱글', 'single'], ['멀티', 'multi']]
                   li
-                    input.input_chk(type='checkbox' name= item[1] value=item[0] id=item[1])
+                    if typeof tags === 'object' && tags.includes(item[0])
+                      input.input_chk(type='checkbox' name='tags' value=item[0] id=item[1] checked)
+                    else if typeof tags === 'string' && tags === item[0]
+                      input.input_chk(type='checkbox' name='tags' value=item[0] id=item[1] checked)
+                    else 
+                      input.input_chk(type='checkbox' name='tags' value=item[0] id=item[1])
                     label(for=item[1])
                       span.input_box
                       = ' ' + item[0]
@@ -60,7 +70,12 @@ html(lang='en')
               ul.clearfix
                 each item in [['RPG', 'rpg'], ['액션', 'action'], ['어드벤처', 'adventure'], ['슈팅', 'shooting'], ['시뮬레이션', 'simulation'], ['스포츠', 'sports']]
                   li
-                    input.input_chk(type='checkbox' name= item[1] value=item[0] id=item[1])
+                    if typeof tags === 'object' && tags.includes(item[0])
+                      input.input_chk(type='checkbox' name='tags' value=item[0] id=item[1] checked)
+                    else if typeof tags === 'string' && tags === item[0]
+                      input.input_chk(type='checkbox' name='tags' value=item[0] id=item[1] checked)
+                    else 
+                      input.input_chk(type='checkbox' name='tags' value=item[0] id=item[1])
                     label(for=item[1])
                       span.input_box
                       = ' ' + item[0]

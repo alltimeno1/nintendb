@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteLogoutComment = exports.deleteLoginComment = exports.updateLogoutComment = exports.updateLoginComment = exports.updateWishItem = exports.findTitleDetails = exports.findByQuery = exports.findTitles = void 0;
+exports.deleteLogoutComment = exports.deleteLoginComment = exports.updateLogoutComment = exports.updateLoginComment = exports.updateWishItem = exports.findTitleDetails = exports.findByTags = exports.findByQuery = exports.findTitles = void 0;
 const title_model_1 = require("../models/title.model");
 const comment_model_1 = require("../models/comment.model");
 const bucket_model_1 = require("../models/bucket.model");
@@ -17,6 +17,19 @@ async function findByQuery(keyword) {
     return [title, top10];
 }
 exports.findByQuery = findByQuery;
+async function findByTags(tags) {
+    const top10 = await title_model_1.Game.find().sort({ rating: -1 }).limit(10);
+    let title;
+    if (typeof tags === 'object') {
+        const reg = tags.reduce((prev, curr) => `(?=.*${curr})` + prev, '.*');
+        title = await title_model_1.Game.find({ tag: { $regex: reg } });
+    }
+    else {
+        title = await title_model_1.Game.find({ tag: { $regex: tags } });
+    }
+    return [title, top10];
+}
+exports.findByTags = findByTags;
 async function findTitleDetails(id) {
     const title = await title_model_1.Game.findOne({ name: id });
     const comment = await comment_model_1.Comment.find({ game_id: id });

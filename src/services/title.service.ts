@@ -17,6 +17,21 @@ export async function findByQuery(keyword: string) {
   return [title, top10]
 }
 
+export async function findByTags(tags: string | string[]) {
+  const top10 = await Game.find().sort({ rating: -1 }).limit(10)
+  let title: object
+
+  if (typeof tags === 'object') {
+    const reg = tags.reduce((prev, curr) => `(?=.*${curr})` + prev, '.*')
+
+    title = await Game.find({ tag: { $regex: reg } })
+  } else {
+    title = await Game.find({ tag: { $regex: tags } })
+  }
+
+  return [title, top10]
+}
+
 export async function findTitleDetails(id: string) {
   const title = await Game.findOne({ name: id })
   const comment = await Comment.find({ game_id: id })

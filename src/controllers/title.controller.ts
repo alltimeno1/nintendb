@@ -23,12 +23,23 @@ const readTitle = async (req: Request, res: Response, next: NextFunction) => {
 // 특정 키워드 게임 조회
 const readKeyword = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { keyword } = req.query as { keyword: string }
-    const [title, top10] = await Title.findByQuery(keyword)
+    const { keyword, tags } = req.query as { keyword: string; tags: string | string[] }
     const status = req.isAuthenticated()
     const profileImg = loadProfileImg(status, req)
 
-    res.render('title', { top10, title, status, profileImg })
+    if (keyword) {
+      const [title, top10] = await Title.findByQuery(keyword)
+
+      res.render('title', { top10, title, status, profileImg })
+    }
+
+    if (tags) {
+      const [title, top10] = await Title.findByTags(tags)
+
+      res.render('title', { top10, title, status, profileImg, tags })
+    }
+
+    res.redirect('/title')
   } catch (error) {
     return next(errorType(error))
   }

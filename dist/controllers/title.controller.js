@@ -23,11 +23,18 @@ exports.readTitle = readTitle;
 // 특정 키워드 게임 조회
 const readKeyword = async (req, res, next) => {
     try {
-        const { keyword } = req.query;
-        const [title, top10] = await Title.findByQuery(keyword);
+        const { keyword, tags } = req.query;
         const status = req.isAuthenticated();
         const profileImg = (0, load_profile_1.loadProfileImg)(status, req);
-        res.render('title', { top10, title, status, profileImg });
+        if (keyword) {
+            const [title, top10] = await Title.findByQuery(keyword);
+            res.render('title', { top10, title, status, profileImg });
+        }
+        if (tags) {
+            const [title, top10] = await Title.findByTags(tags);
+            res.render('title', { top10, title, status, profileImg, tags });
+        }
+        res.redirect('/title');
     }
     catch (error) {
         return next((0, express_1.default)(error));
