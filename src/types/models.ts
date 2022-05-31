@@ -46,4 +46,12 @@ namespace Models {
     count: number
     name: string
   }
+
+  export interface User {
+    id: string
+    email: string
+    nickname: string
+    provider: string
+    profileImage: string
+  }
 }

@@ -2,6 +2,7 @@ const router = require('express').Router()
 const passport = require('passport')
 const session = require('express-session')
 const NaverStrategy = require('passport-naver').Strategy
+const { User } = require('../models/user.model')
 
 require('dotenv').config()
 
@@ -21,19 +22,23 @@ passport.use(
       callbackURL: process.env.NAVER_URL,
     },
     function (accessToken, refreshToken, profile, done) {
-      process.nextTick(function () {
-        console.log('profile =')
-        console.log(profile)
+      process.nextTick(async function () {
+        console.log('profile :', profile)
         // data to be saved in DB
-        user = {
-          name: profile.displayName,
+        const user = {
+          id: profile.id,
           email: profile.emails[0].value,
-          username: profile.displayName,
-          provider: 'naver',
-          naver: profile._json,
+          nickname: profile.displayName,
+          provider: profile.provider,
+          profileImage: profile._json.profile_image || '',
         }
-        console.log('user =')
-        console.log(user)
+
+        const result = await User.findOne({ id: user.id })
+
+        if (!result) {
+          await User.create(user)
+        }
+
         return done(null, profile)
       })
     }
