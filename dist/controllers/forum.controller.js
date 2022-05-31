@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateLikes = exports.updatePost = exports.deletePost = exports.createPost = exports.readPost = exports.readUpdate = exports.readForm = exports.readForum = void 0;
+exports.updateLikes = exports.updatePost = exports.deletePost = exports.createPost = exports.readPost = exports.readUpdate = exports.readForm = exports.readKeyword = exports.readForum = void 0;
 const requestIp = require("request-ip");
 const regular_expressions_1 = require("../utils/regular_expressions");
 const express_1 = require("../utils/express");
@@ -19,6 +19,20 @@ const readForum = async (req, res, next) => {
     }
 };
 exports.readForum = readForum;
+// 게시판 특정 키워드 조회
+const readKeyword = async (req, res, next) => {
+    try {
+        const { sortBy, keyword } = req.query;
+        const post = await Forum.findKeyword(sortBy, keyword);
+        const status = req.isAuthenticated();
+        const profileImg = (0, load_profile_1.loadProfileImg)(status, req);
+        res.render('forum', { post, status, profileImg });
+    }
+    catch (error) {
+        return next((0, express_1.default)(error));
+    }
+};
+exports.readKeyword = readKeyword;
 // 게시글 등록 페이지 조회
 const readForm = async (req, res, next) => {
     try {

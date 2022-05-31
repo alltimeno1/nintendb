@@ -4,6 +4,8 @@ const router = express.Router()
 
 router.get('/', Forum.readForum)
 
+router.get('/filter', Forum.readKeyword)
+
 router.get('/post', Forum.readForm)
 
 router.get('/:id/update', Forum.readUpdate)

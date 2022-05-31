@@ -19,6 +19,20 @@ export const readForum = async (req: Request, res: Response, next: NextFunction)
   }
 }
 
+// 게시판 특정 키워드 조회
+export const readKeyword = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { sortBy, keyword } = req.query as { sortBy: string; keyword: string }
+    const post = await Forum.findKeyword(sortBy, keyword)
+    const status = req.isAuthenticated()
+    const profileImg = loadProfileImg(status, req)
+
+    res.render('forum', { post, status, profileImg })
+  } catch (error) {
+    return next(errorType(error))
+  }
+}
+
 // 게시글 등록 페이지 조회
 export const readForm = async (req: Request, res: Response, next: NextFunction) => {
   try {

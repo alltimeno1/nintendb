@@ -5,6 +5,10 @@ export async function findBoard() {
   return await Board.find().sort({ id: -1 })
 }
 
+export async function findKeyword(sortBy: string, keyword: string) {
+  return await Board.find({ [sortBy]: { $regex: keyword } }).sort({ id: -1 })
+}
+
 export async function findPostLog(id: string) {
   return await Board.findOne({ id: parseInt(id) })
 }

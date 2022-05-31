@@ -1,12 +1,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateRecommend = exports.updateLogoutPost = exports.updateLoginPost = exports.deleteLogoutPost = exports.deleteLoginPost = exports.insertLogoutPost = exports.insertLoginPost = exports.updateAndFindPost = exports.findPostLog = exports.findBoard = void 0;
+exports.updateRecommend = exports.updateLogoutPost = exports.updateLoginPost = exports.deleteLogoutPost = exports.deleteLoginPost = exports.insertLogoutPost = exports.insertLoginPost = exports.updateAndFindPost = exports.findPostLog = exports.findKeyword = exports.findBoard = void 0;
 const board_model_1 = require("../models/board.model");
 const count_model_1 = require("../models/count.model");
 async function findBoard() {
     return await board_model_1.Board.find().sort({ id: -1 });
 }
 exports.findBoard = findBoard;
+async function findKeyword(sortBy, keyword) {
+    return await board_model_1.Board.find({ [sortBy]: { $regex: keyword } }).sort({ id: -1 });
+}
+exports.findKeyword = findKeyword;
 async function findPostLog(id) {
     return await board_model_1.Board.findOne({ id: parseInt(id) });
 }

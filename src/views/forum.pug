@@ -9,8 +9,8 @@ html(lang='en')
     meta(property="og:image" content='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1ZWevkWyUNWJjAq1D7eSZk58eDunIPi4rbA&usqp=CAU')
     title Nintendb - All about Nintendo Switch
     link(rel='icon' href='../../static/img/favicon.ico' type='image/x-icon')
-    link(href='src/css/style.css' rel='stylesheet')
-    link(href='src/css/forum.css' rel='stylesheet')
+    link(href='/src/css/style.css' rel='stylesheet')
+    link(href='/src/css/forum.css' rel='stylesheet')
   body
     #nav
       a(href='/home')
@@ -62,6 +62,13 @@ html(lang='en')
                 td.date=item.date.toLocaleDateString('ko-KR')
                 td.count=item.viewCount
                 td.recommend=item.recommend.length
+        .search_box
+          form(action='/forum/filter' method='get')
+            select#filter-select(name='sortBy')
+              option(value='title') 제목
+              option(value='text') 내용
+              option(value='nickname') 아이디
+            input(type='text' name='keyword' maxlength='225' placeholder='검색')
         button.write(onclick="location.href='/forum/post'") 글쓰기
     #to-top
       | 🔝
