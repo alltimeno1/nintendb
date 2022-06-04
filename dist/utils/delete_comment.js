@@ -1,10 +1,10 @@
 "use strict";
-const x = document.querySelector('form button');
+const deleteButton = document.querySelector('form button');
 const titleId = document.querySelector('.delete input[name="titleId"]');
 const commentId = document.querySelector('.delete input[name="commentId"]')
     .value;
 const password = document.querySelector('.delete input[name="password"]').value;
-x.addEventListener('submit', deleteComment);
+deleteButton.addEventListener('submit', deleteComment);
 function deleteComment(e) {
     fetch(`/title/${titleId.value}`, {
         method: 'DELETE',
