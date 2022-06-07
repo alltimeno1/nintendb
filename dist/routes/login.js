@@ -45,7 +45,14 @@ passport.use(
   )
 )
 
-router.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: false }))
+router.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    cookie: { maxAge: 60 * 60 * 1000 },
+    resave: false,
+    saveUninitialized: false,
+  })
+)
 router.use(passport.initialize())
 router.use(passport.session())
 
