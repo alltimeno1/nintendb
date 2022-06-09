@@ -27,6 +27,14 @@ html(lang='en')
           a(href='/private') MY
         li
           a(href='/etc') 고객지원
+        li 
+          select#currency
+            if currency === 'dollar'
+              option(value='won') 🇰🇷 원
+              option(value='dollar' selected) 🇺🇸 달러
+            else
+              option(value='won' selected) 🇰🇷 원
+              option(value='dollar') 🇺🇸 달러
       if status
         a.small_profile(href='/private')
           img.small_profile_img(src=profileImg)
@@ -61,8 +69,12 @@ html(lang='en')
           a.item(href=`/title/${item.name}`)
             img.cover(src=item.image)
             h5=item.name
-            span=`🇰🇷 ${item.bargainPrice.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' })} `
-            span=item.price.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' })
+            if currency === 'dollar'
+              span=`🇺🇸 ${(item.bargainPrice / 1000).toLocaleString('en-US', { style: 'currency', currency: 'USD' })} `
+              span=(item.price / 1000).toLocaleString('en-US', { style: 'currency', currency: 'USD' })
+            else 
+              span=`🇰🇷 ${item.bargainPrice.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' })} `
+              span=item.price.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' })
             span=` -${item.discountRate}%`
         a.more(href='/title?sort=discountRate')
           | 더 보기
@@ -70,3 +82,4 @@ html(lang='en')
       | 🔝
     script(type='module' src='dist/utils/scroll.js')
     script(type='module' src='dist/utils/fade_in.js')
+    script(type='module' src='dist/utils/change_currency.js')

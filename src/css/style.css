@@ -70,6 +70,13 @@ html::before {
   margin: 0 20px;
 }
 
+#currency {
+  border: none;
+  width: 75px;
+  height: 30px;
+  font-size: 16px;
+}
+
 #nav .small_profile {
   display: inline-block;
   line-height: 90px;
