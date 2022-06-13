@@ -1,10 +1,12 @@
 import { Request, Response, NextFunction } from 'express'
+import * as bcrypt from 'bcrypt'
 import * as requestIp from 'request-ip'
 import { boardRegExp } from '../utils/regular_expressions'
-import errorType from '../utils/express'
+import errorType from '../utils/checkErrorType'
 import { Profile } from 'passport'
 import { loadProfileImg } from '../utils/load_profile'
 import * as Title from '../services/title.service'
+import throwError from '../utils/throwError'
 
 // 모든 게임 조회
 const readTitle = async (req: Request, res: Response, next: NextFunction) => {
@@ -55,9 +57,7 @@ const readDetails = async (req: Request, res: Response, next: NextFunction) => {
     const status = req.isAuthenticated()
 
     if (!title) {
-      res.status(404).send({
-        message: 'There is no title with the id or DB disconnected :(',
-      })
+      throwError(404, 'There is no title with the id or DB disconnected :(')
     }
 
     if (status) {
@@ -111,7 +111,9 @@ const createComment = async (req: Request, res: Response, next: NextFunction) =>
       const message = boardRegExp('', text, userName, password, '')
 
       if (!message) {
-        await Title.updateLogoutComment(gameId, userName, password, text)
+        const hashedPassword = await bcrypt.hash(password, 10)
+
+        await Title.updateLogoutComment(gameId, userName, hashedPassword, text)
 
         res.redirect(`/title/${gameId}`)
       } else {
@@ -134,13 +136,22 @@ const deleteComment = async (req: Request, res: Response, next: NextFunction) =>
 
       await Title.deleteLoginComment(userId, commentId)
     } else {
-      const result = await Title.deleteLogoutComment(commentId, password)
+      const hashedPassword = await Title.findLogoutComment(commentId)
 
-      if (!result) {
+      if (!hashedPassword) {
+        throwError(404, '요청하신 번호의 댓글이 존재하지 않습니다.')
+        return
+      }
+
+      const samePassword = await bcrypt.compare(password, hashedPassword)
+
+      if (!samePassword) {
         return res.send(
           `<script>alert('비밀번호를 정확히 입력해주세요!');location.href='/title/${id}';</script>`
         )
       }
+
+      await Title.deleteLogoutComment(commentId)
     }
 
     res.redirect(`/title/${id}`)

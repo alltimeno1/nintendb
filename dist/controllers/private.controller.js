@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteBucket = exports.updateBucket = exports.readPrivate = void 0;
 const requestIp = require("request-ip");
-const express_1 = require("../utils/express");
+const checkErrorType_1 = require("../utils/checkErrorType");
 const load_profile_1 = require("../utils/load_profile");
 const private_service_1 = require("../services/private.service");
 // MY 페이지 조회
@@ -25,7 +25,7 @@ const readPrivate = async (req, res, next) => {
         res.render('private', { result, status, profileImg, nickname });
     }
     catch (error) {
-        return next((0, express_1.default)(error));
+        return next((0, checkErrorType_1.default)(error));
     }
 };
 exports.readPrivate = readPrivate;
@@ -45,7 +45,7 @@ const updateBucket = async (req, res, next) => {
         res.redirect('/private');
     }
     catch (error) {
-        return next((0, express_1.default)(error));
+        return next((0, checkErrorType_1.default)(error));
     }
 };
 exports.updateBucket = updateBucket;
@@ -64,7 +64,7 @@ const deleteBucket = async (req, res, next) => {
         res.redirect('/private');
     }
     catch (error) {
-        return next((0, express_1.default)(error));
+        return next((0, checkErrorType_1.default)(error));
     }
 };
 exports.deleteBucket = deleteBucket;

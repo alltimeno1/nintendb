@@ -1,10 +1,12 @@
 import { Request, Response, NextFunction } from 'express'
 import * as requestIp from 'request-ip'
+import * as bcrypt from 'bcrypt'
 import { boardRegExp } from '../utils/regular_expressions'
-import errorType from '../utils/express'
+import errorType from '../utils/checkErrorType'
 import { Profile } from 'passport'
 import { loadProfileImg } from '../utils/load_profile'
 import * as Forum from '../services/forum.service'
+import throwError from '../utils/throwError'
 
 // 게시판 조회
 export const readForum = async (req: Request, res: Response, next: NextFunction) => {
@@ -70,9 +72,7 @@ export const readPost = async (req: Request, res: Response, next: NextFunction) 
     const profileImg = loadProfileImg(status, req)
 
     if (!post) {
-      res.status(404).send({
-        message: 'There is no post with the id or DB disconnected :(',
-      })
+      throwError(404, 'There is no post with the id or DB disconnected :(')
     }
 
     return res.render('post', { post, status, checkMyPost, profileImg })
@@ -97,7 +97,9 @@ export const createPost = async (req: Request, res: Response, next: NextFunction
       const message = boardRegExp(title, '', nickname, password, '')
 
       if (!message && text) {
-        await Forum.insertLogoutPost(title, nickname, password, text)
+        const hashedPassword = await bcrypt.hash(password, 10)
+
+        await Forum.insertLogoutPost(title, nickname, hashedPassword, text)
 
         res.redirect('forum')
       } else {
@@ -120,15 +122,23 @@ export const deletePost = async (req: Request, res: Response, next: NextFunction
 
       res.redirect('/forum')
     } else {
-      const result = await Forum.deleteLogoutPost(postId, password)
+      const hashedPassword = await Forum.findLogoutPost(postId)
 
-      if (result.deletedCount) {
-        res.redirect('/forum')
-      } else {
-        res.send(
+      if (!hashedPassword) {
+        throwError(404, '요청하신 번호의 글이 존재하지 않습니다.')
+        return
+      }
+      const samePassword = await bcrypt.compare(password, hashedPassword)
+
+      if (!samePassword) {
+        return res.send(
           `<script>alert('비밀번호를 정확히 입력해주세요!');location.href='/forum/${id}';</script>`
         )
       }
+
+      await Forum.deleteLogoutPost(postId)
+
+      res.redirect('/forum')
     }
   } catch (error) {
     return next(errorType(error))
@@ -148,15 +158,24 @@ export const updatePost = async (req: Request, res: Response, next: NextFunction
       res.redirect(`/forum/${id}`)
     } else {
       const { title, nickname, password, text } = req.body
-      const result = await Forum.updateLogoutPost(id, password, title, nickname, text)
+      const hashedPassword = await Forum.findLogoutPost(id)
 
-      if (result) {
-        res.redirect(`/forum/${id}`)
-      } else {
-        res.send(
-          `<script>alert('비밀번호를 정확히 입력해주세요!.');location.href='/forum/update/${id}';</script>`
+      if (!hashedPassword) {
+        throwError(404, '요청하신 번호의 글이 존재하지 않습니다.')
+        return
+      }
+
+      const samePassword = await bcrypt.compare(password, hashedPassword)
+
+      if (!samePassword) {
+        return res.send(
+          `<script>alert('비밀번호를 정확히 입력해주세요!');location.href='/forum/${id}/update';</script>`
         )
       }
+
+      await Forum.updateLogoutPost(id, title, nickname, text)
+
+      res.redirect(`/forum/${id}`)
     }
   } catch (error) {
     return next(errorType(error))

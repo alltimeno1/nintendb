@@ -2,10 +2,12 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateLikes = exports.updatePost = exports.deletePost = exports.createPost = exports.readPost = exports.readUpdate = exports.readForm = exports.readKeyword = exports.readForum = void 0;
 const requestIp = require("request-ip");
+const bcrypt = require("bcrypt");
 const regular_expressions_1 = require("../utils/regular_expressions");
-const express_1 = require("../utils/express");
+const checkErrorType_1 = require("../utils/checkErrorType");
 const load_profile_1 = require("../utils/load_profile");
 const Forum = require("../services/forum.service");
+const throwError_1 = require("../utils/throwError");
 // 게시판 조회
 const readForum = async (req, res, next) => {
     try {
@@ -15,7 +17,7 @@ const readForum = async (req, res, next) => {
         res.render('forum', { post, status, profileImg });
     }
     catch (error) {
-        return next((0, express_1.default)(error));
+        return next((0, checkErrorType_1.default)(error));
     }
 };
 exports.readForum = readForum;
@@ -29,7 +31,7 @@ const readKeyword = async (req, res, next) => {
         res.render('forum', { post, status, profileImg });
     }
     catch (error) {
-        return next((0, express_1.default)(error));
+        return next((0, checkErrorType_1.default)(error));
     }
 };
 exports.readKeyword = readKeyword;
@@ -41,7 +43,7 @@ const readForm = async (req, res, next) => {
         res.render('form', { status, profileImg });
     }
     catch (error) {
-        return next((0, express_1.default)(error));
+        return next((0, checkErrorType_1.default)(error));
     }
 };
 exports.readForm = readForm;
@@ -56,7 +58,7 @@ const readUpdate = async (req, res, next) => {
         res.render('update_form', { post, status, checkMyPost, profileImg });
     }
     catch (error) {
-        return next((0, express_1.default)(error));
+        return next((0, checkErrorType_1.default)(error));
     }
 };
 exports.readUpdate = readUpdate;
@@ -69,14 +71,12 @@ const readPost = async (req, res, next) => {
         const checkMyPost = req.user && post ? req.user.id === post.user_id : false;
         const profileImg = (0, load_profile_1.loadProfileImg)(status, req);
         if (!post) {
-            res.status(404).send({
-                message: 'There is no post with the id or DB disconnected :(',
-            });
+            (0, throwError_1.default)(404, 'There is no post with the id or DB disconnected :(');
         }
         return res.render('post', { post, status, checkMyPost, profileImg });
     }
     catch (error) {
-        return next((0, express_1.default)(error));
+        return next((0, checkErrorType_1.default)(error));
     }
 };
 exports.readPost = readPost;
@@ -93,7 +93,8 @@ const createPost = async (req, res, next) => {
             const { nickname, password } = req.body;
             const message = (0, regular_expressions_1.boardRegExp)(title, '', nickname, password, '');
             if (!message && text) {
-                await Forum.insertLogoutPost(title, nickname, password, text);
+                const hashedPassword = await bcrypt.hash(password, 10);
+                await Forum.insertLogoutPost(title, nickname, hashedPassword, text);
                 res.redirect('forum');
             }
             else {
@@ -102,7 +103,7 @@ const createPost = async (req, res, next) => {
         }
     }
     catch (error) {
-        return next((0, express_1.default)(error));
+        return next((0, checkErrorType_1.default)(error));
     }
 };
 exports.createPost = createPost;
@@ -116,17 +117,21 @@ const deletePost = async (req, res, next) => {
             res.redirect('/forum');
         }
         else {
-            const result = await Forum.deleteLogoutPost(postId, password);
-            if (result.deletedCount) {
-                res.redirect('/forum');
+            const hashedPassword = await Forum.findLogoutPost(postId);
+            if (!hashedPassword) {
+                (0, throwError_1.default)(404, '요청하신 번호의 글이 존재하지 않습니다.');
+                return;
             }
-            else {
-                res.send(`<script>alert('비밀번호를 정확히 입력해주세요!');location.href='/forum/${id}';</script>`);
+            const samePassword = await bcrypt.compare(password, hashedPassword);
+            if (!samePassword) {
+                return res.send(`<script>alert('비밀번호를 정확히 입력해주세요!');location.href='/forum/${id}';</script>`);
             }
+            await Forum.deleteLogoutPost(postId);
+            res.redirect('/forum');
         }
     }
     catch (error) {
-        return next((0, express_1.default)(error));
+        return next((0, checkErrorType_1.default)(error));
     }
 };
 exports.deletePost = deletePost;
@@ -141,17 +146,21 @@ const updatePost = async (req, res, next) => {
         }
         else {
             const { title, nickname, password, text } = req.body;
-            const result = await Forum.updateLogoutPost(id, password, title, nickname, text);
-            if (result) {
-                res.redirect(`/forum/${id}`);
+            const hashedPassword = await Forum.findLogoutPost(id);
+            if (!hashedPassword) {
+                (0, throwError_1.default)(404, '요청하신 번호의 글이 존재하지 않습니다.');
+                return;
             }
-            else {
-                res.send(`<script>alert('비밀번호를 정확히 입력해주세요!.');location.href='/forum/update/${id}';</script>`);
+            const samePassword = await bcrypt.compare(password, hashedPassword);
+            if (!samePassword) {
+                return res.send(`<script>alert('비밀번호를 정확히 입력해주세요!');location.href='/forum/${id}/update';</script>`);
             }
+            await Forum.updateLogoutPost(id, title, nickname, text);
+            res.redirect(`/forum/${id}`);
         }
     }
     catch (error) {
-        return next((0, express_1.default)(error));
+        return next((0, checkErrorType_1.default)(error));
     }
 };
 exports.updatePost = updatePost;
@@ -170,7 +179,7 @@ const updateLikes = async (req, res, next) => {
         res.redirect(`/forum/${id}`);
     }
     catch (error) {
-        return next((0, express_1.default)(error));
+        return next((0, checkErrorType_1.default)(error));
     }
 };
 exports.updateLikes = updateLikes;

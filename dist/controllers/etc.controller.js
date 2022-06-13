@@ -4,7 +4,7 @@ exports.changeCurrency = exports.createInquiry = exports.readEtc = exports.readH
 const etc_service_1 = require("../services/etc.service");
 const load_profile_1 = require("../utils/load_profile");
 const regular_expressions_1 = require("../utils/regular_expressions");
-const express_1 = require("../utils/express");
+const checkErrorType_1 = require("../utils/checkErrorType");
 const readDomain = async (req, res) => res.redirect('/home');
 exports.readDomain = readDomain;
 // 메인 페이지 조회
@@ -17,7 +17,7 @@ const readHome = async (req, res, next) => {
         res.render('index', { best, recent, sale, status, profileImg, currency });
     }
     catch (error) {
-        return next((0, express_1.default)(error));
+        return next((0, checkErrorType_1.default)(error));
     }
 };
 exports.readHome = readHome;
@@ -30,7 +30,7 @@ const readEtc = async (req, res, next) => {
         res.render('etc', { status, email, profileImg });
     }
     catch (error) {
-        return next((0, express_1.default)(error));
+        return next((0, checkErrorType_1.default)(error));
     }
 };
 exports.readEtc = readEtc;
@@ -48,7 +48,7 @@ const createInquiry = async (req, res, next) => {
         }
     }
     catch (error) {
-        return next((0, express_1.default)(error));
+        return next((0, checkErrorType_1.default)(error));
     }
 };
 exports.createInquiry = createInquiry;
@@ -60,7 +60,7 @@ const changeCurrency = async (req, res, next) => {
         res.cookie('currency', currency).redirect('back');
     }
     catch (error) {
-        return next((0, express_1.default)(error));
+        return next((0, checkErrorType_1.default)(error));
     }
 };
 exports.changeCurrency = changeCurrency;

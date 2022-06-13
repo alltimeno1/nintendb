@@ -66,10 +66,17 @@ export async function deleteLoginPost(postId: string, userId: string) {
   })
 }
 
-export async function deleteLogoutPost(postId: string, password: string) {
+export async function findLogoutPost(postId: string) {
+  const result = await Board.findOne({
+    id: parseInt(postId),
+  })
+
+  return result?.password
+}
+
+export async function deleteLogoutPost(postId: string) {
   const result = await Board.deleteOne({
     id: parseInt(postId),
-    password: password,
   })
 
   return result
@@ -79,15 +86,9 @@ export const updateLoginPost: Types.UpdateLoginPost<string> = async (id, userId,
   await Board.updateOne({ id: parseInt(id), user_id: userId }, { $set: { title, text } })
 }
 
-export async function updateLogoutPost(
-  id: string,
-  password: string,
-  title: string,
-  nickname: string,
-  text: string
-) {
+export async function updateLogoutPost(id: string, title: string, nickname: string, text: string) {
   const result = await Board.findOneAndUpdate(
-    { id: parseInt(id), password },
+    { id: parseInt(id) },
     { $set: { title, nickname, text } }
   )
 

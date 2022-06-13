@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteLogoutComment = exports.deleteLoginComment = exports.updateLogoutComment = exports.updateLoginComment = exports.updateWishItem = exports.findTitleDetails = exports.findByTags = exports.findByQuery = exports.findTitles = void 0;
+exports.deleteLogoutComment = exports.findLogoutComment = exports.deleteLoginComment = exports.updateLogoutComment = exports.updateLoginComment = exports.updateWishItem = exports.findTitleDetails = exports.findByTags = exports.findByQuery = exports.findTitles = void 0;
 const title_model_1 = require("../models/title.model");
 const comment_model_1 = require("../models/comment.model");
 const bucket_model_1 = require("../models/bucket.model");
@@ -71,10 +71,16 @@ async function deleteLoginComment(userId, commentId) {
     });
 }
 exports.deleteLoginComment = deleteLoginComment;
-async function deleteLogoutComment(commentId, password) {
+async function findLogoutComment(commentId) {
+    const result = await comment_model_1.Comment.findOne({
+        _id: new mongodb_1.ObjectId(commentId),
+    });
+    return result?.password;
+}
+exports.findLogoutComment = findLogoutComment;
+async function deleteLogoutComment(commentId) {
     const result = await comment_model_1.Comment.findOneAndDelete({
         _id: new mongodb_1.ObjectId(commentId),
-        password: password,
     });
     return result;
 }

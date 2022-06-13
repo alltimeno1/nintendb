@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateRecommend = exports.updateLogoutPost = exports.updateLoginPost = exports.deleteLogoutPost = exports.deleteLoginPost = exports.insertLogoutPost = exports.insertLoginPost = exports.updateAndFindPost = exports.findPostLog = exports.findKeyword = exports.findBoard = void 0;
+exports.updateRecommend = exports.updateLogoutPost = exports.updateLoginPost = exports.deleteLogoutPost = exports.findLogoutPost = exports.deleteLoginPost = exports.insertLogoutPost = exports.insertLoginPost = exports.updateAndFindPost = exports.findPostLog = exports.findKeyword = exports.findBoard = void 0;
 const board_model_1 = require("../models/board.model");
 const count_model_1 = require("../models/count.model");
 async function findBoard() {
@@ -55,10 +55,16 @@ async function deleteLoginPost(postId, userId) {
     });
 }
 exports.deleteLoginPost = deleteLoginPost;
-async function deleteLogoutPost(postId, password) {
+async function findLogoutPost(postId) {
+    const result = await board_model_1.Board.findOne({
+        id: parseInt(postId),
+    });
+    return result?.password;
+}
+exports.findLogoutPost = findLogoutPost;
+async function deleteLogoutPost(postId) {
     const result = await board_model_1.Board.deleteOne({
         id: parseInt(postId),
-        password: password,
     });
     return result;
 }
@@ -67,8 +73,8 @@ const updateLoginPost = async (id, userId, title, text) => {
     await board_model_1.Board.updateOne({ id: parseInt(id), user_id: userId }, { $set: { title, text } });
 };
 exports.updateLoginPost = updateLoginPost;
-async function updateLogoutPost(id, password, title, nickname, text) {
-    const result = await board_model_1.Board.findOneAndUpdate({ id: parseInt(id), password }, { $set: { title, nickname, text } });
+async function updateLogoutPost(id, title, nickname, text) {
+    const result = await board_model_1.Board.findOneAndUpdate({ id: parseInt(id) }, { $set: { title, nickname, text } });
     return result;
 }
 exports.updateLogoutPost = updateLogoutPost;

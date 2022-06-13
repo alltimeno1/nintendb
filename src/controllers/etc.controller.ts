@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express'
 import { findSortedList, insertInquery } from '../services/etc.service'
 import { loadProfileImg, loadProfileEmail } from '../utils/load_profile'
 import { boardRegExp } from '../utils/regular_expressions'
-import errorType from '../utils/express'
+import errorType from '../utils/checkErrorType'
 
 const readDomain = async (req: Request, res: Response) => res.redirect('/home')
 

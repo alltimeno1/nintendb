@@ -1,11 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteComment = exports.createComment = exports.updateWishItem = exports.readDetails = exports.readKeyword = exports.readTitle = void 0;
+const bcrypt = require("bcrypt");
 const requestIp = require("request-ip");
 const regular_expressions_1 = require("../utils/regular_expressions");
-const express_1 = require("../utils/express");
+const checkErrorType_1 = require("../utils/checkErrorType");
 const load_profile_1 = require("../utils/load_profile");
 const Title = require("../services/title.service");
+const throwError_1 = require("../utils/throwError");
 // 모든 게임 조회
 const readTitle = async (req, res, next) => {
     try {
@@ -17,7 +19,7 @@ const readTitle = async (req, res, next) => {
         res.render('title', { top10, title, status, profileImg, currency });
     }
     catch (error) {
-        return next((0, express_1.default)(error));
+        return next((0, checkErrorType_1.default)(error));
     }
 };
 exports.readTitle = readTitle;
@@ -39,7 +41,7 @@ const readKeyword = async (req, res, next) => {
         res.redirect('/title');
     }
     catch (error) {
-        return next((0, express_1.default)(error));
+        return next((0, checkErrorType_1.default)(error));
     }
 };
 exports.readKeyword = readKeyword;
@@ -50,9 +52,7 @@ const readDetails = async (req, res, next) => {
         const [title, comment] = await Title.findTitleDetails(id);
         const status = req.isAuthenticated();
         if (!title) {
-            res.status(404).send({
-                message: 'There is no title with the id or DB disconnected :(',
-            });
+            (0, throwError_1.default)(404, 'There is no title with the id or DB disconnected :(');
         }
         if (status) {
             const profileImg = (0, load_profile_1.loadProfileImg)(status, req);
@@ -63,7 +63,7 @@ const readDetails = async (req, res, next) => {
         }
     }
     catch (error) {
-        return next((0, express_1.default)(error));
+        return next((0, checkErrorType_1.default)(error));
     }
 };
 exports.readDetails = readDetails;
@@ -82,7 +82,7 @@ const updateWishItem = async (req, res, next) => {
         res.send(`<script>alert('관심 목록에 ${gameId}가 추가되었습니다!');location.href='/title/${gameId}';</script>`);
     }
     catch (error) {
-        return next((0, express_1.default)(error));
+        return next((0, checkErrorType_1.default)(error));
     }
 };
 exports.updateWishItem = updateWishItem;
@@ -99,7 +99,8 @@ const createComment = async (req, res, next) => {
             const { user_name: userName, password } = req.body;
             const message = (0, regular_expressions_1.boardRegExp)('', text, userName, password, '');
             if (!message) {
-                await Title.updateLogoutComment(gameId, userName, password, text);
+                const hashedPassword = await bcrypt.hash(password, 10);
+                await Title.updateLogoutComment(gameId, userName, hashedPassword, text);
                 res.redirect(`/title/${gameId}`);
             }
             else {
@@ -108,7 +109,7 @@ const createComment = async (req, res, next) => {
         }
     }
     catch (error) {
-        return next((0, express_1.default)(error));
+        return next((0, checkErrorType_1.default)(error));
     }
 };
 exports.createComment = createComment;
@@ -122,15 +123,21 @@ const deleteComment = async (req, res, next) => {
             await Title.deleteLoginComment(userId, commentId);
         }
         else {
-            const result = await Title.deleteLogoutComment(commentId, password);
-            if (!result) {
+            const hashedPassword = await Title.findLogoutComment(commentId);
+            if (!hashedPassword) {
+                (0, throwError_1.default)(404, '요청하신 번호의 댓글이 존재하지 않습니다.');
+                return;
+            }
+            const samePassword = await bcrypt.compare(password, hashedPassword);
+            if (!samePassword) {
                 return res.send(`<script>alert('비밀번호를 정확히 입력해주세요!');location.href='/title/${id}';</script>`);
             }
+            await Title.deleteLogoutComment(commentId);
         }
         res.redirect(`/title/${id}`);
     }
     catch (error) {
-        return next((0, express_1.default)(error));
+        return next((0, checkErrorType_1.default)(error));
     }
 };
 exports.deleteComment = deleteComment;

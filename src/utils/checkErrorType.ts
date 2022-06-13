@@ -1,7 +1,7 @@
 export default function errorType(error: unknown) {
   if (error instanceof Error) {
-    return error.message
+    return error
   } else {
-    return 'Unknown Error'
+    return new Error('Unknown Error')
   }
 }

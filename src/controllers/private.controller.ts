@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import * as requestIp from 'request-ip'
-import errorType from '../utils/express'
+import errorType from '../utils/checkErrorType'
 import { Profile } from 'passport'
 import { loadProfileImg } from '../utils/load_profile'
 import { findMyBucket, findBucketList, updateItem, deleteItems } from '../services/private.service'

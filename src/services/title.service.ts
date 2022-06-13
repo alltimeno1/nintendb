@@ -84,10 +84,17 @@ export async function deleteLoginComment(userId: string, commentId: string) {
   })
 }
 
-export async function deleteLogoutComment(commentId: string, password: string) {
+export async function findLogoutComment(commentId: string) {
+  const result = await Comment.findOne({
+    _id: new ObjectId(commentId),
+  })
+
+  return result?.password
+}
+
+export async function deleteLogoutComment(commentId: string) {
   const result = await Comment.findOneAndDelete({
     _id: new ObjectId(commentId),
-    password: password,
   })
 
   return result
