@@ -58,6 +58,7 @@ router.use(passport.session())
 
 // Setting the naver oauth routes
 router.get('/login', passport.authenticate('naver', null), function (req, res) {
+  // #swagger.tags = ['Users']
   console.log('/login failed, stopped')
 })
 
@@ -68,11 +69,13 @@ router.get(
     failureRedirect: '/login',
   }),
   function (req, res) {
+    // #swagger.tags = ['Users']
     res.redirect('/home')
   }
 )
 
 router.get('/logout', function (req, res) {
+  // #swagger.tags = ['Users']
   req.logout()
   res.redirect('/home')
 })

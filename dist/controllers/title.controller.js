@@ -8,15 +8,18 @@ const checkErrorType_1 = require("../utils/checkErrorType");
 const load_profile_1 = require("../utils/load_profile");
 const Title = require("../services/title.service");
 const throwError_1 = require("../utils/throwError");
+const currency_api_1 = require("../utils/currency_api");
 // 모든 게임 조회
 const readTitle = async (req, res, next) => {
+    // #swagger.tags = ['Title']
     try {
         const { currency } = req.cookies;
         const { sort } = req.query;
         const [title, top10] = await Title.findTitles(sort);
         const status = req.isAuthenticated();
         let profileImg = (0, load_profile_1.loadProfileImg)(status, req);
-        res.render('title', { top10, title, status, profileImg, currency });
+        const exchangeRate = await (0, currency_api_1.default)();
+        res.render('title', { top10, title, status, profileImg, currency, exchangeRate });
     }
     catch (error) {
         return next((0, checkErrorType_1.default)(error));
@@ -25,6 +28,7 @@ const readTitle = async (req, res, next) => {
 exports.readTitle = readTitle;
 // 특정 키워드 게임 조회
 const readKeyword = async (req, res, next) => {
+    // #swagger.tags = ['Title']
     try {
         const { currency } = req.cookies;
         const { keyword, tags } = req.query;
@@ -47,6 +51,7 @@ const readKeyword = async (req, res, next) => {
 exports.readKeyword = readKeyword;
 // 게임 정보 조회
 const readDetails = async (req, res, next) => {
+    // #swagger.tags = ['Title']
     try {
         const { id } = req.params;
         const [title, comment] = await Title.findTitleDetails(id);
@@ -69,6 +74,7 @@ const readDetails = async (req, res, next) => {
 exports.readDetails = readDetails;
 // 찜하기
 const updateWishItem = async (req, res, next) => {
+    // #swagger.tags = ['Title']
     try {
         const { gameId } = req.body;
         if (req.isAuthenticated()) {
@@ -88,6 +94,7 @@ const updateWishItem = async (req, res, next) => {
 exports.updateWishItem = updateWishItem;
 // 댓글 등록
 const createComment = async (req, res, next) => {
+    // #swagger.tags = ['Title']
     try {
         const { gameId, text } = req.body;
         if (req.isAuthenticated()) {
@@ -115,6 +122,7 @@ const createComment = async (req, res, next) => {
 exports.createComment = createComment;
 // 댓글 삭제
 const deleteComment = async (req, res, next) => {
+    // #swagger.tags = ['Title']
     try {
         const { id } = req.params;
         const { commentId, password } = req.body;

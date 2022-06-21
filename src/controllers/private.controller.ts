@@ -7,6 +7,7 @@ import { findMyBucket, findBucketList, updateItem, deleteItems } from '../servic
 
 // MY 페이지 조회
 const readPrivate = async (req: Request, res: Response, next: NextFunction) => {
+  // #swagger.tags = ['Private']
   try {
     const status = req.isAuthenticated()
     const profileImg = loadProfileImg(status, req)
@@ -34,6 +35,7 @@ const readPrivate = async (req: Request, res: Response, next: NextFunction) => {
 
 // MY 페이지 아이템 삭제
 const updateBucket = async (req: Request, res: Response, next: NextFunction) => {
+  // #swagger.tags = ['Private']
   try {
     const { titleName } = req.body
     const status = req.isAuthenticated()
@@ -56,6 +58,7 @@ const updateBucket = async (req: Request, res: Response, next: NextFunction) => 
 
 // MY 페이지 아이템 리셋
 const deleteBucket = async (req: Request, res: Response, next: NextFunction) => {
+  // #swagger.tags = ['Private']
   try {
     const status = req.isAuthenticated()
 

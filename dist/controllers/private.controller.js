@@ -7,6 +7,7 @@ const load_profile_1 = require("../utils/load_profile");
 const private_service_1 = require("../services/private.service");
 // MY 페이지 조회
 const readPrivate = async (req, res, next) => {
+    // #swagger.tags = ['Private']
     try {
         const status = req.isAuthenticated();
         const profileImg = (0, load_profile_1.loadProfileImg)(status, req);
@@ -31,6 +32,7 @@ const readPrivate = async (req, res, next) => {
 exports.readPrivate = readPrivate;
 // MY 페이지 아이템 삭제
 const updateBucket = async (req, res, next) => {
+    // #swagger.tags = ['Private']
     try {
         const { titleName } = req.body;
         const status = req.isAuthenticated();
@@ -51,6 +53,7 @@ const updateBucket = async (req, res, next) => {
 exports.updateBucket = updateBucket;
 // MY 페이지 아이템 리셋
 const deleteBucket = async (req, res, next) => {
+    // #swagger.tags = ['Private']
     try {
         const status = req.isAuthenticated();
         if (status) {

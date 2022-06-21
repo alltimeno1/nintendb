@@ -37,7 +37,7 @@ html(lang='en')
               option(value='dollar') 🇺🇸 달러
       if status
         a.small_profile(href='/private')
-          img.small_profile_img(src=profileImg)
+          img.small_profile_img(src=profileImg style='margin-left: 250px;')
         a#login(href='/logout') 로그아웃
       else
         a#login(href='/login') 로그인/회원가입
@@ -70,8 +70,8 @@ html(lang='en')
             img.cover(src=item.image)
             h5=item.name
             if currency === 'dollar'
-              span=`🇺🇸 ${(item.bargainPrice / 1000).toLocaleString('en-US', { style: 'currency', currency: 'USD' })} `
-              span=(item.price / 1000).toLocaleString('en-US', { style: 'currency', currency: 'USD' })
+              span=`🇺🇸 ${(item.bargainPrice / exchangeRate).toLocaleString('en-US', { style: 'currency', currency: 'USD' })} `
+              span=(item.price / exchangeRate).toLocaleString('en-US', { style: 'currency', currency: 'USD' })
             else 
               span=`🇰🇷 ${item.bargainPrice.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' })} `
               span=item.price.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' })

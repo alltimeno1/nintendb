@@ -5,16 +5,19 @@ const etc_service_1 = require("../services/etc.service");
 const load_profile_1 = require("../utils/load_profile");
 const regular_expressions_1 = require("../utils/regular_expressions");
 const checkErrorType_1 = require("../utils/checkErrorType");
+const currency_api_1 = require("../utils/currency_api");
 const readDomain = async (req, res) => res.redirect('/home');
 exports.readDomain = readDomain;
 // 메인 페이지 조회
 const readHome = async (req, res, next) => {
+    // #swagger.tags = ['Etc']
     try {
         const { currency } = req.cookies;
         const status = req.isAuthenticated();
         const profileImg = (0, load_profile_1.loadProfileImg)(status, req);
         const [best, recent, sale] = await (0, etc_service_1.findSortedList)();
-        res.render('index', { best, recent, sale, status, profileImg, currency });
+        const exchangeRate = await (0, currency_api_1.default)();
+        res.render('index', { best, recent, sale, status, profileImg, currency, exchangeRate });
     }
     catch (error) {
         return next((0, checkErrorType_1.default)(error));
@@ -23,6 +26,7 @@ const readHome = async (req, res, next) => {
 exports.readHome = readHome;
 // 고객 지원 페이지 조회
 const readEtc = async (req, res, next) => {
+    // #swagger.tags = ['Etc']
     try {
         const status = req.isAuthenticated();
         const profileImg = (0, load_profile_1.loadProfileImg)(status, req);
@@ -36,6 +40,7 @@ const readEtc = async (req, res, next) => {
 exports.readEtc = readEtc;
 // 문의하기
 const createInquiry = async (req, res, next) => {
+    // #swagger.tags = ['Etc']
     try {
         const { name, email, message } = req.body;
         const validationMsg = (0, regular_expressions_1.boardRegExp)('', message, name, '', email);
@@ -54,6 +59,7 @@ const createInquiry = async (req, res, next) => {
 exports.createInquiry = createInquiry;
 // 화폐 선택
 const changeCurrency = async (req, res, next) => {
+    // #swagger.tags = ['Etc']
     try {
         const { currency } = req.body;
         console.log(currency);

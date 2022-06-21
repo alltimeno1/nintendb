@@ -4,6 +4,8 @@ const { connect } = require('./dist/utils/mongo')
 const cors = require('cors')
 const logger = require('morgan')
 const cookieParser = require('cookie-parser')
+const swaggerUi = require('swagger-ui-express')
+const swaggerFile = require('./swagger-output.json')
 const PORT = 3000
 
 const login = require('./dist/routes/login')
@@ -23,6 +25,7 @@ app.use(cookieParser())
 app.use(express.static(__dirname))
 app.use(express.urlencoded({ extended: false }))
 app.use(logger('short'))
+app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 
 app.use('/', login)
 app.use('/title', title)

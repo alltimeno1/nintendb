@@ -10,6 +10,7 @@ import throwError from '../utils/throwError'
 
 // 게시판 조회
 export const readForum = async (req: Request, res: Response, next: NextFunction) => {
+  // #swagger.tags = ['Forum']
   try {
     const post = await Forum.findBoard()
     const status = req.isAuthenticated()
@@ -23,6 +24,7 @@ export const readForum = async (req: Request, res: Response, next: NextFunction)
 
 // 게시판 특정 키워드 조회
 export const readKeyword = async (req: Request, res: Response, next: NextFunction) => {
+  // #swagger.tags = ['Forum']
   try {
     const { sortBy, keyword } = req.query as { sortBy: string; keyword: string }
     const post = await Forum.findKeyword(sortBy, keyword)
@@ -37,6 +39,7 @@ export const readKeyword = async (req: Request, res: Response, next: NextFunctio
 
 // 게시글 등록 페이지 조회
 export const readForm = async (req: Request, res: Response, next: NextFunction) => {
+  // #swagger.tags = ['Forum']
   try {
     const status = req.isAuthenticated()
     const profileImg = loadProfileImg(status, req)
@@ -49,6 +52,7 @@ export const readForm = async (req: Request, res: Response, next: NextFunction) 
 
 // 게시글 수정 페이지 조회
 export const readUpdate = async (req: Request, res: Response, next: NextFunction) => {
+  // #swagger.tags = ['Forum']
   try {
     const { id } = req.params
     const post = await Forum.findPostLog(id)
@@ -64,6 +68,7 @@ export const readUpdate = async (req: Request, res: Response, next: NextFunction
 
 // 게시글 조회
 export const readPost = async (req: Request, res: Response, next: NextFunction) => {
+  // #swagger.tags = ['Forum']
   try {
     const { id } = req.params
     const post = await Forum.updateAndFindPost(id)
@@ -83,6 +88,7 @@ export const readPost = async (req: Request, res: Response, next: NextFunction) 
 
 // 게시글 등록
 export const createPost = async (req: Request, res: Response, next: NextFunction) => {
+  // #swagger.tags = ['Forum']
   try {
     const { title, text } = req.body
 
@@ -113,6 +119,7 @@ export const createPost = async (req: Request, res: Response, next: NextFunction
 
 // 게시글 삭제
 export const deletePost = async (req: Request, res: Response, next: NextFunction) => {
+  // #swagger.tags = ['Forum']
   try {
     const { id } = req.params
     const { postId, userId, password } = req.body
@@ -147,6 +154,7 @@ export const deletePost = async (req: Request, res: Response, next: NextFunction
 
 // 게시글 수정
 export const updatePost = async (req: Request, res: Response, next: NextFunction) => {
+  // #swagger.tags = ['Forum']
   try {
     const { id } = req.params
 
@@ -184,6 +192,7 @@ export const updatePost = async (req: Request, res: Response, next: NextFunction
 
 // 게시글 추천
 export const updateLikes = async (req: Request, res: Response, next: NextFunction) => {
+  // #swagger.tags = ['Forum']
   try {
     const { id } = req.params
     const { postId, userId } = req.body

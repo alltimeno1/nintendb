@@ -10,6 +10,7 @@ const Forum = require("../services/forum.service");
 const throwError_1 = require("../utils/throwError");
 // 게시판 조회
 const readForum = async (req, res, next) => {
+    // #swagger.tags = ['Forum']
     try {
         const post = await Forum.findBoard();
         const status = req.isAuthenticated();
@@ -23,6 +24,7 @@ const readForum = async (req, res, next) => {
 exports.readForum = readForum;
 // 게시판 특정 키워드 조회
 const readKeyword = async (req, res, next) => {
+    // #swagger.tags = ['Forum']
     try {
         const { sortBy, keyword } = req.query;
         const post = await Forum.findKeyword(sortBy, keyword);
@@ -37,6 +39,7 @@ const readKeyword = async (req, res, next) => {
 exports.readKeyword = readKeyword;
 // 게시글 등록 페이지 조회
 const readForm = async (req, res, next) => {
+    // #swagger.tags = ['Forum']
     try {
         const status = req.isAuthenticated();
         const profileImg = (0, load_profile_1.loadProfileImg)(status, req);
@@ -49,6 +52,7 @@ const readForm = async (req, res, next) => {
 exports.readForm = readForm;
 // 게시글 수정 페이지 조회
 const readUpdate = async (req, res, next) => {
+    // #swagger.tags = ['Forum']
     try {
         const { id } = req.params;
         const post = await Forum.findPostLog(id);
@@ -64,6 +68,7 @@ const readUpdate = async (req, res, next) => {
 exports.readUpdate = readUpdate;
 // 게시글 조회
 const readPost = async (req, res, next) => {
+    // #swagger.tags = ['Forum']
     try {
         const { id } = req.params;
         const post = await Forum.updateAndFindPost(id);
@@ -82,6 +87,7 @@ const readPost = async (req, res, next) => {
 exports.readPost = readPost;
 // 게시글 등록
 const createPost = async (req, res, next) => {
+    // #swagger.tags = ['Forum']
     try {
         const { title, text } = req.body;
         if (req.isAuthenticated()) {
@@ -109,6 +115,7 @@ const createPost = async (req, res, next) => {
 exports.createPost = createPost;
 // 게시글 삭제
 const deletePost = async (req, res, next) => {
+    // #swagger.tags = ['Forum']
     try {
         const { id } = req.params;
         const { postId, userId, password } = req.body;
@@ -137,6 +144,7 @@ const deletePost = async (req, res, next) => {
 exports.deletePost = deletePost;
 // 게시글 수정
 const updatePost = async (req, res, next) => {
+    // #swagger.tags = ['Forum']
     try {
         const { id } = req.params;
         if (req.body.user_id) {
@@ -166,6 +174,7 @@ const updatePost = async (req, res, next) => {
 exports.updatePost = updatePost;
 // 게시글 추천
 const updateLikes = async (req, res, next) => {
+    // #swagger.tags = ['Forum']
     try {
         const { id } = req.params;
         const { postId, userId } = req.body;

@@ -36,7 +36,7 @@ html(lang='en')
               option(value='dollar') 🇺🇸 달러
       if status
         a.small_profile(href='/private')
-          img.small_profile_img(src=profileImg)
+          img.small_profile_img(src=profileImg style='margin-left: 250px;')
         a#login(href='/logout') 로그아웃
       else
         a#login(href='/login') 로그인/회원가입
@@ -116,7 +116,7 @@ html(lang='en')
                     img(src='../static/img/metacritic.png' width='20' height='20')
                     span.rating=item.rating !== 0 ? item.rating : 'TBD'
                     if currency === 'dollar'
-                      span.price=(item.price / 1000).toLocaleString('en-US', { style: 'currency', currency: 'USD' })
+                      span.price=(item.price / exchangeRate).toLocaleString('en-US', { style: 'currency', currency: 'USD' })
                     else 
                       span.price=item.price.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' })
           button.more 더 보기
