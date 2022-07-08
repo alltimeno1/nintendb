@@ -1,5 +1,4 @@
 const express = require('express')
-const app = express()
 const { connect } = require('./dist/utils/mongo')
 const cors = require('cors')
 const logger = require('morgan')
@@ -7,6 +6,8 @@ const cookieParser = require('cookie-parser')
 const swaggerUi = require('swagger-ui-express')
 const swaggerFile = require('./swagger-output.json')
 const PORT = 3000
+
+const app = express()
 
 const login = require('./dist/routes/login')
 const title = require('./dist/routes/title.route')
@@ -33,10 +34,14 @@ app.use('/forum', forum)
 app.use('/private', private)
 app.use('/', etc)
 
-app.use((err, req, res, next) => {
+app.use((req, res) => {
+  res.status(404).send('Page Not Found!')
+})
+
+app.use((err, req, res) => {
   const { message, status } = err
-  console.log('abc')
-  return res.status(status || 400).send({ message })
+
+  return res.status(status || 400).json({ message })
 })
 
 app.listen(PORT, () => {
