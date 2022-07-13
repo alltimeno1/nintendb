@@ -21,4 +21,4 @@ jobs:
             cd /home/ubuntu/nintendb
             git pull
             npm install --production
-            pm2 restart app.js
+            npm restart

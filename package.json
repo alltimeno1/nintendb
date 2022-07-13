@@ -1,7 +1,7 @@
 {
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
+    "restart": "pm2 restart app.js",
     "dev": "tsc-watch --onSuccess \"nodemon app.js\"",
     "scrap": "node dist/utils/update_db.js"
   },
