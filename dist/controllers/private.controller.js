@@ -2,12 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteBucket = exports.updateBucket = exports.readPrivate = void 0;
 const requestIp = require("request-ip");
-const checkErrorType_1 = require("../utils/checkErrorType");
 const load_profile_1 = require("../utils/load_profile");
 const private_service_1 = require("../services/private.service");
 // MY 페이지 조회
 const readPrivate = async (req, res, next) => {
-    // #swagger.tags = ['Private']
     try {
         const status = req.isAuthenticated();
         const profileImg = (0, load_profile_1.loadProfileImg)(status, req);
@@ -23,16 +21,15 @@ const readPrivate = async (req, res, next) => {
             myBucket = await (0, private_service_1.findMyBucket)(ip);
         }
         const result = await (0, private_service_1.findBucketList)(myBucket);
-        res.render('private', { result, status, profileImg, nickname });
+        return res.render('private', { result, status, profileImg, nickname });
     }
     catch (error) {
-        return next((0, checkErrorType_1.default)(error));
+        return next(error);
     }
 };
 exports.readPrivate = readPrivate;
 // MY 페이지 아이템 삭제
 const updateBucket = async (req, res, next) => {
-    // #swagger.tags = ['Private']
     try {
         const { titleName } = req.body;
         const status = req.isAuthenticated();
@@ -44,16 +41,15 @@ const updateBucket = async (req, res, next) => {
             const address = requestIp.getClientIp(req);
             await (0, private_service_1.updateItem)(address, titleName);
         }
-        res.redirect('/private');
+        return res.redirect('/private');
     }
     catch (error) {
-        return next((0, checkErrorType_1.default)(error));
+        return next(error);
     }
 };
 exports.updateBucket = updateBucket;
 // MY 페이지 아이템 리셋
 const deleteBucket = async (req, res, next) => {
-    // #swagger.tags = ['Private']
     try {
         const status = req.isAuthenticated();
         if (status) {
@@ -64,10 +60,10 @@ const deleteBucket = async (req, res, next) => {
             const address = requestIp.getClientIp(req);
             await (0, private_service_1.deleteItems)(address);
         }
-        res.redirect('/private');
+        return res.redirect('/private');
     }
     catch (error) {
-        return next((0, checkErrorType_1.default)(error));
+        return next(error);
     }
 };
 exports.deleteBucket = deleteBucket;

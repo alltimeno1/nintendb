@@ -4,31 +4,28 @@ exports.deleteComment = exports.createComment = exports.updateWishItem = exports
 const bcrypt = require("bcrypt");
 const requestIp = require("request-ip");
 const regular_expressions_1 = require("../utils/regular_expressions");
-const checkErrorType_1 = require("../utils/checkErrorType");
 const load_profile_1 = require("../utils/load_profile");
 const Title = require("../services/title.service");
 const throwError_1 = require("../utils/throwError");
 const currency_api_1 = require("../utils/currency_api");
 // 모든 게임 조회
 const readTitle = async (req, res, next) => {
-    // #swagger.tags = ['Title']
     try {
         const { currency } = req.cookies;
         const { sort } = req.query;
         const [title, top10] = await Title.findTitles(sort);
         const status = req.isAuthenticated();
-        let profileImg = (0, load_profile_1.loadProfileImg)(status, req);
         const exchangeRate = await (0, currency_api_1.default)();
-        res.render('title', { top10, title, status, profileImg, currency, exchangeRate });
+        let profileImg = (0, load_profile_1.loadProfileImg)(status, req);
+        return res.render('title', { top10, title, status, profileImg, currency, exchangeRate });
     }
     catch (error) {
-        return next((0, checkErrorType_1.default)(error));
+        return next(error);
     }
 };
 exports.readTitle = readTitle;
 // 특정 키워드 게임 조회
 const readKeyword = async (req, res, next) => {
-    // #swagger.tags = ['Title']
     try {
         const { currency } = req.cookies;
         const { keyword, tags } = req.query;
@@ -42,16 +39,15 @@ const readKeyword = async (req, res, next) => {
             const [title, top10] = await Title.findByTags(tags);
             return res.render('title', { top10, title, status, profileImg, tags, currency });
         }
-        res.redirect('/title');
+        return res.redirect('/title');
     }
     catch (error) {
-        return next((0, checkErrorType_1.default)(error));
+        return next(error);
     }
 };
 exports.readKeyword = readKeyword;
 // 게임 정보 조회
 const readDetails = async (req, res, next) => {
-    // #swagger.tags = ['Title']
     try {
         const { id } = req.params;
         const [title, comment] = await Title.findTitleDetails(id);
@@ -61,20 +57,17 @@ const readDetails = async (req, res, next) => {
         }
         if (status) {
             const profileImg = (0, load_profile_1.loadProfileImg)(status, req);
-            res.render('title_info_login', { title, comment, profileImg });
+            return res.render('title_info_login', { title, comment, profileImg });
         }
-        else {
-            res.render('title_info', { title, comment });
-        }
+        return res.render('title_info', { title, comment });
     }
     catch (error) {
-        return next((0, checkErrorType_1.default)(error));
+        return next(error);
     }
 };
 exports.readDetails = readDetails;
 // 찜하기
 const updateWishItem = async (req, res, next) => {
-    // #swagger.tags = ['Title']
     try {
         const { gameId } = req.body;
         if (req.isAuthenticated()) {
@@ -85,44 +78,38 @@ const updateWishItem = async (req, res, next) => {
             const ip = requestIp.getClientIp(req);
             await Title.updateWishItem(ip, gameId);
         }
-        res.send(`<script>alert('관심 목록에 ${gameId}가 추가되었습니다!');location.href='/title/${gameId}';</script>`);
+        return res.send(`<script>alert('관심 목록에 ${gameId}가 추가되었습니다!');location.href='/title/${gameId}';</script>`);
     }
     catch (error) {
-        return next((0, checkErrorType_1.default)(error));
+        return next(error);
     }
 };
 exports.updateWishItem = updateWishItem;
 // 댓글 등록
 const createComment = async (req, res, next) => {
-    // #swagger.tags = ['Title']
     try {
         const { gameId, text } = req.body;
         if (req.isAuthenticated()) {
             const { displayName, id: userId } = req.user;
             await Title.updateLoginComment(gameId, userId, displayName, text);
-            res.redirect(`/title/${gameId}`);
+            return res.redirect(`/title/${gameId}`);
         }
-        else {
-            const { user_name: userName, password } = req.body;
-            const message = (0, regular_expressions_1.boardRegExp)('', text, userName, password, '');
-            if (!message) {
-                const hashedPassword = await bcrypt.hash(password, 10);
-                await Title.updateLogoutComment(gameId, userName, hashedPassword, text);
-                res.redirect(`/title/${gameId}`);
-            }
-            else {
-                res.send(`<script>alert('${message}');location.href='/title/${gameId}';</script>`);
-            }
+        const { user_name: userName, password } = req.body;
+        const message = (0, regular_expressions_1.boardRegExp)('', text, userName, password, '');
+        if (!message) {
+            const hashedPassword = await bcrypt.hash(password, 10);
+            await Title.updateLogoutComment(gameId, userName, hashedPassword, text);
+            return res.redirect(`/title/${gameId}`);
         }
+        return res.send(`<script>alert('${message}');location.href='/title/${gameId}';</script>`);
     }
     catch (error) {
-        return next((0, checkErrorType_1.default)(error));
+        return next(error);
     }
 };
 exports.createComment = createComment;
 // 댓글 삭제
 const deleteComment = async (req, res, next) => {
-    // #swagger.tags = ['Title']
     try {
         const { id } = req.params;
         const { commentId, password } = req.body;
@@ -142,10 +129,10 @@ const deleteComment = async (req, res, next) => {
             }
             await Title.deleteLogoutComment(commentId);
         }
-        res.redirect(`/title/${id}`);
+        return res.redirect(`/title/${id}`);
     }
     catch (error) {
-        return next((0, checkErrorType_1.default)(error));
+        return next(error);
     }
 };
 exports.deleteComment = deleteComment;

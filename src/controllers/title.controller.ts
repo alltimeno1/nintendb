@@ -2,7 +2,6 @@ import { Request, Response, NextFunction } from 'express'
 import * as bcrypt from 'bcrypt'
 import * as requestIp from 'request-ip'
 import { boardRegExp } from '../utils/regular_expressions'
-import errorType from '../utils/checkErrorType'
 import { Profile } from 'passport'
 import { loadProfileImg } from '../utils/load_profile'
 import * as Title from '../services/title.service'
@@ -11,24 +10,22 @@ import getCurrency from '../utils/currency_api'
 
 // 모든 게임 조회
 const readTitle = async (req: Request, res: Response, next: NextFunction) => {
-  // #swagger.tags = ['Title']
   try {
     const { currency } = req.cookies
     const { sort } = req.query as { sort: string }
     const [title, top10] = await Title.findTitles(sort)
     const status = req.isAuthenticated()
-    let profileImg = loadProfileImg(status, req)
     const exchangeRate = await getCurrency()
+    let profileImg = loadProfileImg(status, req)
 
-    res.render('title', { top10, title, status, profileImg, currency, exchangeRate })
+    return res.render('title', { top10, title, status, profileImg, currency, exchangeRate })
   } catch (error) {
-    return next(errorType(error))
+    return next(error)
   }
 }
 
 // 특정 키워드 게임 조회
 const readKeyword = async (req: Request, res: Response, next: NextFunction) => {
-  // #swagger.tags = ['Title']
   try {
     const { currency } = req.cookies
     const { keyword, tags } = req.query as { keyword: string; tags: string | string[] }
@@ -47,15 +44,14 @@ const readKeyword = async (req: Request, res: Response, next: NextFunction) => {
       return res.render('title', { top10, title, status, profileImg, tags, currency })
     }
 
-    res.redirect('/title')
+    return res.redirect('/title')
   } catch (error) {
-    return next(errorType(error))
+    return next(error)
   }
 }
 
 // 게임 정보 조회
 const readDetails = async (req: Request, res: Response, next: NextFunction) => {
-  // #swagger.tags = ['Title']
   try {
     const { id } = req.params
     const [title, comment] = await Title.findTitleDetails(id)
@@ -68,18 +64,17 @@ const readDetails = async (req: Request, res: Response, next: NextFunction) => {
     if (status) {
       const profileImg = loadProfileImg(status, req)
 
-      res.render('title_info_login', { title, comment, profileImg })
-    } else {
-      res.render('title_info', { title, comment })
+      return res.render('title_info_login', { title, comment, profileImg })
     }
+
+    return res.render('title_info', { title, comment })
   } catch (error) {
-    return next(errorType(error))
+    return next(error)
   }
 }
 
 // 찜하기
 const updateWishItem = async (req: Request, res: Response, next: NextFunction) => {
-  // #swagger.tags = ['Title']
   try {
     const { gameId } = req.body
 
@@ -88,22 +83,21 @@ const updateWishItem = async (req: Request, res: Response, next: NextFunction) =
 
       await Title.updateWishItem(userId, gameId)
     } else {
-      const ip = <string>requestIp.getClientIp(req)
+      const ip = requestIp.getClientIp(req) as string
 
       await Title.updateWishItem(ip, gameId)
     }
 
-    res.send(
+    return res.send(
       `<script>alert('관심 목록에 ${gameId}가 추가되었습니다!');location.href='/title/${gameId}';</script>`
     )
   } catch (error) {
-    return next(errorType(error))
+    return next(error)
   }
 }
 
 // 댓글 등록
 const createComment = async (req: Request, res: Response, next: NextFunction) => {
-  // #swagger.tags = ['Title']
   try {
     const { gameId, text } = req.body
 
@@ -112,29 +106,28 @@ const createComment = async (req: Request, res: Response, next: NextFunction) =>
 
       await Title.updateLoginComment(gameId, userId, displayName, text)
 
-      res.redirect(`/title/${gameId}`)
-    } else {
-      const { user_name: userName, password } = req.body
-      const message = boardRegExp('', text, userName, password, '')
-
-      if (!message) {
-        const hashedPassword = await bcrypt.hash(password, 10)
-
-        await Title.updateLogoutComment(gameId, userName, hashedPassword, text)
-
-        res.redirect(`/title/${gameId}`)
-      } else {
-        res.send(`<script>alert('${message}');location.href='/title/${gameId}';</script>`)
-      }
+      return res.redirect(`/title/${gameId}`)
     }
+
+    const { user_name: userName, password } = req.body
+    const message = boardRegExp('', text, userName, password, '')
+
+    if (!message) {
+      const hashedPassword = await bcrypt.hash(password, 10)
+
+      await Title.updateLogoutComment(gameId, userName, hashedPassword, text)
+
+      return res.redirect(`/title/${gameId}`)
+    }
+
+    return res.send(`<script>alert('${message}');location.href='/title/${gameId}';</script>`)
   } catch (error) {
-    return next(errorType(error))
+    return next(error)
   }
 }
 
 // 댓글 삭제
 const deleteComment = async (req: Request, res: Response, next: NextFunction) => {
-  // #swagger.tags = ['Title']
   try {
     const { id } = req.params
     const { commentId, password } = req.body
@@ -162,9 +155,9 @@ const deleteComment = async (req: Request, res: Response, next: NextFunction) =>
       await Title.deleteLogoutComment(commentId)
     }
 
-    res.redirect(`/title/${id}`)
+    return res.redirect(`/title/${id}`)
   } catch (error) {
-    return next(errorType(error))
+    return next(error)
   }
 }
 

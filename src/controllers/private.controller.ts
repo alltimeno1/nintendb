@@ -1,13 +1,11 @@
 import { Request, Response, NextFunction } from 'express'
 import * as requestIp from 'request-ip'
-import errorType from '../utils/checkErrorType'
 import { Profile } from 'passport'
 import { loadProfileImg } from '../utils/load_profile'
 import { findMyBucket, findBucketList, updateItem, deleteItems } from '../services/private.service'
 
 // MY 페이지 조회
 const readPrivate = async (req: Request, res: Response, next: NextFunction) => {
-  // #swagger.tags = ['Private']
   try {
     const status = req.isAuthenticated()
     const profileImg = loadProfileImg(status, req)
@@ -20,22 +18,21 @@ const readPrivate = async (req: Request, res: Response, next: NextFunction) => {
       myBucket = await findMyBucket(userId)
       nickname = displayName
     } else {
-      const ip = <string>requestIp.getClientIp(req)
+      const ip = requestIp.getClientIp(req) as string
 
       myBucket = await findMyBucket(ip)
     }
 
     const result = await findBucketList(myBucket)
 
-    res.render('private', { result, status, profileImg, nickname })
+    return res.render('private', { result, status, profileImg, nickname })
   } catch (error) {
-    return next(errorType(error))
+    return next(error)
   }
 }
 
 // MY 페이지 아이템 삭제
 const updateBucket = async (req: Request, res: Response, next: NextFunction) => {
-  // #swagger.tags = ['Private']
   try {
     const { titleName } = req.body
     const status = req.isAuthenticated()
@@ -45,20 +42,19 @@ const updateBucket = async (req: Request, res: Response, next: NextFunction) => 
 
       await updateItem(userId, titleName)
     } else {
-      const address = <string>requestIp.getClientIp(req)
+      const address = requestIp.getClientIp(req) as string
 
       await updateItem(address, titleName)
     }
 
-    res.redirect('/private')
+    return res.redirect('/private')
   } catch (error) {
-    return next(errorType(error))
+    return next(error)
   }
 }
 
 // MY 페이지 아이템 리셋
 const deleteBucket = async (req: Request, res: Response, next: NextFunction) => {
-  // #swagger.tags = ['Private']
   try {
     const status = req.isAuthenticated()
 
@@ -67,14 +63,14 @@ const deleteBucket = async (req: Request, res: Response, next: NextFunction) => 
 
       await deleteItems(userId)
     } else {
-      const address = <string>requestIp.getClientIp(req)
+      const address = requestIp.getClientIp(req) as string
 
       await deleteItems(address)
     }
 
-    res.redirect('/private')
+    return res.redirect('/private')
   } catch (error) {
-    return next(errorType(error))
+    return next(error)
   }
 }
 

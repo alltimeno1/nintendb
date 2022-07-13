@@ -6,11 +6,11 @@ const { User } = require('../models/user.model')
 
 require('dotenv').config()
 
-passport.serializeUser(function (user, done) {
+passport.serializeUser((user, done) => {
   done(null, user)
 })
 
-passport.deserializeUser(function (obj, done) {
+passport.deserializeUser((obj, done) => {
   done(null, obj)
 })
 
@@ -22,9 +22,7 @@ passport.use(
       callbackURL: process.env.NAVER_URL,
     },
     function (accessToken, refreshToken, profile, done) {
-      process.nextTick(async function () {
-        console.log('profile :', profile)
-        // data to be saved in DB
+      process.nextTick(async () => {
         const user = {
           id: profile.id,
           email: profile.emails[0].value,
@@ -56,26 +54,21 @@ router.use(
 router.use(passport.initialize())
 router.use(passport.session())
 
-// Setting the naver oauth routes
-router.get('/login', passport.authenticate('naver', null), function (req, res) {
-  // #swagger.tags = ['Users']
+router.get('/login', passport.authenticate('naver', null), (req, res) => {
   console.log('/login failed, stopped')
 })
 
-// creates an account if no account of the new user
 router.get(
   '/login/callback',
   passport.authenticate('naver', {
     failureRedirect: '/login',
   }),
-  function (req, res) {
-    // #swagger.tags = ['Users']
+  (req, res) => {
     res.redirect('/home')
   }
 )
 
-router.get('/logout', function (req, res) {
-  // #swagger.tags = ['Users']
+router.get('/logout', (req, res) => {
   req.logout()
   res.redirect('/home')
 })
