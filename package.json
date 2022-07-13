@@ -3,7 +3,6 @@
   "scripts": {
     "start": "node app.js",
     "dev": "tsc-watch --onSuccess \"nodemon app.js\"",
-    "test": "jest",
     "scrap": "node dist/utils/update_db.js"
   },
   "dependencies": {
@@ -35,15 +34,8 @@
     "@types/passport-naver": "^0.2.1",
     "@types/request-ip": "^0.0.37",
     "@types/supertest": "^2.0.12",
-    "jest": "^27.5.1",
     "prettier": "^2.6.2",
-    "supertest": "^6.2.2",
-    "swagger-autogen": "^2.21.5",
-    "swagger-ui-express": "^4.4.0",
     "tsc-watch": "^5.0.3",
     "typescript": "^4.6.3"
-  },
-  "optionalDependencies": {
-    "fsevents": "2.3.2"
   }
 }
