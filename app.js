@@ -2,6 +2,8 @@ const express = require('express')
 const cors = require('cors')
 const logger = require('morgan')
 const cookieParser = require('cookie-parser')
+const helmet = require('helmet')
+const apiLimiter = require('./dist/utils/api_limiter')
 
 const { connect } = require('./dist/utils/mongo')
 
@@ -21,11 +23,13 @@ app.set('views', 'src/views')
 app.set('view engine', 'pug')
 
 app.use(cors())
+app.use(helmet())
 app.use(express.json())
 app.use(cookieParser())
 app.use(express.static(__dirname))
 app.use(express.urlencoded({ extended: false }))
-app.use(logger('short'))
+app.use(logger('dev'))
+app.use(apiLimiter)
 
 app.use('/', login)
 app.use('/title', title)

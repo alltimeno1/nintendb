@@ -1,7 +1,6 @@
 {
   "main": "app.js",
   "scripts": {
-    "restart": "pm2 restart app.js",
     "dev": "tsc-watch --onSuccess \"nodemon app.js\"",
     "scrap": "node dist/utils/update_db.js"
   },
@@ -13,7 +12,9 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
+    "express-rate-limit": "^6.4.0",
     "express-session": "^1.17.2",
+    "helmet": "^5.1.0",
     "mongodb": "^4.5.0",
     "mongoose": "^6.3.4",
     "morgan": "^1.10.0",
