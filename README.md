@@ -1,6 +1,6 @@
 # Nintendb
 
-http://nintendb.shop
+https://www.nintendb.shop
 
 ## Stacks
 
