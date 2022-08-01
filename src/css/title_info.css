@@ -234,7 +234,7 @@
   color: red;
 }
 
-#commentbox > ul > li > form > input:nth-child(3) {
+#commentbox > ul > li > .delete > input:nth-child(3) {
   width: 80px;
   margin: 0;
 }

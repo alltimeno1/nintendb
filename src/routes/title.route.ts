@@ -15,6 +15,6 @@ router.post('/bucket', updateWishItem)
 
 router.post('/:id', createComment)
 
-router.post('/:id/delete', deleteComment)
+router.delete('/:id', deleteComment)
 
 export = router

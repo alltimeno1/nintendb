@@ -43,7 +43,7 @@ html(lang='en')
             span=title.price.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' })
           p
             each tag in title.tag.split(',')
-              button=tag
+              button(onclick=`location.href='/title/filter?tags=${tag.trim()}';`)=tag
           form(action=`bucket` name='bucket' method='post')
             input(type='hidden' name='gameId' value=title.name)
             button 찜하기
@@ -64,7 +64,7 @@ html(lang='en')
           li
             div 익명
             div 너무 재밌었어요 추천!!
-            form.delete
+            .delete
               input(type='hidden')
               input(type='hidden')
               input(type='password' name='password' placeholder='비밀번호')
@@ -73,7 +73,7 @@ html(lang='en')
             li
               div=item.name 
               div=item.text.replace(/<br>/g, '\n')
-              form.delete(action=`/title/${decodeURI(title.name)}/delete` method='post')
+              .delete
                 input(type='hidden' name='commentId' value=item._id)
                 input(type='hidden' name='titleId' value=title.name)
                 input(type='password' name='password' placeholder='비밀번호')
@@ -82,3 +82,4 @@ html(lang='en')
       | 🔝
     script(type='module' src='/dist/utils/scroll.js')
     script(type='module' src='/dist/utils/create_comment.js')
+    script(type='module' src='/dist/utils/delete_comment.js')

@@ -1,4 +1,4 @@
-namespace Types {
+declare namespace Types {
   export interface HtmlInterface extends Element {
     name?: string
     tags?: string[]

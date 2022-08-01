@@ -1,4 +1,4 @@
-namespace Models {
+declare namespace Models {
   export interface Game {
     name: string
     image: string

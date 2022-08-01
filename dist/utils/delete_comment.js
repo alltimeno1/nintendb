@@ -1,19 +1,17 @@
 "use strict";
-const deleteButton = document.querySelector('form button');
-const titleId = document.querySelector('.delete input[name="titleId"]');
-const commentId = document.querySelector('.delete input[name="commentId"]')
-    .value;
-const password = document.querySelector('.delete input[name="password"]').value;
-deleteButton.addEventListener('submit', deleteComment);
+const deleteButtons = document.querySelectorAll('.delete button');
+const titleId = document.querySelector('input[name="titleId"]').value;
+deleteButtons.forEach((button) => button.addEventListener('click', deleteComment));
 function deleteComment(e) {
-    fetch(`/title/${titleId.value}`, {
+    const element = e.target.parentElement;
+    fetch(`/title/${encodeURI(titleId)}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            commentId,
-            password,
+            commentId: element.querySelector('input[name="commentId"]').value,
+            password: element.querySelector('input[name="password"]')?.value,
         }),
     }).catch(console.log);
     window.location.reload();

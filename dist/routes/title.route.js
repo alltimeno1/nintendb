@@ -8,5 +8,5 @@ router.get('/filter', readKeyword);
 router.get('/:id', readDetails);
 router.post('/bucket', updateWishItem);
 router.post('/:id', createComment);
-router.post('/:id/delete', deleteComment);
+router.delete('/:id', deleteComment);
 module.exports = router;

@@ -113,6 +113,7 @@ const deleteComment = async (req, res, next) => {
     try {
         const { id } = req.params;
         const { commentId, password } = req.body;
+        console.log('commentId', commentId);
         if (req.isAuthenticated()) {
             const { id: userId } = req.user;
             await Title.deleteLoginComment(userId, commentId);
