@@ -136,20 +136,19 @@ const updatePost = async (req, res, next) => {
         if (req.body.userId) {
             const { title, userId, text } = req.body;
             await Forum.updateLoginPost(id, userId, title, text);
-            return res.redirect(`/forum/${id}`);
+            return res.end();
         }
         const { title, nickname, password, text } = req.body;
         const hashedPassword = await Forum.findLogoutPost(id);
         if (!hashedPassword) {
-            (0, throwError_1.default)(404, '페이지를 찾을 수 없습니다.');
-            return;
+            return (0, throwError_1.default)(404, '페이지를 찾을 수 없습니다.');
         }
         const samePassword = await bcrypt.compare(password, hashedPassword);
         if (!samePassword) {
-            return res.send(`<script>alert('비밀번호를 정확히 입력해주세요!');location.href='/forum/${id}/update';</script>`);
+            return res.status(401).end();
         }
         await Forum.updateLogoutPost(id, title, nickname, text);
-        return res.redirect(`/forum/${id}`);
+        return res.end();
     }
     catch (error) {
         return next(error);

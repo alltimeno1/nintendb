@@ -58,7 +58,7 @@ const readDetails = async (req: Request, res: Response, next: NextFunction) => {
     const status = req.isAuthenticated()
 
     if (!title) {
-      throwError(404, 'There is no title with the id or DB disconnected :(')
+      return throwError(404, '페이지를 찾을 수 없습니다.')
     }
 
     if (status) {
@@ -129,7 +129,6 @@ const createComment = async (req: Request, res: Response, next: NextFunction) =>
 // 댓글 삭제
 const deleteComment = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { id } = req.params
     const { commentId, password } = req.body
 
     if (req.isAuthenticated()) {
@@ -140,22 +139,19 @@ const deleteComment = async (req: Request, res: Response, next: NextFunction) =>
       const hashedPassword = await Title.findLogoutComment(commentId)
 
       if (!hashedPassword) {
-        throwError(404, '요청하신 번호의 댓글이 존재하지 않습니다.')
-        return
+        return throwError(404, '요청하신 번호의 댓글이 존재하지 않습니다.')
       }
 
       const samePassword = await bcrypt.compare(password, hashedPassword)
 
       if (!samePassword) {
-        return res.send(
-          `<script>alert('비밀번호를 정확히 입력해주세요!');location.href='/title/${id}';</script>`
-        )
+        return res.status(401).end()
       }
 
       await Title.deleteLogoutComment(commentId)
     }
 
-    return res.redirect(`/title/${id}`)
+    return res.end()
   } catch (error) {
     return next(error)
   }

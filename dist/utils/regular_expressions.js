@@ -18,7 +18,7 @@ const boardRegExp = (title, text, id, password, email = '') => {
         message += re.test(email) ? '' : 'ex) 아이디@example.com\\n';
     }
     else {
-        re = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{4,10}$/;
+        re = /^(?=.*[a-zA-Zㄱ-ㅎㅏ-ㅣ])(?=.*\d)[a-zA-Zㄱ-ㅎㅏ-ㅣ\d]{4,10}$/;
         message += re.test(password)
             ? ''
             : '비밀번호는 4~10자, 알파벳과 숫자 각각 1자 이상, 특수문자 금지 \\n';
