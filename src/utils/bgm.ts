@@ -1,9 +1,10 @@
 const character = <HTMLElement>document.querySelector('#mario')
 const bubble = <HTMLElement>document.querySelector('#bubble')
 const firework = <HTMLElement>document.querySelector('#firework')
-const playBtn = <HTMLElement>document.querySelector('audio')
+const playBtn = <HTMLAudioElement>document.querySelector('audio')
 
 playBtn.addEventListener('play', animate)
+playBtn.volume = 0.1
 
 function sleep(time: number) {
   return new Promise<void>((resolve) => {

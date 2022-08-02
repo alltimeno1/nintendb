@@ -13,7 +13,7 @@ const readHome = async (req, res, next) => {
         const { currency } = req.cookies;
         const status = req.isAuthenticated();
         const profileImg = (0, load_profile_1.loadProfileImg)(status, req);
-        const [best, recent, sale] = await (0, etc_service_1.findSortedList)();
+        const { best, recent, sale } = await (0, etc_service_1.findSortedList)();
         const exchangeRate = await (0, currency_api_1.default)();
         res.render('index', { best, recent, sale, status, profileImg, currency, exchangeRate });
     }

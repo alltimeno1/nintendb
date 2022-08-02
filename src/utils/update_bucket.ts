@@ -2,8 +2,8 @@ const buttons = document.querySelectorAll('.delete')
 
 buttons.forEach((button) => button.addEventListener('click', updateBucket))
 
-function updateBucket(e: any) {
-  fetch('/private', {
+async function updateBucket(e: any) {
+  await fetch('/private', {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',

@@ -12,7 +12,7 @@ async function getEngName(id) {
         await page.goto('https://www.grac.or.kr/Statistics/GameStatistics.aspx');
         await page.type('#ctl00_ContentHolder_txtRatingNbr', id);
         await page.click('#ctl00_ContentHolder_lbtnSearch');
-        const time = { timeout: 5000 };
+        const time = { timeout: 10000 };
         await page.waitForSelector('#ctl00_ContentHolder_rptGradeDoc_ctl00_hlkGameTitle', time);
         await page.click('#ctl00_ContentHolder_rptGradeDoc_ctl00_hlkGameTitle');
         const [popup] = await Promise.all([

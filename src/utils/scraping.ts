@@ -42,7 +42,9 @@ export default async function scrapTitleInfo(URI: string): Promise<Models.Game[]
         }
       })
 
-      const date: string = $('.release_date .product-attribute-val').text().replace(/(\s*)/g, '')
+      const date: Date = new Date(
+        $('.release_date .product-attribute-val').text().replace(/(\s*)/g, '')
+      )
 
       const tagName = '.product-page-info-form'
       const priceText: string =

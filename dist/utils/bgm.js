@@ -4,6 +4,7 @@ const bubble = document.querySelector('#bubble');
 const firework = document.querySelector('#firework');
 const playBtn = document.querySelector('audio');
 playBtn.addEventListener('play', animate);
+playBtn.volume = 0.1;
 function sleep(time) {
     return new Promise((resolve) => {
         setTimeout(() => resolve(), time);

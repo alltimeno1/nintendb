@@ -8,13 +8,13 @@ const mongodb_1 = require("mongodb");
 async function findTitles(sort) {
     const title = await title_model_1.Game.find().sort({ [sort]: -1 });
     const top10 = await title_model_1.Game.find().sort({ rating: -1 }).limit(10);
-    return [title, top10];
+    return { title, top10 };
 }
 exports.findTitles = findTitles;
 async function findByQuery(keyword) {
     const title = await title_model_1.Game.find({ name: { $regex: keyword } });
     const top10 = await title_model_1.Game.find().sort({ rating: -1 }).limit(10);
-    return [title, top10];
+    return { title, top10 };
 }
 exports.findByQuery = findByQuery;
 async function findByTags(tags) {
@@ -27,13 +27,13 @@ async function findByTags(tags) {
     else {
         title = await title_model_1.Game.find({ tag: { $regex: tags } });
     }
-    return [title, top10];
+    return { title, top10 };
 }
 exports.findByTags = findByTags;
 async function findTitleDetails(id) {
     const title = await title_model_1.Game.findOne({ name: id });
     const comment = await comment_model_1.Comment.find({ game_id: id });
-    return [title, comment];
+    return { title, comment };
 }
 exports.findTitleDetails = findTitleDetails;
 async function updateWishItem(id, gameId) {

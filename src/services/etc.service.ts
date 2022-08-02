@@ -6,7 +6,7 @@ async function findSortedList() {
   const recent = await Game.find().sort({ date: -1 }).limit(4)
   const sale = await Game.find().sort({ discountRate: -1 }).limit(4)
 
-  return [best, recent, sale]
+  return { best, recent, sale }
 }
 
 async function insertInquery(name: string, email: string, message: string) {

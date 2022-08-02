@@ -16,7 +16,7 @@ export default async function getEngName(id: string): Promise<string | void> {
 
     await page.click('#ctl00_ContentHolder_lbtnSearch')
 
-    const time: Types.Option = { timeout: 5000 }
+    const time: Types.Option = { timeout: 10000 }
 
     await page.waitForSelector('#ctl00_ContentHolder_rptGradeDoc_ctl00_hlkGameTitle', time)
 

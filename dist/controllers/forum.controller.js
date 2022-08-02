@@ -71,7 +71,7 @@ const readPost = async (req, res, next) => {
         const checkMyPost = req.user && post ? req.user.id === post.user_id : false;
         const profileImg = (0, load_profile_1.loadProfileImg)(status, req);
         if (!post) {
-            (0, throwError_1.default)(404, 'There is no post with the id or DB disconnected :(');
+            (0, throwError_1.default)(404, '페이지를 찾을 수 없습니다.');
         }
         return res.render('post', { post, status, checkMyPost, profileImg });
     }
@@ -114,7 +114,7 @@ const deletePost = async (req, res, next) => {
         }
         const hashedPassword = await Forum.findLogoutPost(postId);
         if (!hashedPassword) {
-            (0, throwError_1.default)(404, '요청하신 번호의 글이 존재하지 않습니다.');
+            (0, throwError_1.default)(404, '페이지를 찾을 수 없습니다.');
             return;
         }
         const samePassword = await bcrypt.compare(password, hashedPassword);
@@ -133,7 +133,7 @@ exports.deletePost = deletePost;
 const updatePost = async (req, res, next) => {
     try {
         const { id } = req.params;
-        if (req.body.user_id) {
+        if (req.body.userId) {
             const { title, userId, text } = req.body;
             await Forum.updateLoginPost(id, userId, title, text);
             return res.redirect(`/forum/${id}`);
@@ -141,7 +141,7 @@ const updatePost = async (req, res, next) => {
         const { title, nickname, password, text } = req.body;
         const hashedPassword = await Forum.findLogoutPost(id);
         if (!hashedPassword) {
-            (0, throwError_1.default)(404, '요청하신 번호의 글이 존재하지 않습니다.');
+            (0, throwError_1.default)(404, '페이지를 찾을 수 없습니다.');
             return;
         }
         const samePassword = await bcrypt.compare(password, hashedPassword);
@@ -168,7 +168,7 @@ const updateLikes = async (req, res, next) => {
             const ip = requestIp.getClientIp(req);
             await Forum.updateRecommend(postId, ip);
         }
-        res.redirect(`/forum/${id}`);
+        return res.redirect(`/forum/${id}`);
     }
     catch (error) {
         return next(error);

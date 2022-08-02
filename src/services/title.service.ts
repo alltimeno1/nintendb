@@ -7,14 +7,14 @@ export async function findTitles(sort: string) {
   const title = await Game.find().sort({ [sort]: -1 })
   const top10 = await Game.find().sort({ rating: -1 }).limit(10)
 
-  return [title, top10]
+  return { title, top10 }
 }
 
 export async function findByQuery(keyword: string) {
   const title = await Game.find({ name: { $regex: keyword } })
   const top10 = await Game.find().sort({ rating: -1 }).limit(10)
 
-  return [title, top10]
+  return { title, top10 }
 }
 
 export async function findByTags(tags: string | string[]) {
@@ -29,14 +29,14 @@ export async function findByTags(tags: string | string[]) {
     title = await Game.find({ tag: { $regex: tags } })
   }
 
-  return [title, top10]
+  return { title, top10 }
 }
 
 export async function findTitleDetails(id: string) {
   const title = await Game.findOne({ name: id })
   const comment = await Comment.find({ game_id: id })
 
-  return [title, comment]
+  return { title, comment }
 }
 
 export async function updateWishItem(id: string, gameId: string) {

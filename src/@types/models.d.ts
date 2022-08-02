@@ -2,7 +2,7 @@ declare namespace Models {
   export interface Game {
     name: string
     image: string
-    date: string
+    date: Date
     rating: number
     price: number
     bargainPrice: number

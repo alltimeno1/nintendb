@@ -12,7 +12,7 @@ const readHome = async (req: Request, res: Response, next: NextFunction) => {
     const { currency } = req.cookies
     const status = req.isAuthenticated()
     const profileImg = loadProfileImg(status, req)
-    const [best, recent, sale] = await findSortedList()
+    const { best, recent, sale } = await findSortedList()
     const exchangeRate = await getCurrency()
 
     res.render('index', { best, recent, sale, status, profileImg, currency, exchangeRate })

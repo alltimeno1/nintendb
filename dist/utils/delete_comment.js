@@ -2,9 +2,9 @@
 const deleteButtons = document.querySelectorAll('.delete button');
 const titleId = document.querySelector('input[name="titleId"]').value;
 deleteButtons.forEach((button) => button.addEventListener('click', deleteComment));
-function deleteComment(e) {
+async function deleteComment(e) {
     const element = e.target.parentElement;
-    fetch(`/title/${encodeURI(titleId)}`, {
+    await fetch(`/title/${encodeURI(titleId)}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',

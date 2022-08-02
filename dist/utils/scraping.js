@@ -34,7 +34,7 @@ async function scrapTitleInfo(URI) {
                     image = uri;
                 }
             });
-            const date = $('.release_date .product-attribute-val').text().replace(/(\s*)/g, '');
+            const date = new Date($('.release_date .product-attribute-val').text().replace(/(\s*)/g, ''));
             const tagName = '.product-page-info-form';
             const priceText = $(`${tagName} .old-price .price`).text() || $(`${tagName} .price`).text() || '';
             const bargainPriceText = $(`${tagName} .special-price .price`).text() || priceText;

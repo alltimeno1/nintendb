@@ -3,7 +3,6 @@ const currency = <HTMLButtonElement>document.querySelector('#currency')
 currency.addEventListener('change', chooseCurrency)
 
 function chooseCurrency() {
-  console.log('abc')
   fetch('/currency', {
     method: 'POST',
     headers: {

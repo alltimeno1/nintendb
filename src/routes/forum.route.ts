@@ -8,7 +8,7 @@ router.get('/filter', Forum.readKeyword)
 
 router.get('/post', Forum.readForm)
 
-router.get('/:id/update', Forum.readUpdate)
+router.get('/:id/edit', Forum.readUpdate)
 
 router.get('/:id', Forum.readPost)
 
@@ -16,7 +16,7 @@ router.post('/', Forum.createPost)
 
 router.post('/:id', Forum.deletePost)
 
-router.post('/:id/update', Forum.updatePost)
+router.patch('/:id', Forum.updatePost)
 
 router.post('/:id/likes', Forum.updateLikes)
 

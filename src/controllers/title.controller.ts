@@ -13,7 +13,7 @@ const readTitle = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { currency } = req.cookies
     const { sort } = req.query as { sort: string }
-    const [title, top10] = await Title.findTitles(sort)
+    const { title, top10 } = await Title.findTitles(sort)
     const status = req.isAuthenticated()
     const exchangeRate = await getCurrency()
     let profileImg = loadProfileImg(status, req)
@@ -33,13 +33,13 @@ const readKeyword = async (req: Request, res: Response, next: NextFunction) => {
     const profileImg = loadProfileImg(status, req)
 
     if (keyword) {
-      const [title, top10] = await Title.findByQuery(keyword)
+      const { title, top10 } = await Title.findByQuery(keyword)
 
       return res.render('title', { top10, title, status, profileImg })
     }
 
     if (tags) {
-      const [title, top10] = await Title.findByTags(tags)
+      const { title, top10 } = await Title.findByTags(tags)
 
       return res.render('title', { top10, title, status, profileImg, tags, currency })
     }
@@ -54,7 +54,7 @@ const readKeyword = async (req: Request, res: Response, next: NextFunction) => {
 const readDetails = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params
-    const [title, comment] = await Title.findTitleDetails(id)
+    const { title, comment } = await Title.findTitleDetails(id)
     const status = req.isAuthenticated()
 
     if (!title) {
@@ -131,7 +131,7 @@ const deleteComment = async (req: Request, res: Response, next: NextFunction) =>
   try {
     const { id } = req.params
     const { commentId, password } = req.body
-    console.log('commentId', commentId)
+
     if (req.isAuthenticated()) {
       const { id: userId } = req.user as Profile
 

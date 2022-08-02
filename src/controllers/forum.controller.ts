@@ -72,7 +72,7 @@ export const readPost = async (req: Request, res: Response, next: NextFunction) 
     const profileImg = loadProfileImg(status, req)
 
     if (!post) {
-      throwError(404, 'There is no post with the id or DB disconnected :(')
+      throwError(404, '페이지를 찾을 수 없습니다.')
     }
 
     return res.render('post', { post, status, checkMyPost, profileImg })
@@ -126,7 +126,7 @@ export const deletePost = async (req: Request, res: Response, next: NextFunction
     const hashedPassword = await Forum.findLogoutPost(postId)
 
     if (!hashedPassword) {
-      throwError(404, '요청하신 번호의 글이 존재하지 않습니다.')
+      throwError(404, '페이지를 찾을 수 없습니다.')
       return
     }
 
@@ -151,7 +151,7 @@ export const updatePost = async (req: Request, res: Response, next: NextFunction
   try {
     const { id } = req.params
 
-    if (req.body.user_id) {
+    if (req.body.userId) {
       const { title, userId, text } = req.body
 
       await Forum.updateLoginPost(id, userId, title, text)
@@ -163,7 +163,7 @@ export const updatePost = async (req: Request, res: Response, next: NextFunction
     const hashedPassword = await Forum.findLogoutPost(id)
 
     if (!hashedPassword) {
-      throwError(404, '요청하신 번호의 글이 존재하지 않습니다.')
+      throwError(404, '페이지를 찾을 수 없습니다.')
       return
     }
 
@@ -196,7 +196,8 @@ export const updateLikes = async (req: Request, res: Response, next: NextFunctio
 
       await Forum.updateRecommend(postId, ip)
     }
-    res.redirect(`/forum/${id}`)
+
+    return res.redirect(`/forum/${id}`)
   } catch (error) {
     return next(error)
   }

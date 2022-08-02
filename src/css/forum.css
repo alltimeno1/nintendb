@@ -135,7 +135,7 @@ table colgroup {
 }
 
 /* 등록 페이지 */
-#board form input {
+#board input {
   height: 30px;
   margin-bottom: 18px;
   border: 1px solid #9b9b9b;
@@ -143,31 +143,31 @@ table colgroup {
   padding: 5px;
 }
 
-#board form input[name="title"]{
+#board input[name="title"]{
   display: block;
   width: 827px;
   margin-left: auto;
   margin-right: auto;
 }
 
-#board form input[name="nickname"] {
+#board input[name="nickname"] {
   float: left;
   margin-left: 111px;
 }
 
-#board form input[name="password"] {
+#board input[name="password"] {
   float: left;
   margin-left: 20px;
 }
 
-#board form textarea {
+#board textarea {
   border: 1px solid #9b9b9b;
   border-radius: 5px;
   padding: 5px;
   width: 827px;
 }
 
-#board form button{
+#board button{
   margin: 10px 0 20px 760px;
 }
 

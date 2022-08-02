@@ -2,8 +2,8 @@ const reset = <HTMLButtonElement>document.querySelector('.reset')
 
 reset.addEventListener('click', deleteBucket)
 
-function deleteBucket(e: any) {
-  fetch('/private', {
+async function deleteBucket(e: any) {
+  await fetch('/private', {
     method: 'DELETE',
   }).catch(console.log)
 

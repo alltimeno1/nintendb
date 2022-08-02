@@ -13,7 +13,7 @@ const readTitle = async (req, res, next) => {
     try {
         const { currency } = req.cookies;
         const { sort } = req.query;
-        const [title, top10] = await Title.findTitles(sort);
+        const { title, top10 } = await Title.findTitles(sort);
         const status = req.isAuthenticated();
         const exchangeRate = await (0, currency_api_1.default)();
         let profileImg = (0, load_profile_1.loadProfileImg)(status, req);
@@ -32,11 +32,11 @@ const readKeyword = async (req, res, next) => {
         const status = req.isAuthenticated();
         const profileImg = (0, load_profile_1.loadProfileImg)(status, req);
         if (keyword) {
-            const [title, top10] = await Title.findByQuery(keyword);
+            const { title, top10 } = await Title.findByQuery(keyword);
             return res.render('title', { top10, title, status, profileImg });
         }
         if (tags) {
-            const [title, top10] = await Title.findByTags(tags);
+            const { title, top10 } = await Title.findByTags(tags);
             return res.render('title', { top10, title, status, profileImg, tags, currency });
         }
         return res.redirect('/title');
@@ -50,7 +50,7 @@ exports.readKeyword = readKeyword;
 const readDetails = async (req, res, next) => {
     try {
         const { id } = req.params;
-        const [title, comment] = await Title.findTitleDetails(id);
+        const { title, comment } = await Title.findTitleDetails(id);
         const status = req.isAuthenticated();
         if (!title) {
             (0, throwError_1.default)(404, 'There is no title with the id or DB disconnected :(');
@@ -113,7 +113,6 @@ const deleteComment = async (req, res, next) => {
     try {
         const { id } = req.params;
         const { commentId, password } = req.body;
-        console.log('commentId', commentId);
         if (req.isAuthenticated()) {
             const { id: userId } = req.user;
             await Title.deleteLoginComment(userId, commentId);

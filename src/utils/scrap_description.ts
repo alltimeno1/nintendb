@@ -1,5 +1,5 @@
 export default async function scrapDesc($: cheerio.Root): Promise<string> {
-  let desc: string = ''
+  let desc = ''
 
   for (let i = 1; i < 5; i++) {
     const text: string = $(`.product.attribute.description p:nth-child(${i})`).text()
