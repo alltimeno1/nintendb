@@ -30,7 +30,9 @@ export default async function scrapTitleInfo(URI: string): Promise<Models.Game[]
 
       const name: string = $('.product > h1 > span').text()
 
-      if (name.includes('이용권') || name.includes('선불 번호')) continue
+      if (name.includes('이용권') || name.includes('선불 번호')) {
+        continue
+      }
 
       const selector = $('img')
       let image: string = ''

@@ -8,7 +8,7 @@ declare namespace Models {
     bargainPrice: number
     discountRate: number
     tag: string
-    description: string
+    description?: string
   }
 
   export interface Inquery {
@@ -34,8 +34,8 @@ declare namespace Models {
     id: number
     title: string
     nickname: string
-    password: string
-    user_id: string
+    password?: string
+    user_id?: string
     text: string
     date: Date
     viewCount: number

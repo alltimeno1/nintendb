@@ -6,7 +6,10 @@ async function findMyBucket(id: string) {
 }
 
 async function findBucketList(bucket: Types.MyBucket | null) {
-  return await Game.find({ name: { $in: bucket?.list || [] } })
+  return await Game.find(
+    { name: { $in: bucket?.list || [] } },
+    { image: 1, name: 1, price: 1, rating: 1 }
+  )
 }
 
 async function updateItem(id: string, titleName: string) {

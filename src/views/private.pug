@@ -19,7 +19,7 @@ html(lang='en')
         li
           a(href='/home') 홈
         li
-          a(href='/title?sort=date') 게임
+          a(href='/title') 게임
         li
           a(href='/forum') 커뮤니티
         li
@@ -53,7 +53,7 @@ html(lang='en')
               th(scope='col') 평점
               th(scope='col') 삭제
           tbody
-            each item, index in result 
+            each item, index in bucket 
               tr 
                 td=index + 1
                 td

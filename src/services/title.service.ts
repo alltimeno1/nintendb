@@ -3,33 +3,36 @@ import { Comment } from '../models/comment.model'
 import { Bucket } from '../models/bucket.model'
 import { ObjectId } from 'mongodb'
 
-export async function findTitles(sort: string) {
-  const title = await Game.find().sort({ [sort]: -1 })
-  const top10 = await Game.find().sort({ rating: -1 }).limit(10)
+export async function findTop10() {
+  const top10 = await Game.find({}, { description: 0 }).sort({ rating: -1 }).limit(10)
 
-  return { title, top10 }
+  return top10
+}
+
+export async function findTitles(sort: string) {
+  const title = await Game.find({}, { description: 0 }).sort({ [sort]: -1 })
+
+  return title
 }
 
 export async function findByQuery(keyword: string) {
-  const title = await Game.find({ name: { $regex: keyword } })
-  const top10 = await Game.find().sort({ rating: -1 }).limit(10)
+  const title = await Game.find({ name: { $regex: keyword } }, { description: 0 })
 
-  return { title, top10 }
+  return title
 }
 
 export async function findByTags(tags: string | string[]) {
-  const top10 = await Game.find().sort({ rating: -1 }).limit(10)
   let title: object
 
   if (typeof tags === 'object') {
     const reg = tags.reduce((prev, curr) => `(?=.*${curr})` + prev, '.*')
 
-    title = await Game.find({ tag: { $regex: reg } })
+    title = await Game.find({ tag: { $regex: reg } }, { description: 0 })
   } else {
-    title = await Game.find({ tag: { $regex: tags } })
+    title = await Game.find({ tag: { $regex: tags } }, { description: 0 })
   }
 
-  return { title, top10 }
+  return title
 }
 
 export async function findTitleDetails(id: string) {

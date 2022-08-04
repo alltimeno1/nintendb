@@ -1,9 +1,8 @@
 import { Request, Response, NextFunction } from 'express'
 import * as bcrypt from 'bcrypt'
 import * as requestIp from 'request-ip'
-import { boardRegExp } from '../utils/regular_expressions'
 import { Profile } from 'passport'
-import { loadProfileImg } from '../utils/load_profile'
+import { boardRegExp } from '../utils/regular_expressions'
 import * as Title from '../services/title.service'
 import throwError from '../utils/throwError'
 import getCurrency from '../utils/currency_api'
@@ -13,10 +12,10 @@ const readTitle = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { currency } = req.cookies
     const { sort } = req.query as { sort: string }
-    const { title, top10 } = await Title.findTitles(sort)
-    const status = req.isAuthenticated()
+    const { status, profileImg } = res.locals.user
+    const top10 = await Title.findTop10()
+    const title = await Title.findTitles(sort)
     const exchangeRate = await getCurrency()
-    let profileImg = loadProfileImg(status, req)
 
     return res.render('title', { top10, title, status, profileImg, currency, exchangeRate })
   } catch (error) {
@@ -29,17 +28,17 @@ const readKeyword = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { currency } = req.cookies
     const { keyword, tags } = req.query as { keyword: string; tags: string | string[] }
-    const status = req.isAuthenticated()
-    const profileImg = loadProfileImg(status, req)
+    const { status, profileImg } = res.locals.user
+    const top10 = await Title.findTop10()
 
     if (keyword) {
-      const { title, top10 } = await Title.findByQuery(keyword)
+      const title = await Title.findByQuery(keyword)
 
       return res.render('title', { top10, title, status, profileImg })
     }
 
     if (tags) {
-      const { title, top10 } = await Title.findByTags(tags)
+      const title = await Title.findByTags(tags)
 
       return res.render('title', { top10, title, status, profileImg, tags, currency })
     }
@@ -55,19 +54,15 @@ const readDetails = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params
     const { title, comment } = await Title.findTitleDetails(id)
-    const status = req.isAuthenticated()
+    const { status, profileImg } = res.locals.user
 
     if (!title) {
       return throwError(404, '페이지를 찾을 수 없습니다.')
     }
 
-    if (status) {
-      const profileImg = loadProfileImg(status, req)
-
-      return res.render('title_info_login', { title, comment, profileImg })
-    }
-
-    return res.render('title_info', { title, comment })
+    return status
+      ? res.render('title_info_login', { title, comment, profileImg })
+      : res.render('title_info', { title, comment })
   } catch (error) {
     return next(error)
   }
@@ -77,8 +72,9 @@ const readDetails = async (req: Request, res: Response, next: NextFunction) => {
 const updateWishItem = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { gameId } = req.body
+    const { status } = res.locals.user
 
-    if (req.isAuthenticated()) {
+    if (status) {
       const { id: userId } = req.user as Profile
 
       await Title.updateWishItem(userId, gameId)
@@ -100,8 +96,9 @@ const updateWishItem = async (req: Request, res: Response, next: NextFunction) =
 const createComment = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { gameId, text } = req.body
+    const { status } = res.locals.user
 
-    if (req.isAuthenticated()) {
+    if (status) {
       const { displayName, id: userId } = req.user as Profile
 
       await Title.updateLoginComment(gameId, userId, displayName, text)
@@ -130,8 +127,9 @@ const createComment = async (req: Request, res: Response, next: NextFunction) =>
 const deleteComment = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { commentId, password } = req.body
+    const { status } = res.locals.user
 
-    if (req.isAuthenticated()) {
+    if (status) {
       const { id: userId } = req.user as Profile
 
       await Title.deleteLoginComment(userId, commentId)

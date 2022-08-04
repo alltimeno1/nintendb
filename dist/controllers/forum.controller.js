@@ -4,15 +4,13 @@ exports.updateLikes = exports.updatePost = exports.deletePost = exports.createPo
 const requestIp = require("request-ip");
 const bcrypt = require("bcrypt");
 const regular_expressions_1 = require("../utils/regular_expressions");
-const load_profile_1 = require("../utils/load_profile");
 const Forum = require("../services/forum.service");
 const throwError_1 = require("../utils/throwError");
 // 게시판 조회
 const readForum = async (req, res, next) => {
     try {
         const post = await Forum.findBoard();
-        const status = req.isAuthenticated();
-        const profileImg = (0, load_profile_1.loadProfileImg)(status, req);
+        const { status, profileImg } = res.locals.user;
         return res.render('forum', { post, status, profileImg });
     }
     catch (error) {
@@ -24,9 +22,8 @@ exports.readForum = readForum;
 const readKeyword = async (req, res, next) => {
     try {
         const { sortBy, keyword } = req.query;
+        const { status, profileImg } = res.locals.user;
         const post = await Forum.findKeyword(sortBy, keyword);
-        const status = req.isAuthenticated();
-        const profileImg = (0, load_profile_1.loadProfileImg)(status, req);
         return res.render('forum', { post, status, profileImg });
     }
     catch (error) {
@@ -36,10 +33,8 @@ const readKeyword = async (req, res, next) => {
 exports.readKeyword = readKeyword;
 // 게시글 등록 페이지 조회
 const readForm = async (req, res, next) => {
-    // #swagger.tags = ['Forum']
     try {
-        const status = req.isAuthenticated();
-        const profileImg = (0, load_profile_1.loadProfileImg)(status, req);
+        const { status, profileImg } = res.locals.user;
         return res.render('form', { status, profileImg });
     }
     catch (error) {
@@ -51,10 +46,9 @@ exports.readForm = readForm;
 const readUpdate = async (req, res, next) => {
     try {
         const { id } = req.params;
+        const { status, profileImg } = res.locals.user;
         const post = await Forum.findPostLog(id);
-        const status = req.isAuthenticated();
         const checkMyPost = req.user && post ? req.user.id === post.user_id : false;
-        const profileImg = (0, load_profile_1.loadProfileImg)(status, req);
         return res.render('update_form', { post, status, checkMyPost, profileImg });
     }
     catch (error) {
@@ -66,10 +60,9 @@ exports.readUpdate = readUpdate;
 const readPost = async (req, res, next) => {
     try {
         const { id } = req.params;
+        const { status, profileImg } = res.locals.user;
         const post = await Forum.updateAndFindPost(id);
-        const status = req.isAuthenticated();
         const checkMyPost = req.user && post ? req.user.id === post.user_id : false;
-        const profileImg = (0, load_profile_1.loadProfileImg)(status, req);
         if (!post) {
             (0, throwError_1.default)(404, '페이지를 찾을 수 없습니다.');
         }
@@ -84,7 +77,8 @@ exports.readPost = readPost;
 const createPost = async (req, res, next) => {
     try {
         const { title, text } = req.body;
-        if (req.isAuthenticated()) {
+        const { status } = res.locals.user;
+        if (status) {
             const { displayName, id: userId } = req.user;
             await Forum.insertLoginPost(title, displayName, userId, text);
             return res.redirect('forum');
@@ -133,7 +127,8 @@ exports.deletePost = deletePost;
 const updatePost = async (req, res, next) => {
     try {
         const { id } = req.params;
-        if (req.body.userId) {
+        const { userId } = req.body;
+        if (userId) {
             const { title, userId, text } = req.body;
             await Forum.updateLoginPost(id, userId, title, text);
             return res.end();

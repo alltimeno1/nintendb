@@ -8,7 +8,7 @@ async function findMyBucket(id) {
 }
 exports.findMyBucket = findMyBucket;
 async function findBucketList(bucket) {
-    return await title_model_1.Game.find({ name: { $in: bucket?.list || [] } });
+    return await title_model_1.Game.find({ name: { $in: bucket?.list || [] } }, { image: 1, name: 1, price: 1, rating: 1 });
 }
 exports.findBucketList = findBucketList;
 async function updateItem(id, titleName) {

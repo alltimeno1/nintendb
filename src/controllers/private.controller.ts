@@ -1,14 +1,12 @@
 import { Request, Response, NextFunction } from 'express'
 import * as requestIp from 'request-ip'
 import { Profile } from 'passport'
-import { loadProfileImg } from '../utils/load_profile'
 import { findMyBucket, findBucketList, updateItem, deleteItems } from '../services/private.service'
 
 // MY 페이지 조회
 const readPrivate = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const status = req.isAuthenticated()
-    const profileImg = loadProfileImg(status, req)
+    const { status, profileImg } = res.locals.user
     let myBucket: Types.MyBucket | null
     let nickname = '익명'
 
@@ -23,9 +21,9 @@ const readPrivate = async (req: Request, res: Response, next: NextFunction) => {
       myBucket = await findMyBucket(ip)
     }
 
-    const result = await findBucketList(myBucket)
+    const bucket = await findBucketList(myBucket)
 
-    return res.render('private', { result, status, profileImg, nickname })
+    return res.render('private', { bucket, status, profileImg, nickname })
   } catch (error) {
     return next(error)
   }
@@ -35,7 +33,7 @@ const readPrivate = async (req: Request, res: Response, next: NextFunction) => {
 const updateBucket = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { titleName } = req.body
-    const status = req.isAuthenticated()
+    const { status } = res.locals.user
 
     if (status) {
       const { id: userId } = req.user as Profile
@@ -56,7 +54,7 @@ const updateBucket = async (req: Request, res: Response, next: NextFunction) => 
 // MY 페이지 아이템 리셋
 const deleteBucket = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const status = req.isAuthenticated()
+    const { status } = res.locals.user
 
     if (status) {
       const { id: userId } = req.user as Profile

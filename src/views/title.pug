@@ -19,7 +19,7 @@ html(lang='en')
         li
           a(href='/home') 홈
         li
-          a#current(href='/title?sort=date') 게임
+          a#current(href='/title') 게임
         li
           a(href='/forum') 커뮤니티
         li
@@ -115,10 +115,19 @@ html(lang='en')
                   .stats
                     img(src='../static/img/metacritic.png' width='20' height='20')
                     span.rating=item.rating !== 0 ? item.rating : 'TBD'
-                    if currency === 'dollar'
-                      span.price=(item.price / exchangeRate).toLocaleString('en-US', { style: 'currency', currency: 'USD' })
-                    else 
-                      span.price=item.price.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' })
+                    if item.price === item.bargainPrice
+                      if currency === 'dollar'
+                        span=(item.price / exchangeRate).toLocaleString('en-US', { style: 'currency', currency: 'USD' })
+                      else 
+                        span=item.price.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' })
+                    else
+                      if currency === 'dollar'
+                        span.price=(item.price / exchangeRate).toLocaleString('en-US', { style: 'currency', currency: 'USD' })
+                        span=(item.bargainPrice / exchangeRate).toLocaleString('en-US', { style: 'currency', currency: 'USD' })
+                      else 
+                        span.price=item.price.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' })
+                        span=item.bargainPrice.toLocaleString('ko-KR', { style: 'currency', currency: 'KRW' })
+                      span.discount=`-${item.discountRate}%`
           button.more 더 보기
     #to-top
       | 🔝

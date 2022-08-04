@@ -2,13 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteBucket = exports.updateBucket = exports.readPrivate = void 0;
 const requestIp = require("request-ip");
-const load_profile_1 = require("../utils/load_profile");
 const private_service_1 = require("../services/private.service");
 // MY 페이지 조회
 const readPrivate = async (req, res, next) => {
     try {
-        const status = req.isAuthenticated();
-        const profileImg = (0, load_profile_1.loadProfileImg)(status, req);
+        const { status, profileImg } = res.locals.user;
         let myBucket;
         let nickname = '익명';
         if (status) {
@@ -20,8 +18,8 @@ const readPrivate = async (req, res, next) => {
             const ip = requestIp.getClientIp(req);
             myBucket = await (0, private_service_1.findMyBucket)(ip);
         }
-        const result = await (0, private_service_1.findBucketList)(myBucket);
-        return res.render('private', { result, status, profileImg, nickname });
+        const bucket = await (0, private_service_1.findBucketList)(myBucket);
+        return res.render('private', { bucket, status, profileImg, nickname });
     }
     catch (error) {
         return next(error);
@@ -32,7 +30,7 @@ exports.readPrivate = readPrivate;
 const updateBucket = async (req, res, next) => {
     try {
         const { titleName } = req.body;
-        const status = req.isAuthenticated();
+        const { status } = res.locals.user;
         if (status) {
             const { id: userId } = req.user;
             await (0, private_service_1.updateItem)(userId, titleName);
@@ -51,7 +49,7 @@ exports.updateBucket = updateBucket;
 // MY 페이지 아이템 리셋
 const deleteBucket = async (req, res, next) => {
     try {
-        const status = req.isAuthenticated();
+        const { status } = res.locals.user;
         if (status) {
             const { id: userId } = req.user;
             await (0, private_service_1.deleteItems)(userId);

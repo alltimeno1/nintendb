@@ -24,8 +24,9 @@ async function scrapTitleInfo(URI) {
             const response = await axios_1.default.get(link);
             const $ = cheerio.load(response.data);
             const name = $('.product > h1 > span').text();
-            if (name.includes('이용권') || name.includes('선불 번호'))
+            if (name.includes('이용권') || name.includes('선불 번호')) {
                 continue;
+            }
             const selector = $('img');
             let image = '';
             $(selector).each((idx, data) => {

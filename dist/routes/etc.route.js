@@ -1,10 +1,10 @@
 "use strict";
 const express = require("express");
-const etc_controller_1 = require("../controllers/etc.controller");
+const Etc = require("../controllers/etc.controller");
 const router = express.Router();
-router.get('/', etc_controller_1.readDomain);
-router.get('/home', etc_controller_1.readHome);
-router.get('/etc', etc_controller_1.readEtc);
-router.post('/inquiry', etc_controller_1.createInquiry);
-router.post('/currency', etc_controller_1.changeCurrency);
+router.get('/', Etc.readDomain);
+router.get('/home', Etc.readHome);
+router.get('/etc', Etc.readEtc);
+router.post('/inquiry', Etc.createInquiry);
+router.post('/currency', Etc.changeCurrency);
 module.exports = router;

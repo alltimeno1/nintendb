@@ -1,22 +1,16 @@
 import * as express from 'express'
-import {
-  readDomain,
-  readHome,
-  readEtc,
-  createInquiry,
-  changeCurrency,
-} from '../controllers/etc.controller'
+import * as Etc from '../controllers/etc.controller'
 
 const router = express.Router()
 
-router.get('/', readDomain)
+router.get('/', Etc.readDomain)
 
-router.get('/home', readHome)
+router.get('/home', Etc.readHome)
 
-router.get('/etc', readEtc)
+router.get('/etc', Etc.readEtc)
 
-router.post('/inquiry', createInquiry)
+router.post('/inquiry', Etc.createInquiry)
 
-router.post('/currency', changeCurrency)
+router.post('/currency', Etc.changeCurrency)
 
 export = router

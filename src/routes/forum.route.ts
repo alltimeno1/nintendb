@@ -1,5 +1,6 @@
 import * as express from 'express'
 import * as Forum from '../controllers/forum.controller'
+
 const router = express.Router()
 
 router.get('/', Forum.readForum)

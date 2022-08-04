@@ -1,9 +1,8 @@
 import { Request, Response, NextFunction } from 'express'
 import * as requestIp from 'request-ip'
 import * as bcrypt from 'bcrypt'
-import { boardRegExp } from '../utils/regular_expressions'
 import { Profile } from 'passport'
-import { loadProfileImg } from '../utils/load_profile'
+import { boardRegExp } from '../utils/regular_expressions'
 import * as Forum from '../services/forum.service'
 import throwError from '../utils/throwError'
 
@@ -11,8 +10,7 @@ import throwError from '../utils/throwError'
 export const readForum = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const post = await Forum.findBoard()
-    const status = req.isAuthenticated()
-    const profileImg = loadProfileImg(status, req)
+    const { status, profileImg } = res.locals.user
 
     return res.render('forum', { post, status, profileImg })
   } catch (error) {
@@ -24,9 +22,8 @@ export const readForum = async (req: Request, res: Response, next: NextFunction)
 export const readKeyword = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { sortBy, keyword } = req.query as { sortBy: string; keyword: string }
+    const { status, profileImg } = res.locals.user
     const post = await Forum.findKeyword(sortBy, keyword)
-    const status = req.isAuthenticated()
-    const profileImg = loadProfileImg(status, req)
 
     return res.render('forum', { post, status, profileImg })
   } catch (error) {
@@ -36,10 +33,8 @@ export const readKeyword = async (req: Request, res: Response, next: NextFunctio
 
 // 게시글 등록 페이지 조회
 export const readForm = async (req: Request, res: Response, next: NextFunction) => {
-  // #swagger.tags = ['Forum']
   try {
-    const status = req.isAuthenticated()
-    const profileImg = loadProfileImg(status, req)
+    const { status, profileImg } = res.locals.user
 
     return res.render('form', { status, profileImg })
   } catch (error) {
@@ -51,10 +46,9 @@ export const readForm = async (req: Request, res: Response, next: NextFunction) 
 export const readUpdate = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params
+    const { status, profileImg } = res.locals.user
     const post = await Forum.findPostLog(id)
-    const status = req.isAuthenticated()
     const checkMyPost = req.user && post ? (req.user as Profile).id === post.user_id : false
-    const profileImg = loadProfileImg(status, req)
 
     return res.render('update_form', { post, status, checkMyPost, profileImg })
   } catch (error: any) {
@@ -66,10 +60,9 @@ export const readUpdate = async (req: Request, res: Response, next: NextFunction
 export const readPost = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params
+    const { status, profileImg } = res.locals.user
     const post = await Forum.updateAndFindPost(id)
-    const status = req.isAuthenticated()
     const checkMyPost = req.user && post ? (req.user as Profile).id === post.user_id : false
-    const profileImg = loadProfileImg(status, req)
 
     if (!post) {
       throwError(404, '페이지를 찾을 수 없습니다.')
@@ -85,8 +78,9 @@ export const readPost = async (req: Request, res: Response, next: NextFunction) 
 export const createPost = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { title, text } = req.body
+    const { status } = res.locals.user
 
-    if (req.isAuthenticated()) {
+    if (status) {
       const { displayName, id: userId } = req.user as Profile
 
       await Forum.insertLoginPost(title, displayName, userId, text)
@@ -150,8 +144,9 @@ export const deletePost = async (req: Request, res: Response, next: NextFunction
 export const updatePost = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params
+    const { userId } = req.body
 
-    if (req.body.userId) {
+    if (userId) {
       const { title, userId, text } = req.body
 
       await Forum.updateLoginPost(id, userId, title, text)

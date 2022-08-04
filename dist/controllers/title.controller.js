@@ -4,7 +4,6 @@ exports.deleteComment = exports.createComment = exports.updateWishItem = exports
 const bcrypt = require("bcrypt");
 const requestIp = require("request-ip");
 const regular_expressions_1 = require("../utils/regular_expressions");
-const load_profile_1 = require("../utils/load_profile");
 const Title = require("../services/title.service");
 const throwError_1 = require("../utils/throwError");
 const currency_api_1 = require("../utils/currency_api");
@@ -13,10 +12,10 @@ const readTitle = async (req, res, next) => {
     try {
         const { currency } = req.cookies;
         const { sort } = req.query;
-        const { title, top10 } = await Title.findTitles(sort);
-        const status = req.isAuthenticated();
+        const { status, profileImg } = res.locals.user;
+        const top10 = await Title.findTop10();
+        const title = await Title.findTitles(sort);
         const exchangeRate = await (0, currency_api_1.default)();
-        let profileImg = (0, load_profile_1.loadProfileImg)(status, req);
         return res.render('title', { top10, title, status, profileImg, currency, exchangeRate });
     }
     catch (error) {
@@ -29,14 +28,14 @@ const readKeyword = async (req, res, next) => {
     try {
         const { currency } = req.cookies;
         const { keyword, tags } = req.query;
-        const status = req.isAuthenticated();
-        const profileImg = (0, load_profile_1.loadProfileImg)(status, req);
+        const { status, profileImg } = res.locals.user;
+        const top10 = await Title.findTop10();
         if (keyword) {
-            const { title, top10 } = await Title.findByQuery(keyword);
+            const title = await Title.findByQuery(keyword);
             return res.render('title', { top10, title, status, profileImg });
         }
         if (tags) {
-            const { title, top10 } = await Title.findByTags(tags);
+            const title = await Title.findByTags(tags);
             return res.render('title', { top10, title, status, profileImg, tags, currency });
         }
         return res.redirect('/title');
@@ -51,15 +50,13 @@ const readDetails = async (req, res, next) => {
     try {
         const { id } = req.params;
         const { title, comment } = await Title.findTitleDetails(id);
-        const status = req.isAuthenticated();
+        const { status, profileImg } = res.locals.user;
         if (!title) {
             return (0, throwError_1.default)(404, '페이지를 찾을 수 없습니다.');
         }
-        if (status) {
-            const profileImg = (0, load_profile_1.loadProfileImg)(status, req);
-            return res.render('title_info_login', { title, comment, profileImg });
-        }
-        return res.render('title_info', { title, comment });
+        return status
+            ? res.render('title_info_login', { title, comment, profileImg })
+            : res.render('title_info', { title, comment });
     }
     catch (error) {
         return next(error);
@@ -70,7 +67,8 @@ exports.readDetails = readDetails;
 const updateWishItem = async (req, res, next) => {
     try {
         const { gameId } = req.body;
-        if (req.isAuthenticated()) {
+        const { status } = res.locals.user;
+        if (status) {
             const { id: userId } = req.user;
             await Title.updateWishItem(userId, gameId);
         }
@@ -89,7 +87,8 @@ exports.updateWishItem = updateWishItem;
 const createComment = async (req, res, next) => {
     try {
         const { gameId, text } = req.body;
-        if (req.isAuthenticated()) {
+        const { status } = res.locals.user;
+        if (status) {
             const { displayName, id: userId } = req.user;
             await Title.updateLoginComment(gameId, userId, displayName, text);
             return res.redirect(`/title/${gameId}`);
@@ -112,7 +111,8 @@ exports.createComment = createComment;
 const deleteComment = async (req, res, next) => {
     try {
         const { commentId, password } = req.body;
-        if (req.isAuthenticated()) {
+        const { status } = res.locals.user;
+        if (status) {
             const { id: userId } = req.user;
             await Title.deleteLoginComment(userId, commentId);
         }

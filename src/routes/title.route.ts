@@ -1,20 +1,18 @@
 import * as express from 'express'
-import * as title from '../controllers/title.controller'
+import * as Title from '../controllers/title.controller'
 
 const router = express.Router()
 
-const { readTitle, readKeyword, readDetails, updateWishItem, createComment, deleteComment } = title
+router.get('/', Title.readTitle)
 
-router.get('/', readTitle)
+router.get('/filter', Title.readKeyword)
 
-router.get('/filter', readKeyword)
+router.get('/:id', Title.readDetails)
 
-router.get('/:id', readDetails)
+router.post('/bucket', Title.updateWishItem)
 
-router.post('/bucket', updateWishItem)
+router.post('/:id', Title.createComment)
 
-router.post('/:id', createComment)
-
-router.delete('/:id', deleteComment)
+router.delete('/:id', Title.deleteComment)
 
 export = router

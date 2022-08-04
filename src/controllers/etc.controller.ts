@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
 import { findSortedList, insertInquery } from '../services/etc.service'
-import { loadProfileImg, loadProfileEmail } from '../utils/load_profile'
 import { boardRegExp } from '../utils/regular_expressions'
 import getCurrency from '../utils/currency_api'
 
@@ -10,8 +9,7 @@ const readDomain = async (req: Request, res: Response) => res.redirect('/home')
 const readHome = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { currency } = req.cookies
-    const status = req.isAuthenticated()
-    const profileImg = loadProfileImg(status, req)
+    const { status, profileImg } = res.locals.user
     const { best, recent, sale } = await findSortedList()
     const exchangeRate = await getCurrency()
 
@@ -24,9 +22,7 @@ const readHome = async (req: Request, res: Response, next: NextFunction) => {
 // 고객 지원 페이지 조회
 const readEtc = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const status = req.isAuthenticated()
-    const profileImg = loadProfileImg(status, req)
-    const email = loadProfileEmail(status, req)
+    const { status, profileImg, email } = res.locals.user
 
     return res.render('etc', { status, email, profileImg })
   } catch (error) {

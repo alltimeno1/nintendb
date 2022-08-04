@@ -1,19 +1,12 @@
-export function loadProfileImg(status: boolean, req: any) {
-  let profileImg = 'static/img/profile_placeholder.png'
+export function loadProfileImg(req: any) {
+  const defaultImg = 'static/img/profile_placeholder.png'
+  const profileImg = req.user?._json?.profile_image
 
-  if (status) {
-    profileImg = req.user._json.profile_image || profileImg
-  }
-
-  return profileImg
+  return profileImg || defaultImg
 }
 
-export function loadProfileEmail(status: boolean, req: any) {
-  let email = ''
-
-  if (status) {
-    email = req.user._json.email || ''
-  }
+export function loadProfileEmail(req: any) {
+  const email = req.user?._json?.email || ''
 
   return email
 }
