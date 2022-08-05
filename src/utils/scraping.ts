@@ -3,10 +3,10 @@ import * as cheerio from 'cheerio'
 import scrapMeta from './scrap_meta'
 import scrapDesc from './scrap_description'
 
-let href: string[] = []
-let gameList: Models.Game[] = []
+const href: string[] = []
+const gameList: Models.Game[] = []
 
-async function scrapTitlesUrl(URI: string): Promise<void> {
+async function scrapTitlesUrl(URI: string) {
   try {
     const response = await axios.get(URI)
     const $ = cheerio.load(response.data)

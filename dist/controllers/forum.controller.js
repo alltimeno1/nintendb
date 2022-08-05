@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateLikes = exports.updatePost = exports.deletePost = exports.createPost = exports.readPost = exports.readUpdate = exports.readForm = exports.readKeyword = exports.readForum = void 0;
 const requestIp = require("request-ip");
 const bcrypt = require("bcrypt");
-const regular_expressions_1 = require("../utils/regular_expressions");
+const boardRegExp = require("../utils/regular_expressions");
 const Forum = require("../services/forum.service");
 const throwError_1 = require("../utils/throwError");
 // 게시판 조회
@@ -84,7 +84,7 @@ const createPost = async (req, res, next) => {
             return res.redirect('forum');
         }
         const { nickname, password } = req.body;
-        const message = (0, regular_expressions_1.boardRegExp)(title, '', nickname, password, '');
+        const message = boardRegExp(title, '', nickname, password, '');
         if (!message && text) {
             const hashedPassword = await bcrypt.hash(password, 10);
             await Forum.insertLogoutPost(title, nickname, hashedPassword, text);
@@ -108,8 +108,7 @@ const deletePost = async (req, res, next) => {
         }
         const hashedPassword = await Forum.findLogoutPost(postId);
         if (!hashedPassword) {
-            (0, throwError_1.default)(404, '페이지를 찾을 수 없습니다.');
-            return;
+            return (0, throwError_1.default)(404, '페이지를 찾을 수 없습니다.');
         }
         const samePassword = await bcrypt.compare(password, hashedPassword);
         if (!samePassword) {
@@ -129,7 +128,7 @@ const updatePost = async (req, res, next) => {
         const { id } = req.params;
         const { userId } = req.body;
         if (userId) {
-            const { title, userId, text } = req.body;
+            const { title, text } = req.body;
             await Forum.updateLoginPost(id, userId, title, text);
             return res.end();
         }

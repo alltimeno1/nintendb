@@ -29,10 +29,10 @@ class MarioAnimation {
             return;
         }
         if (this.x) {
-            character.style.left = this.x + this.step / this.runSpeed + '%';
+            character.style.left = `${this.x + this.step / this.runSpeed}%`;
         }
         if (this.y) {
-            character.style.top = this.y - this.step / this.jumpSpeed + '%';
+            character.style.top = `${this.y - this.step / this.jumpSpeed}%`;
         }
         this.step += 0.5;
         requestAnimationFrame(() => this.movement(0));

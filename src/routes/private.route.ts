@@ -1,12 +1,12 @@
 import * as express from 'express'
-import { readPrivate, updateBucket, deleteBucket } from '../controllers/private.controller'
+import * as Private from '../controllers/private.controller'
 
 const router = express.Router()
 
-router.get('/', readPrivate)
+router.get('/', Private.readPrivate)
 
-router.put('/', updateBucket)
+router.put('/', Private.updateBucket)
 
-router.delete('/', deleteBucket)
+router.delete('/', Private.deleteBucket)
 
 export = router

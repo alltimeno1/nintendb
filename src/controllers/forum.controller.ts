@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express'
 import * as requestIp from 'request-ip'
 import * as bcrypt from 'bcrypt'
 import { Profile } from 'passport'
-import { boardRegExp } from '../utils/regular_expressions'
+import * as boardRegExp from '../utils/regular_expressions'
 import * as Forum from '../services/forum.service'
 import throwError from '../utils/throwError'
 
@@ -120,8 +120,7 @@ export const deletePost = async (req: Request, res: Response, next: NextFunction
     const hashedPassword = await Forum.findLogoutPost(postId)
 
     if (!hashedPassword) {
-      throwError(404, '페이지를 찾을 수 없습니다.')
-      return
+      return throwError(404, '페이지를 찾을 수 없습니다.')
     }
 
     const samePassword = await bcrypt.compare(password, hashedPassword)
@@ -147,7 +146,7 @@ export const updatePost = async (req: Request, res: Response, next: NextFunction
     const { userId } = req.body
 
     if (userId) {
-      const { title, userId, text } = req.body
+      const { title, text } = req.body
 
       await Forum.updateLoginPost(id, userId, title, text)
 

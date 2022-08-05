@@ -1,6 +1,6 @@
 type BoardRegExp<T> = (title: T, text: T, id: T, password: T, email: T) => T
 
-export const boardRegExp: BoardRegExp<string> = (title, text, id, password, email = '') => {
+const boardRegExp: BoardRegExp<string> = (title, text, id, password, email = '') => {
   let message: string = ''
   const reId = /^[\w\Wㄱ-ㅎㅏ-ㅣ가-힣]{1,10}$/
   let re: RegExp
@@ -30,3 +30,5 @@ export const boardRegExp: BoardRegExp<string> = (title, text, id, password, emai
 
   return message
 }
+
+export = boardRegExp

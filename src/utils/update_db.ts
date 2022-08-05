@@ -1,5 +1,6 @@
 import scrapTitleInfo from './scraping'
 import { Game } from '../models/title.model'
+
 const { connect, disconnect } = require('./mongo')
 
 async function main(URI: string, reset: string) {

@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteComment = exports.createComment = exports.updateWishItem = exports.readDetails = exports.readKeyword = exports.readTitle = void 0;
 const bcrypt = require("bcrypt");
 const requestIp = require("request-ip");
-const regular_expressions_1 = require("../utils/regular_expressions");
+const boardRegExp = require("../utils/regular_expressions");
 const Title = require("../services/title.service");
 const throwError_1 = require("../utils/throwError");
 const currency_api_1 = require("../utils/currency_api");
@@ -94,7 +94,7 @@ const createComment = async (req, res, next) => {
             return res.redirect(`/title/${gameId}`);
         }
         const { user_name: userName, password } = req.body;
-        const message = (0, regular_expressions_1.boardRegExp)('', text, userName, password, '');
+        const message = boardRegExp('', text, userName, password, '');
         if (!message) {
             const hashedPassword = await bcrypt.hash(password, 10);
             await Title.updateLogoutComment(gameId, userName, hashedPassword, text);

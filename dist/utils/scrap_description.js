@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 async function scrapDesc($) {
     let desc = '';
-    for (let i = 1; i < 5; i++) {
+    for (let i = 1; i < 5; i += 1) {
         const text = $(`.product.attribute.description p:nth-child(${i})`).text();
         if (desc.length >= 110) {
             break;
@@ -12,11 +12,11 @@ async function scrapDesc($) {
             const commaIdx = slicedText.lastIndexOf('.');
             const screamIdx = slicedText.lastIndexOf('!');
             const questionIdx = slicedText.lastIndexOf('?');
-            desc += text.slice(0, Math.max(commaIdx, screamIdx, questionIdx) + 1) + ' ';
+            desc += `${text.slice(0, Math.max(commaIdx, screamIdx, questionIdx) + 1)} `;
             break;
         }
         else if (!text.includes('예약')) {
-            desc += text + ' ';
+            desc += `${text} `;
         }
     }
     return desc.trim();

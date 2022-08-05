@@ -4,18 +4,20 @@ exports.deleteItems = exports.updateItem = exports.findBucketList = exports.find
 const title_model_1 = require("../models/title.model");
 const bucket_model_1 = require("../models/bucket.model");
 async function findMyBucket(id) {
-    return await bucket_model_1.Bucket.findOne({ id });
+    const bucket = await bucket_model_1.Bucket.findOne({ id });
+    return bucket;
 }
 exports.findMyBucket = findMyBucket;
 async function findBucketList(bucket) {
-    return await title_model_1.Game.find({ name: { $in: bucket?.list || [] } }, { image: 1, name: 1, price: 1, rating: 1 });
+    const games = await title_model_1.Game.find({ name: { $in: bucket?.list || [] } }, { image: 1, name: 1, price: 1, rating: 1 });
+    return games;
 }
 exports.findBucketList = findBucketList;
 async function updateItem(id, titleName) {
-    return await bucket_model_1.Bucket.updateOne({ id }, { $pull: { list: titleName } });
+    await bucket_model_1.Bucket.updateOne({ id }, { $pull: { list: titleName } });
 }
 exports.updateItem = updateItem;
 async function deleteItems(id) {
-    return await bucket_model_1.Bucket.deleteOne({ id });
+    await bucket_model_1.Bucket.deleteOne({ id });
 }
 exports.deleteItems = deleteItems;

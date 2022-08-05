@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from 'express'
 import * as requestIp from 'request-ip'
 import { Profile } from 'passport'
-import { findMyBucket, findBucketList, updateItem, deleteItems } from '../services/private.service'
+import * as Private from '../services/private.service'
 
 // MY 페이지 조회
-const readPrivate = async (req: Request, res: Response, next: NextFunction) => {
+export const readPrivate = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { status, profileImg } = res.locals.user
     let myBucket: Types.MyBucket | null
@@ -13,15 +13,15 @@ const readPrivate = async (req: Request, res: Response, next: NextFunction) => {
     if (status) {
       const { id: userId, displayName } = req.user as Profile
 
-      myBucket = await findMyBucket(userId)
+      myBucket = await Private.findMyBucket(userId)
       nickname = displayName
     } else {
       const ip = requestIp.getClientIp(req) as string
 
-      myBucket = await findMyBucket(ip)
+      myBucket = await Private.findMyBucket(ip)
     }
 
-    const bucket = await findBucketList(myBucket)
+    const bucket = await Private.findBucketList(myBucket)
 
     return res.render('private', { bucket, status, profileImg, nickname })
   } catch (error) {
@@ -30,7 +30,7 @@ const readPrivate = async (req: Request, res: Response, next: NextFunction) => {
 }
 
 // MY 페이지 아이템 삭제
-const updateBucket = async (req: Request, res: Response, next: NextFunction) => {
+export const updateBucket = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { titleName } = req.body
     const { status } = res.locals.user
@@ -38,11 +38,11 @@ const updateBucket = async (req: Request, res: Response, next: NextFunction) => 
     if (status) {
       const { id: userId } = req.user as Profile
 
-      await updateItem(userId, titleName)
+      await Private.updateItem(userId, titleName)
     } else {
       const address = requestIp.getClientIp(req) as string
 
-      await updateItem(address, titleName)
+      await Private.updateItem(address, titleName)
     }
 
     return res.redirect('/private')
@@ -52,18 +52,18 @@ const updateBucket = async (req: Request, res: Response, next: NextFunction) => 
 }
 
 // MY 페이지 아이템 리셋
-const deleteBucket = async (req: Request, res: Response, next: NextFunction) => {
+export const deleteBucket = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { status } = res.locals.user
 
     if (status) {
       const { id: userId } = req.user as Profile
 
-      await deleteItems(userId)
+      await Private.deleteItems(userId)
     } else {
       const address = requestIp.getClientIp(req) as string
 
-      await deleteItems(address)
+      await Private.deleteItems(address)
     }
 
     return res.redirect('/private')
@@ -71,5 +71,3 @@ const deleteBucket = async (req: Request, res: Response, next: NextFunction) => 
     return next(error)
   }
 }
-
-export { readPrivate, updateBucket, deleteBucket }

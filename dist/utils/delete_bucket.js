@@ -1,7 +1,7 @@
 "use strict";
 const reset = document.querySelector('.reset');
 reset.addEventListener('click', deleteBucket);
-async function deleteBucket(e) {
+async function deleteBucket() {
     await fetch('/private', {
         method: 'DELETE',
     }).catch(console.log);

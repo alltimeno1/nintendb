@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.changeCurrency = exports.createInquiry = exports.readEtc = exports.readHome = exports.readDomain = void 0;
-const etc_service_1 = require("../services/etc.service");
-const regular_expressions_1 = require("../utils/regular_expressions");
+const Etc = require("../services/etc.service");
+const boardRegExp = require("../utils/regular_expressions");
 const currency_api_1 = require("../utils/currency_api");
 const readDomain = async (req, res) => res.redirect('/home');
 exports.readDomain = readDomain;
@@ -11,9 +11,9 @@ const readHome = async (req, res, next) => {
     try {
         const { currency } = req.cookies;
         const { status, profileImg } = res.locals.user;
-        const { best, recent, sale } = await (0, etc_service_1.findSortedList)();
+        const { best, recent, sale } = await Etc.findSortedList();
         const exchangeRate = await (0, currency_api_1.default)();
-        res.render('index', { best, recent, sale, status, profileImg, currency, exchangeRate });
+        return res.render('index', { best, recent, sale, status, profileImg, currency, exchangeRate });
     }
     catch (error) {
         return next(error);
@@ -35,9 +35,9 @@ exports.readEtc = readEtc;
 const createInquiry = async (req, res, next) => {
     try {
         const { name, email, message } = req.body;
-        const validationMsg = (0, regular_expressions_1.boardRegExp)('', message, name, '', email);
+        const validationMsg = boardRegExp('', message, name, '', email);
         if (!validationMsg) {
-            await (0, etc_service_1.insertInquery)(name, email, message);
+            await Etc.insertInquery(name, email, message);
             return res.send(`<script>alert('감사합니다!');location.href='/etc';</script>`);
         }
         return res.send(`<script>alert('${validationMsg}');location.href='/etc';</script>`);
@@ -51,7 +51,7 @@ exports.createInquiry = createInquiry;
 const changeCurrency = async (req, res, next) => {
     try {
         const { currency } = req.body;
-        res.cookie('currency', currency).redirect('back');
+        return res.cookie('currency', currency).redirect('back');
     }
     catch (error) {
         return next(error);

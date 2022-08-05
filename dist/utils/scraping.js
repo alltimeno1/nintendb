@@ -4,8 +4,8 @@ const axios_1 = require("axios");
 const cheerio = require("cheerio");
 const scrap_meta_1 = require("./scrap_meta");
 const scrap_description_1 = require("./scrap_description");
-let href = [];
-let gameList = [];
+const href = [];
+const gameList = [];
 async function scrapTitlesUrl(URI) {
     try {
         const response = await axios_1.default.get(URI);

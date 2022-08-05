@@ -21,16 +21,16 @@ https://www.nintendb.shop
 
 ```bash
 ├── src
+│   ├── @types // 타입 설정
 │   ├── controllers // 요청에 대한 응답 반환
 │   ├── css // 스타일 설정
 │   ├── models // 데이터베이스 스키마
 │   ├── routes // 라우터
 │   ├── services // 데이터베이스 작업
-│   ├── types // 타입스크립트 타입 설정
 │   ├── utils // 기타 모듈
 │   └── views // pug 템플릿 엔진
 ├── static
 │   ├── bgm // 음악 파일
 │   └── img // 이미지 파일
-├── app.js // 서버 실행 모듈
+├── app.js // 서버 실행
 ```

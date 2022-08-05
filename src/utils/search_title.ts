@@ -1,7 +1,5 @@
-const checkboxes = <HTMLFormElement>document.querySelector('.checkboxes')
-const tags = <HTMLInputElement>document.querySelector('#tags')
-const gameTags = document.querySelectorAll('.gamelist')
-let tagList: string[] = []
+const checkboxes = document.querySelector('.checkboxes') as HTMLFormElement
+const tagList: string[] = []
 
 checkboxes.addEventListener('change', addTag)
 

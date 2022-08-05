@@ -5,7 +5,7 @@ let count = 0;
 window.addEventListener('load', showItems);
 more.addEventListener('click', showItems);
 function showItems() {
-    for (let i = count; i < count + 10; i++) {
+    for (let i = count; i < count + 10; i += 1) {
         gamelists[i]?.classList.remove('hide');
     }
     count += 10;

@@ -1,6 +1,7 @@
 import axios from 'axios'
+import throwError from './throwError'
 
-export default async function getCurrency(): Promise<string | undefined> {
+export default async function getCurrency() {
   try {
     const response = await axios.get(
       'https://quotation-api-cdn.dunamu.com/v1/forex/recent?codes=FRX.KRWUSD'
@@ -8,6 +9,6 @@ export default async function getCurrency(): Promise<string | undefined> {
 
     return response.data[0]?.basePrice
   } catch (error) {
-    console.log(error)
+    return throwError(500, '환율 정보를 가져올 수 없습니다.')
   }
 }

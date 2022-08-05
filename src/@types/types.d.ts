@@ -16,12 +16,14 @@ declare namespace Types {
     timeout: number
   }
 
-  export interface NaverProfile {
-    _json: {
-      email: string
-      nickname: string
-      profile_image: string
-      id: string
+  export interface LoginRequest extends Express.Request {
+    user?: {
+      _json?: {
+        email: string
+        nickname: string
+        profile_image: string
+        id: string
+      }
     }
   }
 
@@ -34,7 +36,7 @@ declare namespace Types {
 
   export type UpdateLoginPost<T> = (id: T, userId: T, title: T, text: T) => void
 
-  export interface customError extends Error {
+  export interface CustomError extends Error {
     status?: number
   }
 }

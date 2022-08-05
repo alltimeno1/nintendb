@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteBucket = exports.updateBucket = exports.readPrivate = void 0;
 const requestIp = require("request-ip");
-const private_service_1 = require("../services/private.service");
+const Private = require("../services/private.service");
 // MY 페이지 조회
 const readPrivate = async (req, res, next) => {
     try {
@@ -11,14 +11,14 @@ const readPrivate = async (req, res, next) => {
         let nickname = '익명';
         if (status) {
             const { id: userId, displayName } = req.user;
-            myBucket = await (0, private_service_1.findMyBucket)(userId);
+            myBucket = await Private.findMyBucket(userId);
             nickname = displayName;
         }
         else {
             const ip = requestIp.getClientIp(req);
-            myBucket = await (0, private_service_1.findMyBucket)(ip);
+            myBucket = await Private.findMyBucket(ip);
         }
-        const bucket = await (0, private_service_1.findBucketList)(myBucket);
+        const bucket = await Private.findBucketList(myBucket);
         return res.render('private', { bucket, status, profileImg, nickname });
     }
     catch (error) {
@@ -33,11 +33,11 @@ const updateBucket = async (req, res, next) => {
         const { status } = res.locals.user;
         if (status) {
             const { id: userId } = req.user;
-            await (0, private_service_1.updateItem)(userId, titleName);
+            await Private.updateItem(userId, titleName);
         }
         else {
             const address = requestIp.getClientIp(req);
-            await (0, private_service_1.updateItem)(address, titleName);
+            await Private.updateItem(address, titleName);
         }
         return res.redirect('/private');
     }
@@ -52,11 +52,11 @@ const deleteBucket = async (req, res, next) => {
         const { status } = res.locals.user;
         if (status) {
             const { id: userId } = req.user;
-            await (0, private_service_1.deleteItems)(userId);
+            await Private.deleteItems(userId);
         }
         else {
             const address = requestIp.getClientIp(req);
-            await (0, private_service_1.deleteItems)(address);
+            await Private.deleteItems(address);
         }
         return res.redirect('/private');
     }

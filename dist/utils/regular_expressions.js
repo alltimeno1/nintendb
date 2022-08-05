@@ -1,6 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.boardRegExp = void 0;
 const boardRegExp = (title, text, id, password, email = '') => {
     let message = '';
     const reId = /^[\w\Wㄱ-ㅎㅏ-ㅣ가-힣]{1,10}$/;
@@ -27,4 +25,4 @@ const boardRegExp = (title, text, id, password, email = '') => {
     message += message ? '위와 같이 입력해주세요!' : '';
     return message;
 };
-exports.boardRegExp = boardRegExp;
+module.exports = boardRegExp;

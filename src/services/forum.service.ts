@@ -2,21 +2,29 @@ import { Board } from '../models/board.model'
 import { Count } from '../models/count.model'
 
 export async function findBoard() {
-  return await Board.find().sort({ id: -1 })
+  const posts = await Board.find().sort({ id: -1 })
+
+  return posts
 }
 
 export async function findKeyword(sortBy: string, keyword: string) {
-  return await Board.find({ [sortBy]: { $regex: keyword } }).sort({ id: -1 })
+  const posts = await Board.find({ [sortBy]: { $regex: keyword } }).sort({ id: -1 })
+
+  return posts
 }
 
 export async function findPostLog(id: string) {
-  return await Board.findOne({ id: parseInt(id) })
+  const post = await Board.findOne({ id: +id })
+
+  return post
 }
 
 export async function updateAndFindPost(id: string) {
-  await Board.updateOne({ id: parseInt(id) }, { $inc: { viewCount: 1 } })
+  await Board.updateOne({ id: +id }, { $inc: { viewCount: 1 } })
 
-  return await Board.findOne({ id: parseInt(id) })
+  const post = await Board.findOne({ id: +id })
+
+  return post
 }
 
 export async function insertLoginPost(
@@ -61,14 +69,14 @@ export async function insertLogoutPost(
 
 export async function deleteLoginPost(postId: string, userId: string) {
   await Board.deleteOne({
-    id: parseInt(postId),
+    id: +postId,
     user_id: userId,
   })
 }
 
 export async function findLogoutPost(postId: string) {
   const result = await Board.findOne({
-    id: parseInt(postId),
+    id: +postId,
   })
 
   return result?.password
@@ -76,25 +84,22 @@ export async function findLogoutPost(postId: string) {
 
 export async function deleteLogoutPost(postId: string) {
   const result = await Board.deleteOne({
-    id: parseInt(postId),
+    id: +postId,
   })
 
   return result
 }
 
 export const updateLoginPost: Types.UpdateLoginPost<string> = async (id, userId, title, text) => {
-  await Board.updateOne({ id: parseInt(id), user_id: userId }, { $set: { title, text } })
+  await Board.updateOne({ id: +id, user_id: userId }, { $set: { title, text } })
 }
 
 export async function updateLogoutPost(id: string, title: string, nickname: string, text: string) {
-  const result = await Board.findOneAndUpdate(
-    { id: parseInt(id) },
-    { $set: { title, nickname, text } }
-  )
+  const result = await Board.findOneAndUpdate({ id: +id }, { $set: { title, nickname, text } })
 
   return result
 }
 
 export async function updateRecommend(postId: string, id: string) {
-  await Board.updateOne({ id: parseInt(postId) }, { $addToSet: { recommend: id } })
+  await Board.updateOne({ id: +postId }, { $addToSet: { recommend: id } })
 }

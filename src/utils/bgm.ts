@@ -1,7 +1,7 @@
-const character = <HTMLElement>document.querySelector('#mario')
-const bubble = <HTMLElement>document.querySelector('#bubble')
-const firework = <HTMLElement>document.querySelector('#firework')
-const playBtn = <HTMLAudioElement>document.querySelector('audio')
+const character = document.querySelector('#mario') as HTMLElement
+const bubble = document.querySelector('#bubble') as HTMLElement
+const firework = document.querySelector('#firework') as HTMLElement
+const playBtn = document.querySelector('audio') as HTMLAudioElement
 
 playBtn.addEventListener('play', animate)
 playBtn.volume = 0.1
@@ -24,7 +24,7 @@ class MarioAnimation {
     private opacity = 1
   ) {}
 
-  async movement(time: number): Promise<void> {
+  async movement(time: number) {
     if (!this.step) {
       await sleep(time)
     } else if (this.step > this.goal) {
@@ -33,11 +33,11 @@ class MarioAnimation {
     }
 
     if (this.x) {
-      character.style.left = this.x + this.step / this.runSpeed + '%'
+      character.style.left = `${this.x + this.step / this.runSpeed}%`
     }
 
     if (this.y) {
-      character.style.top = this.y - this.step / this.jumpSpeed + '%'
+      character.style.top = `${this.y - this.step / this.jumpSpeed}%`
     }
 
     this.step += 0.5
@@ -46,12 +46,12 @@ class MarioAnimation {
   }
 }
 
-const run: MarioAnimation = new MarioAnimation(16, 35, 4, 0, 0)
-const jump: MarioAnimation = new MarioAnimation(22, 38, 1, 26, 3)
-const climbDown: MarioAnimation = new MarioAnimation(53, 0, 0, 18, -1)
-const enterCastle: MarioAnimation = new MarioAnimation(32, 61, 2, 71, -4, 0)
+const run = new MarioAnimation(16, 35, 4, 0, 0)
+const jump = new MarioAnimation(22, 38, 1, 26, 3)
+const climbDown = new MarioAnimation(53, 0, 0, 18, -1)
+const enterCastle = new MarioAnimation(32, 61, 2, 71, -4, 0)
 
-async function animate(): Promise<void> {
+async function animate() {
   bubble.style.opacity = '1'
   await sleep(4000)
   bubble.style.opacity = '0'

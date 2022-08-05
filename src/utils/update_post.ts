@@ -4,7 +4,7 @@ const contents = document.querySelector('textarea') as HTMLTextAreaElement
 
 updateButton.addEventListener('click', updatePost)
 
-async function updatePost(e: any) {
+async function updatePost() {
   const id = post[0].value
   const title = post[1].value
   const password = post[3]?.value

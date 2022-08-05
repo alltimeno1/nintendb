@@ -1,7 +1,7 @@
+import { ObjectId } from 'mongodb'
 import { Game } from '../models/title.model'
 import { Comment } from '../models/comment.model'
 import { Bucket } from '../models/bucket.model'
-import { ObjectId } from 'mongodb'
 
 export async function findTop10() {
   const top10 = await Game.find({}, { description: 0 }).sort({ rating: -1 }).limit(10)
@@ -22,15 +22,14 @@ export async function findByQuery(keyword: string) {
 }
 
 export async function findByTags(tags: string | string[]) {
-  let title: object
-
   if (typeof tags === 'object') {
-    const reg = tags.reduce((prev, curr) => `(?=.*${curr})` + prev, '.*')
+    const reg = tags.reduce((prev, curr) => `(?=.*${curr})${prev}`, '.*')
+    const title = await Game.find({ tag: { $regex: reg } }, { description: 0 })
 
-    title = await Game.find({ tag: { $regex: reg } }, { description: 0 })
-  } else {
-    title = await Game.find({ tag: { $regex: tags } }, { description: 0 })
+    return title
   }
+
+  const title = await Game.find({ tag: { $regex: tags } }, { description: 0 })
 
   return title
 }
@@ -46,9 +45,9 @@ export async function updateWishItem(id: string, gameId: string) {
   const bucket = await Bucket.findOne({ id })
 
   if (bucket) {
-    await Bucket.updateOne({ id: id }, { $addToSet: { list: gameId } })
+    await Bucket.updateOne({ id }, { $addToSet: { list: gameId } })
   } else {
-    await Bucket.create({ id: id, list: [gameId] })
+    await Bucket.create({ id, list: [gameId] })
   }
 }
 

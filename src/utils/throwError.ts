@@ -1,5 +1,5 @@
 export default function throwError(status: number, message: string) {
-  const error: Types.customError = new Error(message)
+  const error: Types.CustomError = new Error(message)
 
   error.status = status
 

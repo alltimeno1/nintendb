@@ -2,13 +2,13 @@ import { Request, Response, NextFunction } from 'express'
 import * as bcrypt from 'bcrypt'
 import * as requestIp from 'request-ip'
 import { Profile } from 'passport'
-import { boardRegExp } from '../utils/regular_expressions'
+import * as boardRegExp from '../utils/regular_expressions'
 import * as Title from '../services/title.service'
 import throwError from '../utils/throwError'
 import getCurrency from '../utils/currency_api'
 
 // 모든 게임 조회
-const readTitle = async (req: Request, res: Response, next: NextFunction) => {
+export const readTitle = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { currency } = req.cookies
     const { sort } = req.query as { sort: string }
@@ -24,7 +24,7 @@ const readTitle = async (req: Request, res: Response, next: NextFunction) => {
 }
 
 // 특정 키워드 게임 조회
-const readKeyword = async (req: Request, res: Response, next: NextFunction) => {
+export const readKeyword = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { currency } = req.cookies
     const { keyword, tags } = req.query as { keyword: string; tags: string | string[] }
@@ -50,7 +50,7 @@ const readKeyword = async (req: Request, res: Response, next: NextFunction) => {
 }
 
 // 게임 정보 조회
-const readDetails = async (req: Request, res: Response, next: NextFunction) => {
+export const readDetails = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params
     const { title, comment } = await Title.findTitleDetails(id)
@@ -69,7 +69,7 @@ const readDetails = async (req: Request, res: Response, next: NextFunction) => {
 }
 
 // 찜하기
-const updateWishItem = async (req: Request, res: Response, next: NextFunction) => {
+export const updateWishItem = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { gameId } = req.body
     const { status } = res.locals.user
@@ -93,7 +93,7 @@ const updateWishItem = async (req: Request, res: Response, next: NextFunction) =
 }
 
 // 댓글 등록
-const createComment = async (req: Request, res: Response, next: NextFunction) => {
+export const createComment = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { gameId, text } = req.body
     const { status } = res.locals.user
@@ -124,7 +124,7 @@ const createComment = async (req: Request, res: Response, next: NextFunction) =>
 }
 
 // 댓글 삭제
-const deleteComment = async (req: Request, res: Response, next: NextFunction) => {
+export const deleteComment = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { commentId, password } = req.body
     const { status } = res.locals.user
@@ -154,5 +154,3 @@ const deleteComment = async (req: Request, res: Response, next: NextFunction) =>
     return next(error)
   }
 }
-
-export { readTitle, readKeyword, readDetails, updateWishItem, createComment, deleteComment }

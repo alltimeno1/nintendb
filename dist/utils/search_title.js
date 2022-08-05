@@ -1,8 +1,6 @@
 "use strict";
 const checkboxes = document.querySelector('.checkboxes');
-const tags = document.querySelector('#tags');
-const gameTags = document.querySelectorAll('.gamelist');
-let tagList = [];
+const tagList = [];
 checkboxes.addEventListener('change', addTag);
 function addTag(e) {
     const { value } = e.target;
