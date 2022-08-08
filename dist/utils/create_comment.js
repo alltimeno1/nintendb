@@ -4,8 +4,6 @@ const form = document.querySelector('#commentbox form');
 const button = document.querySelector('#commentbox .submit');
 const text = document.querySelector('#commentbox textarea');
 const gameId = window.location.pathname.split('/')[2];
-button.addEventListener('click', window.location.reload);
-text.addEventListener('keydown', postCommentByKey);
 hiddenInput.value = gameId;
 form.action = `/title/${gameId}`;
 function postCommentByKey(e) {
@@ -15,3 +13,5 @@ function postCommentByKey(e) {
         button.click();
     }
 }
+button.addEventListener('click', window.location.reload);
+text.addEventListener('keydown', postCommentByKey);

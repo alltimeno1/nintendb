@@ -1,6 +1,5 @@
 "use strict";
 const currency = document.querySelector('#currency');
-currency.addEventListener('change', chooseCurrency);
 function chooseCurrency() {
     fetch('/currency', {
         method: 'POST',
@@ -15,3 +14,4 @@ function chooseCurrency() {
         .then(() => window.location.reload())
         .catch(console.log);
 }
+currency.addEventListener('change', chooseCurrency);

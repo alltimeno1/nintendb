@@ -3,9 +3,6 @@ const bubble = document.querySelector('#bubble') as HTMLElement
 const firework = document.querySelector('#firework') as HTMLElement
 const playBtn = document.querySelector('audio') as HTMLAudioElement
 
-playBtn.addEventListener('play', animate)
-playBtn.volume = 0.1
-
 function sleep(time: number) {
   return new Promise<void>((resolve) => {
     setTimeout(() => resolve(), time)
@@ -61,3 +58,6 @@ async function animate() {
   await enterCastle.movement(2500)
   firework.style.opacity = '1'
 }
+
+playBtn.addEventListener('play', animate)
+playBtn.volume = 0.1

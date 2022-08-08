@@ -1,6 +1,5 @@
 "use strict";
 const buttons = document.querySelectorAll('.delete');
-buttons.forEach((button) => button.addEventListener('click', updateBucket));
 async function updateBucket(e) {
     await fetch('/private', {
         method: 'PUT',
@@ -13,3 +12,4 @@ async function updateBucket(e) {
     }).catch(console.log);
     window.location.reload();
 }
+buttons.forEach((button) => button.addEventListener('click', updateBucket));

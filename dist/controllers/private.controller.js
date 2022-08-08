@@ -58,7 +58,7 @@ const deleteBucket = async (req, res, next) => {
             const address = requestIp.getClientIp(req);
             await Private.deleteItems(address);
         }
-        return res.redirect('/private');
+        return res.end();
     }
     catch (error) {
         return next(error);

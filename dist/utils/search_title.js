@@ -1,7 +1,6 @@
 "use strict";
 const checkboxes = document.querySelector('.checkboxes');
 const tagList = [];
-checkboxes.addEventListener('change', addTag);
 function addTag(e) {
     const { value } = e.target;
     const bool = tagList.includes(value);
@@ -16,3 +15,4 @@ function addTag(e) {
     }
     checkboxes.submit();
 }
+checkboxes.addEventListener('change', addTag);

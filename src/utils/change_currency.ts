@@ -1,6 +1,4 @@
-const currency = <HTMLButtonElement>document.querySelector('#currency')
-
-currency.addEventListener('change', chooseCurrency)
+const currency = document.querySelector('#currency') as HTMLButtonElement
 
 function chooseCurrency() {
   fetch('/currency', {
@@ -12,7 +10,7 @@ function chooseCurrency() {
     body: JSON.stringify({
       currency: currency.value,
     }),
-  })
-    .then(() => window.location.reload())
-    .catch(console.log)
+  }).then(() => window.location.reload())
 }
+
+currency.addEventListener('change', chooseCurrency)

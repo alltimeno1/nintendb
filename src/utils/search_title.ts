@@ -1,8 +1,6 @@
 const checkboxes = document.querySelector('.checkboxes') as HTMLFormElement
 const tagList: string[] = []
 
-checkboxes.addEventListener('change', addTag)
-
 function addTag(e: Event) {
   const { value } = e.target as HTMLButtonElement
   const bool = tagList.includes(value)
@@ -19,3 +17,5 @@ function addTag(e: Event) {
 
   checkboxes.submit()
 }
+
+checkboxes.addEventListener('change', addTag)

@@ -66,7 +66,7 @@ export const deleteBucket = async (req: Request, res: Response, next: NextFuncti
       await Private.deleteItems(address)
     }
 
-    return res.redirect('/private')
+    return res.end()
   } catch (error) {
     return next(error)
   }
