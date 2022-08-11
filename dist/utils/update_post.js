@@ -10,15 +10,13 @@ async function updatePost() {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ title, userId, nickname, password, text }),
-    })
-        .then((data) => {
+    }).then((data) => {
         if (data.status === 401) {
             alert('비밀번호를 정확히 입력해주세요!');
             post[3].value = '';
             return;
         }
         window.location.href = `/forum/${post[0].value}`;
-    })
-        .catch(console.log);
+    });
 }
 updateButton.addEventListener('click', updatePost);

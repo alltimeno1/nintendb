@@ -9,7 +9,7 @@ async function updateBucket(e) {
         body: JSON.stringify({
             titleName: e.target.parentElement.querySelector('a').text,
         }),
-    }).catch(console.log);
+    });
     window.location.reload();
 }
 buttons.forEach((button) => button.addEventListener('click', updateBucket));

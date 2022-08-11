@@ -10,8 +10,6 @@ function chooseCurrency() {
         body: JSON.stringify({
             currency: currency.value,
         }),
-    })
-        .then(() => window.location.reload())
-        .catch(console.log);
+    }).then(() => window.location.reload());
 }
 currency.addEventListener('change', chooseCurrency);

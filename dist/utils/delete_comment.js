@@ -11,16 +11,14 @@ async function deleteComment(e) {
             commentId: element.querySelector('input[name="commentId"]').value,
             password: element.querySelector('input[name="password"]')?.value,
         }),
-    })
-        .then((data) => {
+    }).then((data) => {
         if (data.status === 401) {
             e.target.value = '';
             alert('비밀번호를 정확히 입력해주세요!');
             return;
         }
         element.parentElement.remove();
-    })
-        .catch(console.log);
+    });
 }
 deleteButtons.forEach((button) => button.addEventListener('click', deleteComment));
 inputs.forEach((input) => input.addEventListener('keydown', (e) => {
